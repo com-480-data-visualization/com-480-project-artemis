@@ -38,13 +38,13 @@ Show some basic statistics and get insights about the data*
 ***What others have already done with the data?***
 
 1.
-The first very interesting source we have is [Kaylin Pavlik's presentations of the dataset](https://www.kaylinpavlik.com/50-years-of-pop-music/). She is the person who has created the dataset. Through the above website, she provides basic statistics, information on the context such as the evolution of the ranking policy, as well as interesting analysis on the dataset, such as the most characteristic lyrics by decade (cf. image below).
+The first very interesting source we have is [Kaylin Pavlik's presentations of the dataset](https://www.kaylinpavlik.com/50-years-of-pop-music/). She is the person who has created the dataset. Through the above website, she provides basic statistics, information on the context such as the evolution of the ranking policy, as well as interesting analysis on the dataset, such as the most characteristic lyrics by decades (cf. image below).
 
 ![alt text][lyrics_plot]
 
 [lyrics_plot]: https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/images/lyrics_plot1.png "Most characteristic lyrics by decade."
 
-Kaylin Pavlik is an american data scientist passionate about music. She has done a lot of other projects which are available [here](https://www.kaylinpavlik.com/). It may be interesting sources for later.
+Kaylin Pavlik is an American data scientist passionate about music. She has done a lot of other projects which are available [here](https://www.kaylinpavlik.com/). It may be interesting sources for later.
 
 2.
 The Pudding is a digital publication that explains ideas debated in culture with visual essays. Their project [How Music Taste Evolved ](https://pudding.cool/2017/03/music-history/) enables to see the top 5 songs and listen to the top 1 song through time. They used the same dataset we do, and created a very enjoyable platform to listen to old songs, while visualising the evolution of popular songs : we love it !
@@ -52,17 +52,17 @@ The Pudding is a digital publication that explains ideas debated in culture with
 
 ***Why is our approach original?***
 
-As far as we know, there exist no interactive interface which provide a deep analysis on the top 100 Billboard songs' lyrics, through time. Some static presentations exist on the evolution through time, but they are perfunctory. Interactive visualizations can also be found, but they are very specific and short, and do not cover the topic in an overview.
+As far as we know, there exist no interactive interface which provides a deep analysis on the top 100 Billboard songs' lyrics, through time. Some static presentations exist on the evolution through time, but they are perfunctory. Interactive visualizations can also be found, but they are very specific and short, and do not cover the topic in an overview.
 
 The idea will be to allow the visitor to our website to travel through time, and relate back to a period of time in a certain way. This is what makes this project special.
 
 ***What source of inspiration do you take?***
 
-The article ["Are Pop Lyrics Getting More Repetitive? *An exercise in language compression.*"](https://pudding.cool/2017/05/song-repetition/) (from *The Pudding* again), is a great example of visualization related to language analysis. We especially like how they show their compression method on text, when scrolling the website. They have also studied the link between repetiveness and popularity of a song. We are inspired by the fact that each visualisation is appropriate for its own purpose, very smooth, and unique.
+The article ["Are Pop Lyrics Getting More Repetitive? *An exercise in language compression.*"](https://pudding.cool/2017/05/song-repetition/) (from *The Pudding* again) is a great example of visualization related to language analysis. We especially like how they show their compression method on text, when scrolling the website. They have also studied the link between repetitiveness and popularity of a song. We are inspired by the fact that each visualisation is appropriate for its own purpose, very smooth, and unique.
 
 Other inspirations:
-- [The Most Sucessfull Labels in Hip Hop](https://pudding.cool/2017/03/labels/) : original interactive maps, through time, beautiful.
-- [The Largest Vocabulary In Hip Hop](https://pudding.cool/projects/vocabulary/index.html) : short but nice !
+- [The Most Sucessful Labels in Hip Hop](https://pudding.cool/2017/03/labels/) : original interactive maps, through time, beautiful.
+- [The Largest Vocabulary in Hip Hop](https://pudding.cool/projects/vocabulary/index.html) : short but nice !
 - [The Musical Diversity of Pop Songs](https://pudding.cool/2018/05/similarity/) : interesting subject and nice visualisation.
 - [The Unlikely Odds of Making It Big](https://pudding.cool/2017/01/making-it-big/) : great visualisation !
 
