@@ -43,7 +43,7 @@ The first very interesting source we have is [Kaylin Pavlik's presentations of t
 
 ![alt text][lyrics_plot]
 
-[lyrics_plot]: https://https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/images/lyrics_plot1.png "Most characteristic lyrics by decade."
+[lyrics_plot]: https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/images/lyrics_plot1.png "Most characteristic lyrics by decade."
 
 Kaylin Pavlik is an american data scientist passionate about music. She has done a lot of other projects which are available [here](https://www.kaylinpavlik.com/). It may be interesting sources for later.
 
