@@ -40,8 +40,10 @@ What source of inspiration do you take? Visualizations that you found on other w
 In case you are using a dataset that you have already explored in another context (ML or ADA course, semester project...), you are required to share the report of that work to outline the differences with the submission for this class.*
 
 The first very interesting source we have is [Kaylin Pavlik's presentations of the dataset](https://www.kaylinpavlik.com/50-years-of-pop-music/). She is the person who has created the dataset. Through the above website, she provides basic statistics, information on the context such as the evolution of the ranking policy, as well as interesting analysis on the dataset, such as the most characteristic lyrics by decade (cf. image below).
+
 ![alt text][lyrics_plot]
-[lyrics_plot]: https://github.com/com-480-data-visualization/com-480-project-artemis/tree/master/images/lyrics_plot1.png "Most characteristic lyrics by decade."
+
+[lyrics_plot]: https://https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/images/lyrics_plot1.png "Most characteristic lyrics by decade."
 
 Kaylin Pavlik is an american data scientist passionate about music. She has done a lot of other projects which are available [here](https://www.kaylinpavlik.com/). It may be interesting sources for later.
 
