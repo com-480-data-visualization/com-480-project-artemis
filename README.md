@@ -20,6 +20,15 @@
 What am I trying to show with my visualization?
 Think of an overview for the project, your motivation, and the target audience.*
 
+Our project will show the evolution of music through time, on several different aspects. We will focus in particular on the lyrics of the songs, the vocabulary, the popularity of the song, its artist, and the time in which it came and in which it was popular.
+
+The main axis we would like to develop are the following:
+- How closely are the lyrics of the music related to contemporary events?
+- Has the vocabulary evolve over time, and if yes, how ?
+- Can we classify music based on some of their lyrics' characteristics, and if yes is that related to time ?
+
+The goal will be to show the interesting results, outcoming of these questions. We are also interested in providing an interactive platform: the user would be able to write text, which we will process and link to our data analysis.
+
 ### 3. Exploratory Data Analysis
 *Pre-processing of the data set you chose:
 Show some basic statistics and get insights about the data*
