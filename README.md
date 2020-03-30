@@ -15,6 +15,19 @@
 ### 1. Dataset
 *Find a dataset (or multiple) that you will explore. Assess the quality of the data it contains and how much preprocessing / data-cleaning it will require before tackling visualization. We recommend using a standard dataset as this course is not about scraping nor data processing.*
 
+The dataset that we are going to use comes from [Kaggle](#https://www.kaggle.com/rakannimer/billboard-lyrics) and has been originally created by [Kaylin Pavlik](#https://github.com/walkerkq/musiclyrics). The dataset contains the following columns: *Rank*, *Song*, *Artist*, *Year*, *Lyric* and *Source*. The following steps have been taken as data pre-processing:
+
+- For the purpose of our project, we removed the column *Source* as it is not relevant for our analysis. 
+- We filled in the *NaN* values for the *Lyrics* feature by using two Python libraries, *PyLyrics* and *lyricwikia*.
+- We added a feature *Genre* by using *BeautifulSoup* and *Selenium* to perform web-scrapping.
+- We added a feature *Album* by using *BeautifulSoup* and *Selenium* to perform web-scrapping.
+
+We used *BeautifulSoup* and *Selenium* together with Safari web browser to gather missing data from Google, since Safari provides quick information retrieval as shown in the following two images:
+
+![](images/genre_feature.png)![](images/album_feature.png)
+
+This gives us a complete dataset that we are going to explore and analyze. 
+
 ### 2. Problematic
 *Frame the general topic of your visualization and the main axis that you want to develop.
 What am I trying to show with my visualization?
