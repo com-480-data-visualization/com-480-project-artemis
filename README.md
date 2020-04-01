@@ -52,9 +52,10 @@ The dataset we have completed contains **5108** rows. There were 5100 in the ori
 The rows correspond to the Top-100 songs from 1965 to 2015. In the completed dataset, each row contains : Rank, Song Name, Artist, Year, Lyrics, Genre, Album.
 There are **2471** different artists (if artists make a collaboration, the collab is considered as a different other artist. For example The Beatles, David Bowie, The Beatles feat David Bowie would be 3 different Artists)
 
-**95.8%** of the songs appear only once, *4.2% appear twice*, meaning they were in the Top-100 during 2 different years.
+**95.8%** of the songs appear only once, **4.2% appear twice**, meaning they were in the Top-100 during 2 different years.
 
 On average each artist has been twice the Top-100, but it is a very sparse distribution. The maximum is 35 appearances for Madonna.
+
 ![](images/songs_per_artist.png)!
 
 
