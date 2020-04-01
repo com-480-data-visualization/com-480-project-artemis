@@ -46,6 +46,17 @@ The goal will be to show the interesting results, outcoming of these questions. 
 *Pre-processing of the data set you chose:
 Show some basic statistics and get insights about the data*
 
+The Notebook "Billboard-Data-Exploration.ipynb" will show some basic charts about song statistics. The dataset we have completed is composed of 5100 lines.
+They correspond to the Top-100 songs from 1965 to 2015. Each row contains : Rank, Song Name, Artist, Year, Lyrics, Genre, Album.
+There are *2471* different artists (if artists associates, they are considered a different artist as each one alone. For example The Beatles, David Bowie, The Beatles & David Bowie would be 3 different Artists)
+*95.8%* of the songs appear only once, *4.2% appear twice*, meaning they were in the Top-100 during 2 different years.
+On average each artist has been twice the Top-100, but it is a very sparse distribution. The maximum is 35 appearances for Madonna.
+![](images/songs_per_artist.png)!
+Genre distribution (Filtering out genres containing less than 70 songs):
+![](images/genre_distribution.png)!
+
+
+
 ### 4. Related work
 
 ***What others have already done with the data?***
