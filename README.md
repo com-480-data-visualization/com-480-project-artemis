@@ -46,10 +46,12 @@ The goal will be to show the interesting results, outcoming of these questions. 
 *Pre-processing of the data set you chose:
 Show some basic statistics and get insights about the data*
 
-The Notebook [Billboard-Data-Exploration.ipynb](https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/Billboard-Data-Exploration.ipynb) will show some basic charts about song statistics, we incorporated some here.
+The Notebook [Billboard-Data-Exploration.ipynb](https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/Billboard-Data-Exploration.ipynb) displays various statistics about out dataset, we summarize some of them here.
 
-The dataset we have completed contains **5108** rows. There were 5100 in the original one, but we found that some of the rows contained actually two songs so we split them.
+The completed dataset contains **5108** rows. There were **5100** in the original one, but we found that **8** rows contained actually two songs (from the same Artist) so we split them.
+
 The rows correspond to the Top-100 songs from 1965 to 2015. In the completed dataset, each row contains : Rank, Song Name, Artist, Year, Lyrics, Genre, Album.
+
 There are **2471** different artists (if artists make a collaboration, the collab is considered as a different other artist. For example The Beatles, David Bowie, The Beatles feat David Bowie would be 3 different Artists)
 
 **95.8%** of the songs appear only once, **4.2% appear twice**, meaning they were in the Top-100 during 2 different years.
