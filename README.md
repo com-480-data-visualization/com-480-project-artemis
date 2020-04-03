@@ -67,6 +67,11 @@ Genre distribution (Filtering out genres containing less than 70 songs):
 Here is the distribution of the number of words per song and vocabulary size (excluding songs with more than 1000 words) 
 ![](images/words.png)! ![](images/unique_words.png)!
 
+In order to make interesting visualization, we will have to use diverse NLP vectorization tools, which we have started to explore at the bottom of the [Data Exploration Notebook](https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/Billboard-Data-Exploration.ipynb). Among them LDA, Doc2Vec, ... and more to come! 
+
+
+
+
 ### 4. Related work
 
 ***What others have already done with the data?***
