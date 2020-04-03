@@ -46,7 +46,7 @@ The goal will be to show the interesting results, outcoming of these questions. 
 *Pre-processing of the data set you chose:
 Show some basic statistics and get insights about the data*
 
-The Notebook [Billboard-Data-Exploration.ipynb!](https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/Billboard-Data-Exploration.ipynb) will show some basic charts about song statistics, we incorporated some here.
+The Notebook [Billboard-Data-Exploration.ipynb](https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/Billboard-Data-Exploration.ipynb) will show some basic charts about song statistics, we incorporated some here.
 
 The dataset we have completed contains **5108** rows. There were 5100 in the original one, but we found that some of the rows contained actually two songs so we split them.
 The rows correspond to the Top-100 songs from 1965 to 2015. In the completed dataset, each row contains : Rank, Song Name, Artist, Year, Lyrics, Genre, Album.
