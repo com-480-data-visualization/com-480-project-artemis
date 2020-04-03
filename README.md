@@ -54,7 +54,7 @@ There are **2471** different artists (if artists make a collaboration, the colla
 
 **95.8%** of the songs appear only once, **4.2% appear twice**, meaning they were in the Top-100 during 2 different years.
 
-On average each artist has been twice in the Top-100, but **65.8%** of artists are only there once. The maximum is 35 appearances for Madonna.
+On average each artist that is at least once in the Top-100 appears twice, but **65.8%** of artists are only there once. The average is pulled up by extreme cases, artists with lots of appearances, the maximum is 35 appearances for Madonna.
 
 ![](images/songs_per_artist.png)!
 
