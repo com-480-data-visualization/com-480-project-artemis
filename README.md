@@ -18,9 +18,9 @@
 The dataset that we are going to use comes from [Kaggle](#https://www.kaggle.com/rakannimer/billboard-lyrics) and has been originally created by [Kaylin Pavlik](#https://github.com/walkerkq/musiclyrics). The dataset contains the following columns: *Rank*, *Song*, *Artist*, *Year*, *Lyric* and *Source*. The following steps have been taken as data pre-processing:
 
 - For the purpose of our project, we removed the column *Source* as it is not relevant for our analysis. 
-- We filled in the *NaN* values for the *Lyrics* feature by using two Python libraries, *PyLyrics* and *lyricwikia*.
-- We added a feature *Genre* by using *BeautifulSoup* and *Selenium* to perform web-scrapping.
-- We added a feature *Album* by using *BeautifulSoup* and *Selenium* to perform web-scrapping.
+- We filled in the *NaN* values for the *Lyrics* feature by using two Python libraries, *PyLyrics* (see section [1.2.1](#https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/data_preprocessing.ipynb) and *lyricwikia*(see section [1.2.2](#https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/data_preprocessing.ipynb).
+- We added a feature *Genre* by using *BeautifulSoup* and *Selenium* to perform web-scrapping (see section [1.3](#https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/data_preprocessing.ipynb).
+- We added a feature *Album* by using *BeautifulSoup* and *Selenium* to perform web-scrapping (see section [1.4](#https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/data_preprocessing.ipynb).
 
 We used *BeautifulSoup* and *Selenium* together with Safari web browser to gather missing data from Google, since Safari provides quick information retrieval as shown in the following two images:
 
