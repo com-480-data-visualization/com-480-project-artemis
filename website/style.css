@@ -1,0 +1,164 @@
+/*
+This CSS governs the appearance of our site.
+You can find the basic concepts of CSS here: https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/How_CSS_works
+
+This makes the border and padding be counted as part of the element's size.
+https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Box_model
+It switches from https://mdn.mozillademos.org/files/13647/box-model-standard-small.png
+to https://mdn.mozillademos.org/files/13649/box-model-alt-small.png */
+
+@font-face {
+  font-family: ubuntu-bold;
+  src: local("Ubuntu-Bold") format('truetype');
+}
+
+@font-face {
+  font-family: ubuntu-light;
+  src: local("Ubuntu-Light") format('truetype');
+}
+
+@font-face {
+	font-family: heavitas;
+	src: local("ressources/Heavitas") format('truetype');
+}
+
+
+/*
+Make the document fill the whole viewport, this overrides any weird defaults that browsers might have.
+*/
+html, body, figure {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+/* Default font and size */
+body {
+	font-family: "ubuntu-light";
+	font-size: 1.1rem;
+}
+
+a {
+	font-style: italic;
+	color: white;
+}
+
+.width-limited-nav {
+	max-width: 55rem;
+  margin-left: 15%;
+}
+
+/* ------------------------ MainWindow ------------------------*/
+
+.main-window {
+	width: 100%;
+	height: 100vh;
+	background-color: rgb(55, 56, 61);
+	background-image: url(ressources/background.png);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+  }
+
+.timeline-container {
+	position: absolute;
+	top: 47%;
+	height: 6%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	align-content: center;
+	justify-content: space-between;
+}
+
+.timeline-container h1 {
+	display: flex;
+	order: 1;
+	margin: 0;
+	padding: 0;
+	font-size: 1.4rem;
+	font-family: "heavitas";
+	color: #282828;
+}
+
+.line {
+	display: flex;
+	order: 2;
+	width: 100%;
+}
+
+.pointer {
+	position: absolute;
+	width: 1%;
+	top:4.5%;
+	left: 49.5%;
+	z-index: 1;
+}
+
+.grid-container {
+	order: 3;
+	display: grid;
+	justify-content: center;
+    grid-template-columns: repeat(52, 25px);
+	grid-column-gap: 2.5px;
+  }
+
+.grid-item {
+	font-size: 0.6rem;
+	font-family: "ubuntu-bold";
+	color: #282828;
+}
+
+.arrow_down {
+	position: absolute;
+	top: 95%;
+	width: 2%;
+	left: 49%;
+}
+
+/* ------------------------ Footer ------------------------*/
+
+.description {
+	position: absolute;
+	width: 100%;
+	height: auto;
+	background: #f26627;
+	padding-top:5vh;
+}
+
+.description h2 {
+	margin-top: 5%;
+	text-align: center;
+	color: white;
+	font-family: "heavitas";
+	font-size: 1.4rem;
+}
+
+.description p {
+	column-count: 3;
+	column-gap: 4%;
+	margin-right: 50px;
+	margin-left: 50px;
+	margin-bottom: 8%;
+	font-family: "ubuntu-light";
+	font-size: 1rem;
+	text-align: justify;
+	color: white;
+}
+
+hr {
+	margin-top: 2%;
+	margin-bottom: 2%;
+	width: 8%;
+	color: white;
+	background-color: white;
+	border-width: 0;
+	height: 1px;
+}
+
+/* ------------------------ Footer ------------------------*/
+
+footer {
+	padding-bottom: 5rem;
+}
