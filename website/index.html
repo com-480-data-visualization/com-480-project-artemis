@@ -1,82 +1,81 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Data visualization project</title>
-	<meta name="description" content="Atermis">
-	<meta name="author" content="Franck Dessimoz">
-	<meta name="author" content="Simon Roquette">
-	<meta name="author" content="Justine Weber">
-	<link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-
-<div class="main-window">
-	<div class='timeline-container'>
-		<h1>PLEASE CHOOSE A YEAR</h1>
-		<img src="ressources/timeline.png" class="line">
-<!-- 	<img src="ressources/pointer.png" alt="pointer" class="pointer">-->
-		<div class="grid-container">
-			<div class="grid-item">1965</div>
-			<div class="grid-item">1966</div>
-			<div class="grid-item">1967</div>
-			<div class="grid-item">1968</div>
-			<div class="grid-item">1969</div>
-			<div class="grid-item">1970</div>
-			<div class="grid-item">1971</div>
-			<div class="grid-item">1972</div>
-			<div class="grid-item">1973</div>
-			<div class="grid-item">1974</div>
-			<div class="grid-item">1975</div>
-			<div class="grid-item">1976</div>
-			<div class="grid-item">1977</div>
-			<div class="grid-item">1978</div>
-			<div class="grid-item">1979</div>
-			<div class="grid-item">1980</div>
-			<div class="grid-item">1981</div>
-			<div class="grid-item">1982</div>
-			<div class="grid-item">1983</div>
-			<div class="grid-item">1984</div>
-			<div class="grid-item">1985</div>
-			<div class="grid-item">1986</div>
-			<div class="grid-item">1987</div>
-			<div class="grid-item">1988</div>
-			<div class="grid-item">1989</div>
-			<div class="grid-item">1990</div>
-			<div class="grid-item">1991</div>
-			<div class="grid-item">1992</div>
-			<div class="grid-item">1993</div>
-			<div class="grid-item">1994</div>
-			<div class="grid-item">1995</div>
-			<div class="grid-item">1996</div>
-			<div class="grid-item">1997</div>
-			<div class="grid-item">1998</div>
-			<div class="grid-item">1999</div>
-			<div class="grid-item">2000</div>
-			<div class="grid-item">2001</div>
-			<div class="grid-item">2002</div>
-			<div class="grid-item">2003</div>
-			<div class="grid-item">2004</div>
-			<div class="grid-item">2005</div>
-			<div class="grid-item">2006</div>
-			<div class="grid-item">2007</div>
-			<div class="grid-item">2007</div>
-			<div class="grid-item">2008</div>
-			<div class="grid-item">2009</div>
-			<div class="grid-item">2010</div>
-			<div class="grid-item">2011</div>
-			<div class="grid-item">2012</div>
-			<div class="grid-item">2013</div>
-			<div class="grid-item">2014</div>
-			<div class="grid-item">2015</div>
+		<head>
+			<meta charset="utf-8">
+			<meta http-equiv="content-type" content="text/html; charset=utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>Data visualization project</title>
+			<meta name="description" content="Atermis">
+			<meta name="author" content="Franck Dessimoz">
+			<meta name="author" content="Simon Roquette">
+			<meta name="author" content="Justine Weber">
+			<link rel="stylesheet" href="style.css">
+		</head>
+	<body>
+		<!-- <script src="lib/d3.min.js"></script>
+		<script src="dot_animation.js"></script>
+		 --><div class="main-window">
+			<div class='timeline-container'>
+				<h1>PLEASE CHOOSE A YEAR</h1>
+				<img src="ressources/timeline.png" class="line">
+		<!-- 	<img src="ressources/pointer.png" alt="pointer" class="pointer">-->
+				<div class="grid-container">
+					<div class="grid-item">1965</div>
+					<div class="grid-item">1966</div>
+					<div class="grid-item">1967</div>
+					<div class="grid-item">1968</div>
+					<div class="grid-item">1969</div>
+					<div class="grid-item">1970</div>
+					<div class="grid-item">1971</div>
+					<div class="grid-item">1972</div>
+					<div class="grid-item">1973</div>
+					<div class="grid-item">1974</div>
+					<div class="grid-item">1975</div>
+					<div class="grid-item">1976</div>
+					<div class="grid-item">1977</div>
+					<div class="grid-item">1978</div>
+					<div class="grid-item">1979</div>
+					<div class="grid-item">1980</div>
+					<div class="grid-item">1981</div>
+					<div class="grid-item">1982</div>
+					<div class="grid-item">1983</div>
+					<div class="grid-item">1984</div>
+					<div class="grid-item">1985</div>
+					<div class="grid-item">1986</div>
+					<div class="grid-item">1987</div>
+					<div class="grid-item">1988</div>
+					<div class="grid-item">1989</div>
+					<div class="grid-item">1990</div>
+					<div class="grid-item">1991</div>
+					<div class="grid-item">1992</div>
+					<div class="grid-item">1993</div>
+					<div class="grid-item">1994</div>
+					<div class="grid-item">1995</div>
+					<div class="grid-item">1996</div>
+					<div class="grid-item">1997</div>
+					<div class="grid-item">1998</div>
+					<div class="grid-item">1999</div>
+					<div class="grid-item">2000</div>
+					<div class="grid-item">2001</div>
+					<div class="grid-item">2002</div>
+					<div class="grid-item">2003</div>
+					<div class="grid-item">2004</div>
+					<div class="grid-item">2005</div>
+					<div class="grid-item">2006</div>
+					<div class="grid-item">2007</div>
+					<div class="grid-item">2007</div>
+					<div class="grid-item">2008</div>
+					<div class="grid-item">2009</div>
+					<div class="grid-item">2010</div>
+					<div class="grid-item">2011</div>
+					<div class="grid-item">2012</div>
+					<div class="grid-item">2013</div>
+					<div class="grid-item">2014</div>
+					<div class="grid-item">2015</div>
+				</div>
+			</div>
+			<img src="ressources/arrow_down.png" class="arrow_down">
 		</div>
-	</div>
-	<img src="ressources/arrow_down.png" class="arrow_down">
-</div>
 
 
 <div class="description">
@@ -109,12 +108,18 @@
 		</p>
 	</div>
 
+	<svg id="plot" viewBox="-10 -10 220 120">
+		
+	</svg>
+
+
 <footer class="box">
-	<h4>Credits</h4>
-	<p>Meet <a href="./team.html">the authors here</a>. The project was created for the <a href="http://edu.epfl.ch/coursebook/en/data-visualization-COM-480">Data Visualization</a> course at EPFL.
+	<!-- <h4>Credits</h4>
+	<p>Meet <a href="./team.html">the authors here</a>. The project was created for the <a href="http://edu.epfl.ch/coursebook/en/data-visualization-COM-480">Data Visualization</a> course at EPFL. -->
 </footer>
 
 
-
+<script src="lib/d3.min.js"></script>
+<script src="dot_animation.js"></script>
 </body>
 </html>
