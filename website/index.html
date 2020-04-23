@@ -12,15 +12,20 @@
 			<link rel="stylesheet" href="style.css">
 		</head>
 	<body>
-		<!-- <script src="lib/d3.min.js"></script>
-		<script src="dot_animation.js"></script>
-		 --><div class="main-window">
+		<script src="lib/d3.min.js"></script>
+		<script src="http://localhost:7800/dot_animation.js"></script>
+		 <div class="main-window">
+
+			<svg id="plot" viewBox="-10 -10 220 120">
+	
+			</svg>
+
 			<div class='timeline-container'>
-				<h1>PLEASE CHOOSE A YEAR</h1>
+				<h1 id="choose-year">PLEASE CHOOSE A YEAR</h1>
 				<img src="ressources/timeline.png" class="line">
 		<!-- 	<img src="ressources/pointer.png" alt="pointer" class="pointer">-->
 				<div class="grid-container">
-					<div class="grid-item">1965</div>
+					<div class="grid-item">1965</div> 
 					<div class="grid-item">1966</div>
 					<div class="grid-item">1967</div>
 					<div class="grid-item">1968</div>
@@ -74,7 +79,7 @@
 					<div class="grid-item">2015</div>
 				</div>
 			</div>
-			<img src="ressources/arrow_down.png" class="arrow_down">
+			<img id="arrow-down" src="ressources/arrow_down.png" class="arrow_down">
 		</div>
 
 
@@ -107,10 +112,6 @@
 		There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
 		</p>
 	</div>
-
-	<svg id="plot" viewBox="-10 -10 220 120">
-		
-	</svg>
 
 
 <footer class="box">

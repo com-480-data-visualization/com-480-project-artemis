@@ -1,12 +1,4 @@
-/*
-	Run the action when we are sure the DOM has been loaded
-	https://developer.mozilla.org/en-US/docs/Web/Events/DOMContentLoaded
-	Example:
-	whenDocumentLoaded(() => {
-		console.log('loaded!');
-		document.getElementById('some-element');
-	});
-*/
+var DURATION = 250;
 
 function whenDocumentLoaded(action) {
 	if (document.readyState === "loading") {
@@ -17,104 +9,15 @@ function whenDocumentLoaded(action) {
 	}
 }
 
-/* ar svg_container = d3.select("body")
-                      .append("svg")
-                      .attr("style", "background-color:green")
-                      .attr("width", 200)
-                      .attr("height", 200);
-
-/*d3.csv("/ressources/test.csv", show_events)
-
-function show_events(data) {
-    svg_container.selectAll("circle")
-                 .data(data)
-                 .enter()
-                 .append("circle")
-                    .attr("r", 100) // radius
-    console.log(data.length)
-    
-} */
 
 /* ---------------------------------------------------------------------------------------------------------------------------------------*/
 
 whenDocumentLoaded(() => {
 
-	d3.csv("/ressources/test.csv").then(function (data) {
-
-
-		var svg = d3.select('#plot')
-
-		var Tooltip = d3.select("#plot")
-							.append("div")
-							.attr("class", "tooltip")
-							.style("background-color", "red")
-							.style("border", "solid")
-							.style("border-width", "2px")
-							.style("border-radius", "5px")
-							.style("padding", "5px")
-
-		var plot_area = svg.append('g')
-
-		var mouseover = function(d) {
-			// Use D3 to select element, change color and size
-			d3.select(this)
-			  .transition()
-			  .duration(100)
-			  .attr("fill", '#f26627')
-			  .attr("r", 1)
-			  .style("opacity", 1)
-			
-			/* NOT WORKING
-			  box.append("rect")
-			  .attr("height", 5)
-			  .attr("width", 16)
-			  .attr("x", (d3.mouse(this)[0]-8) + "px")
-			  .attr("y", (d3.mouse(this)[1]-7) + "px")
-			  .style("stroke", "black")
-			  .style("fill", "white")
-			  .style("stroke-width", "0.4px") */
-			
-			box.append("text")
-			   .attr("width", 16)
-			   .attr("x", (d3.mouse(this)[0]-6) + "px")
-			   .attr("y", (d3.mouse(this)[1]-5) + "px")
-			   .style("font-size", "0.1rem")
-			   .style("font-family", "heavitas")
-			   .text(d.Content)
-			} 
-		
-		var mouseout = function(d) {
-			d3.selectAll("text")
-				.transition()
-				.duration(100)
-				.remove()
-			d3.selectAll("rect")
-				.transition()
-				.duration(100)
-				.remove()
-			d3.select(this)
-			  .transition()
-			  .duration(100)
-			  .attr("fill", 'black')
-			  .attr("r", 0.5)
-			  .style("opacity", 0.5)
-			}
-
-		plot_area.selectAll("circle")
-			.data(data)
-			.enter()
-			.append("circle")
-				.attr("r", 0.5) // radius
-				.attr("cx", d => select_random(200)) // position, rescaled
-				.attr("cy", d => select_random(50))
-				.attr("fill", "black")
-				.style("opacity", 0.5)
-				.on("mouseover", mouseover)
-				.on("mouseout", mouseout)
-
-		var box = svg.append("g")
-	
-	});
+	// When the document is loaded, we make the year ticks clickable
+	// and we add the data points but with 0 opacity
+	add_data_points()
+	make_grid_items_clickable()
 })
 /* ---------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -140,4 +43,111 @@ function split_string(string) {
 		  }
 	}
 	return str_final
+}
+
+function make_grid_items_clickable() {
+	console.log("back to main function")
+	d3.select("body")
+	  .selectAll(".grid-item")
+	  .on("mouseover", function() {
+		  d3.select(this)
+			.style("color", "#f26627")
+			.style("cursor", "pointer")
+	  })
+	  .on("mouseout", function() {
+		  d3.select(this)
+		  	.style("color", "#282828")
+	  })
+	  .on("click", function() {
+		  d3.select(this)
+			.style("color", "#f26627")
+		  d3.select("#choose-year")
+			.transition()
+			.duration(DURATION)
+			.style("opacity", 0)
+		  update_visible_points(d3.select(this).text())
+	  })
+}
+
+function add_data_points(date) {
+	
+	d3.csv("http://localhost:7800/ressources/test.csv").then(function (data) {
+
+		var svg = d3.select('#plot')
+		var plot_area = svg.append('g')
+		var box = svg.append('g')
+
+		var mouseover = function(d) {
+			// Each point has a mouseOver function
+			d3.select(this)
+				.transition()
+				.duration(DURATION)
+				.attr("fill", '#f26627')
+				.attr("r", 1)
+		
+			box.append("text")
+				.attr("width", 16)
+				.attr("x", (d3.mouse(this)[0]-6) + "px")
+				.attr("y", (d3.mouse(this)[1]-5) + "px")
+				.style("font-size", "0.1rem")
+				.style("font-family", "heavitas")
+				.style("opacity", 0)
+				.text(d.Content) 
+			box.selectAll("text")
+				.transition().duration(DURATION)
+				.style("opacity", 1)
+		} 
+		
+		var mouseout = function(d) {
+			// Each point has a mouseOut function
+			d3.selectAll("text")
+				.transition().duration(DURATION)
+				.style("opacity", 0)
+				.remove()
+			d3.selectAll("rect")
+				.transition().duration(DURATION)
+				.style("opacity", 0)
+				.remove()
+			d3.selectAll("circle")
+				.transition().duration(DURATION)
+				.attr("fill", 'black')
+				.attr("r", 0.5)
+		}
+
+		plot_area.selectAll("circle")
+			.data(data)
+			.enter()
+			.append("circle")
+				.attr("r", 0.5)
+				.attr("cx", d => select_random(200))
+				.attr("cy", d => select_random(50))
+				.style("visibility", "hidden")
+				.style("opacity", 0)
+			.on("mouseover", mouseover)
+			.on("mouseout", mouseout)				
+	});
+}
+
+function update_visible_points(date) {
+
+	d3.selectAll("circle")
+		.filter(function(d) {
+			return d.Year != date
+		})
+		.transition().duration(DURATION)
+		.style("opacity", 0)
+	
+	d3.selectAll("circle")
+		.filter(function(d) {
+			return d.Year == date
+		})
+		.style("visibility", "visible")
+		.transition().duration(DURATION)
+		.style("opacity", 1)
+		.on("end", function (d) {
+			d3.selectAll("circle")
+				.style("visibility", function(d) {
+					return d.Year == date? "visible": "hidden"
+				})
+		})
 }

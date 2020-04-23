@@ -105,6 +105,11 @@ a {
 	grid-column-gap: 2.5px;
   }
 
+button {
+	outline: none;
+	background-color: transparent;
+}
+
 .grid-item {
 	font-size: 0.6rem;
 	font-family: "ubuntu-bold";
@@ -160,7 +165,9 @@ hr {
 
 /* ------------------------ Events container ------------------------*/
 
-
+#plot {
+	position: relative;
+}
 
 /* ------------------------ Footer ------------------------*/
 
