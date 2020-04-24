@@ -130,7 +130,7 @@ For that purpose we had to gather events data. Since we could not find any relev
 
 ### Sketches
 
-The following 5 sketches show our first idea of the rendering. It is meant to evolve throughout the project and may not be exactly the same at the end of the project, but this is the general idea.
+The following 5 sketches show our first idea of the rendering. It is meant to evolve throughout the project and may not be exactly the same at the end of the project, but this is the general idea. You can have a look at the initial version of the website [here](https://github.com/com-480-data-visualization/com-480-project-artemis/tree/master/website).
 
 ![alt text][sketch1]
 
