@@ -126,7 +126,7 @@ _Functional project prototype review._
 
 Our goal is the following : create a visualization which shows the link between historical events and songs, through their lyrics. Our website will contain one main animation, illustrating this.
 
-For that purpose we have used a second dataset containing events ***TODO : COMPLETE THIS PART - Franck / Simon - give the source of this dataset***. Then we have scraped Wikipedia to get the description of each event, by extracting the "introdution" part of each article we could find.
+For that purpose we had to gather events data. Since we could not find any relevant dataset for our project, we created our own by scrapping information from https://www.onthisday.com. This site has the advantage of showing only major events which would perfectly fit our needs. Indeed, for each year from 1965 to 2015, we were able to extract the day, month and year of the event, as well as a one-sentence summary. Having collected these data, we used the Wikipedia Python API, to gather the article's url associated with the event as well as the summary of the article. At the end we were able to gather 1115 events over 50 years. The full processing script can be found [here](https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/data%20analysis/data_processing_events.ipynb).
 
 ***TODO: COMPLETE HERE*** 
 
@@ -134,19 +134,22 @@ For that purpose we have used a second dataset containing events ***TODO : COMPL
 
 The following 4 sketches show our first idea of the rendering. It is meant to evolve throughout the project and may not be exactly the same at the end of the project, but this is the general idea.
 
-![alt text][sketch4]
-
 ![alt text][sketch1]
 
 ![alt text][sketch2]
 
 ![alt text][sketch3]
 
+![alt text][sketch4]
 
-[sketch4]: images/sketch4.jpeg
-[sketch1]: images/sketch1.jpeg
-[sketch2]: images/sketch2.jpeg
-[sketch3]: images/sketch3.jpeg
+![alt text][sketch5]
+
+
+[sketch1]: images/sketch1.png
+[sketch2]: images/sketch2.png
+[sketch3]: images/sketch3.png
+[sketch4]: images/sketch4.png
+[sketch5]: images/sketch5.png
 
 ### Tools
 
