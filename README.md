@@ -152,6 +152,13 @@ The following 5 sketches show our first idea of the rendering. It is meant to ev
 ### Tools
 
 We will use several tools for the visualisation ***TODO***
+Past lectures :
+- Week 4 - D3
+- Week 5 - Interactions
+- Week 6 - Mark and channels
+- Week 7 - Design for data viz (already used, for designing our interface)
+- Week 9 - Text visualization : for processing our text, and may be useful if we want to display it (this may come later)
+- Week 10 - Graphs : may be useful for the links between songs and events
 
 ### Roadmap
 1. Work on a "simple" NLP algorithm, to link songs to events
