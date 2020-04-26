@@ -17,7 +17,7 @@
 
 The dataset that we are going to use comes from [Kaggle](https://www.kaggle.com/rakannimer/billboard-lyrics) and has been originally created by [Kaylin Pavlik](https://github.com/walkerkq/musiclyrics). The dataset contains the following columns: *Rank*, *Song*, *Artist*, *Year*, *Lyric* and *Source*. The following steps have been taken as data pre-processing:
 
-- For the purpose of our project, we removed the column *Source* as it is not relevant for our analysis. 
+- For the purpose of our project, we removed the column *Source* as it is not relevant for our analysis.
 - We filled in the *NaN* values for the *Lyrics* feature by using two Python libraries, *PyLyrics* (see section [1.2.1](https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/data_preprocessing.ipynb)) and *lyricwikia*(see section [1.2.2](https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/data_preprocessing.ipynb)).
 - We added a feature *Genre* by using *BeautifulSoup* and *Selenium* to perform web-scrapping (see section [1.3](https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/data_preprocessing.ipynb)).
 - We added a feature *Album* by using *BeautifulSoup* and *Selenium* to perform web-scrapping (see section [1.4](https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/data_preprocessing.ipynb)).
@@ -26,7 +26,7 @@ We used *BeautifulSoup* and *Selenium* together with Safari web browser to gathe
 
 ![](images/genre_feature.png)![](images/album_feature.png)
 
-This gives us a complete dataset that we are going to explore and analyze. 
+This gives us a complete dataset that we are going to explore and analyze.
 
 ### 2. Problematic
 *Frame the general topic of your visualization and the main axis that you want to develop.
@@ -64,10 +64,10 @@ On average each artist that is at least once in the Top-100 appears twice, but *
 Genre distribution (Filtering out genres containing less than 70 songs):
 ![](images/genre_distribution.png)!
 
-Here is the distribution of the number of words per song and vocabulary size (excluding songs with more than 1000 words) 
+Here is the distribution of the number of words per song and vocabulary size (excluding songs with more than 1000 words)
 ![](images/words.png)! ![](images/unique_words.png)!
 
-In order to make interesting visualization, we will have to use diverse NLP vectorization tools, which we have started to explore at the bottom of the [Data Exploration Notebook](https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/Billboard-Data-Exploration.ipynb). Among them LDA, Doc2Vec, ... and more to come! 
+In order to make interesting visualization, we will have to use diverse NLP vectorization tools, which we have started to explore at the bottom of the [Data Exploration Notebook](https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/Billboard-Data-Exploration.ipynb). Among them LDA, Doc2Vec, ... and more to come!
 
 
 
@@ -111,8 +111,66 @@ Main source for data visualisation projects : [Flowing Data](https://flowingdata
 
 **10% of the final grade**
 
+_Two A4 pages describing the project goal._
+
+- Include sketches of the vizualiation you want to make in your final product.
+- List the tools that you will use for each visualization and which (past or future) lectures you will need.
+- Break down your goal into independent pieces to implement. Try to design a core visualization (minimal viable product) that will be required at the end.
+
+Then list extra ideas (more creative or challenging) that will enhance the visualization but could be dropped without endangering the meaning of the project.
+
+_Functional project prototype review._
+- You should have an initial website running with the basic skeleton of the visualization/widgets.
+
+### Our product
+
+Our goal is the following : create a visualization which shows the link between historical events and songs, through their lyrics. Our website will contain one main animation, illustrating this.
+
+For that purpose we had to gather events data. Since we could not find any relevant dataset for our project, we created our own by scrapping information from https://www.onthisday.com. This site has the advantage of showing only major events which would perfectly fit our needs. Indeed, for each year from 1965 to 2015, we were able to extract the day, month and year of the event, as well as a one-sentence summary. Having collected these data, we used the Wikipedia Python API, to gather the article's url associated with the event as well as the summary of the article. At the end we were able to gather 1115 events over 50 years. The complete processing script can be found [here](https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/data%20analysis/data_processing_events.ipynb).
+
+### Sketches
+
+The following 5 sketches show our first idea of the rendering. It is meant to evolve throughout the project and may not be exactly the same at the end of the project, but this is the general idea. You can have a look at the initial version of the website [here](https://github.com/com-480-data-visualization/com-480-project-artemis/tree/master/website).
+
+![alt text][sketch1]
+
+![alt text][sketch2]
+
+![alt text][sketch3]
+
+![alt text][sketch4]
+
+![alt text][sketch5]
 
 
+[sketch1]: images/sketch1.png
+[sketch2]: images/sketch2.png
+[sketch3]: images/sketch3.png
+[sketch4]: images/sketch4.png
+[sketch5]: images/sketch5.png
+
+### Tools
+
+We will use several tools for the visualisation ***TODO***
+
+### Roadmap
+1. Work on a "simple" NLP algorithm, to link songs to events
+  - Using Name Entity recognition to extract entities from the lyrics, and from the wikipedia excerpt.
+
+  - Matching the lyrics and Wikipedia excerpt which have Entities in common.
+
+2. Work on the animations
+  - The apparition of the dots when clicking on a year.
+  - The highlighting of the dots when hovering the mouse over a point representing a song or an event.
+  - The apparition of a description when clicking on a dot (event or song)
+  - The navigation through the timeline.
+
+3. Work on the website (in parallel of 2)
+  - Explanation of our algorithm.
+  - Navigation between the upper part (main animation) and the lower part (description of the project) of the website.
+
+4. (optional - if time) Improve our NLP algorithm, to make the links between lyrics and events more coherent / accurate / meaningful.
+5. (optional - if time) Enable users to submit their own written text, and show them the link between their text and our events.
 
 ## Milestone 3 (Thursday 28th May, 5pm)
 
