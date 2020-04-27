@@ -141,12 +141,15 @@ Once he has chosen a year, the time line is zoomed in, centered in the year the 
 ![alt text][sketch2]
 
 The user is also offered the possibility to filter the resuts, i.e., filter the events or/and the songs.
+
 ![alt text][sketch3]
 
 Once the user choose an event data point, the informations appear in the upper half of the screen, while the related song data points are still highlighted in orange.
+
 ![alt text][sketch4]
 
 Once the user choose one of the connected song, the informations about the song appear in the lower half of the screen. As we will use Name Entity Recognition to link the events and the songs, we will also highlight the words that allowed us to make a connection between the 2 data points. Since we also extracted the wikipedia article for each event, we will add a link pointing to that article, in order for the user to read the entire article.
+
 ![alt text][sketch5]
 
 
