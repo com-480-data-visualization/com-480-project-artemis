@@ -133,18 +133,20 @@ For that purpose we had to gather events data. Since we could not find any relev
 The following 5 sketches show our first idea of the rendering. It is meant to evolve throughout the project and may not be exactly the same at the end of the project, but this is the general idea. You can have a look at the initial version of the website [here](https://github.com/com-480-data-visualization/com-480-project-artemis/tree/master/website).
 
 The user lands on the home page, which is quite light. He is asked to choose a year.
+
 ![alt text][sketch1]
 
-Once he has chosen a year, the time line is zoomed in, centered in the year the user chose. The events are displayed above the time line while the songs are displayed below. The datapoints related to the chosen year are highlighted, and the ones related to the 2 previous and 2 folowwing years have reduced opacity. If the user hover over an event data point, the connected song datapoints are highlighted in orange as well.
+Once he has chosen a year, the time line is zoomed in, centered in the year the user chose. The events are displayed above the time line while the songs are displayed below. The data points related to the chosen year are highlighted, and the ones related to the 2 previous and 2 folowwing years have reduced opacity. If the user hover over an event data point, the connected song data points are highlighted in orange as well.
+
 ![alt text][sketch2]
 
-The user is also offered the possibility to filter the resuts, i.e., filter the years or the songs.
+The user is also offered the possibility to filter the resuts, i.e., filter the events or/and the songs.
 ![alt text][sketch3]
 
-Once the user choose an event data point, the informations appear in the upper half of the screen, while the related song datapoints are still highlighted in orange.
+Once the user choose an event data point, the informations appear in the upper half of the screen, while the related song data points are still highlighted in orange.
 ![alt text][sketch4]
 
-Once the user choose a connected song, the informations about the song appear in the lower half of the screen. As we will use Name Entity Recognition to link the events and the songs, we will also highlight the words that allowed us to make a connection between the 2 data points. Since we also extracted the wikipedia article for each event, we will also add a link pointing to that article.
+Once the user choose one of the connected song, the informations about the song appear in the lower half of the screen. As we will use Name Entity Recognition to link the events and the songs, we will also highlight the words that allowed us to make a connection between the 2 data points. Since we also extracted the wikipedia article for each event, we will add a link pointing to that article, in order for the user to read the entire article.
 ![alt text][sketch5]
 
 
