@@ -20,16 +20,17 @@
 		
 		
 		 <div class="main-window">
-
-			<svg id="plot" viewBox="-10 -10 220 120">
-	
-			</svg>
+			<!-- Update viewBox parameters-->
+			<div class="plot_events">
+				<svg id="plot_events" viewBox="0 0 300 150" width="auto" height="auto"></svg>
+			</div>
 
 			<div class='timeline-container'>
 				<h1 id="choose-year">PLEASE CHOOSE A YEAR</h1>
 				<img src="{{ url_for('static', filename='img/timeline.png') }}" class="line">
-		<!-- 	<img src="ressources/pointer.png" alt="pointer" class="pointer">-->
+				<!-- <img src="ressources/pointer.png" alt="pointer" class="pointer">-->
 		
+				<!-- Make the grid container centered-->
 				<div class="grid-container" id = "timeline-years">
 					<script>
 					var timeline = document.getElementById("timeline-years");
@@ -42,10 +43,15 @@
 					</script>
 				</div>
 			</div>
+			
+			<div class="plot_songs"> 
+				<svg id="plot_songs" viewBox="0 0 300 150" width="auto" height="auto"></svg>
+			</div>
+			
 			<img id="arrow-down" src="{{ url_for('static',filename='img/arrow_down.png') }}" class="arrow_down">
 		</div>
 
-
+<!-- Fill in description -->
 <div class="description">
 		<h2>ARTEMIS PROJECT</h2>
 		<hr></hr>
