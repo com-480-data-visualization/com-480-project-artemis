@@ -71,7 +71,7 @@ function make_grid_items_clickable() {
 
 function add_data_points(date) {
 	
-	d3.csv("http://localhost:7800/ressources/test.csv").then(function (data) {
+	d3.csv("static/data/events.csv").then(function (data) {
 
 		var svg = d3.select('#plot')
 		var plot_area = svg.append('g')

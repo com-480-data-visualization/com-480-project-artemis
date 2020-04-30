@@ -15,8 +15,10 @@
 			<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/index.css') }}">
 		</head>
 	<body>
-		<script type="text/javascript" src="{{ url_for('static',filename='js/lib/d3.min.css') }}"></script>
-		<script type="text/javascript" src="{{ url_for('static',filename='js/dot_animation.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/lib/d3.min.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/dot_animation.js') }}"></script>
+		
+		
 		 <div class="main-window">
 
 			<svg id="plot" viewBox="-10 -10 220 120">
@@ -25,7 +27,7 @@
 
 			<div class='timeline-container'>
 				<h1 id="choose-year">PLEASE CHOOSE A YEAR</h1>
-				<img src="{{ url_for('static',filename='img/timeline.png') }}" class="line">
+				<img src="{{ url_for('static', filename='img/timeline.png') }}" class="line">
 		<!-- 	<img src="ressources/pointer.png" alt="pointer" class="pointer">-->
 				<div class="grid-container">
 					<div class="grid-item">1965</div> 
@@ -122,8 +124,5 @@
 	<p>Meet <a href="./team.html">the authors here</a>. The project was created for the <a href="http://edu.epfl.ch/coursebook/en/data-visualization-COM-480">Data Visualization</a> course at EPFL. -->
 </footer>
 
-
-<script type="text/javascript" src="{{ url_for('static',filename='js/lib/d3.min.css') }}"></script>
-<script type="text/javascript" src="{{ url_for('static',filename='js/dot_animation.js') }}"></script>
 </body>
 </html>
