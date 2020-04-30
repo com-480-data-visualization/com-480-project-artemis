@@ -15,8 +15,8 @@
 			<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/index.css') }}">
 		</head>
 	<body>
-		<script src="{{ url_for('static',filename='js/lib/d3.min.css') }}"></script>
-		<script src="{{ url_for('static',filename='js/dot_animation.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static',filename='js/lib/d3.min.css') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static',filename='js/dot_animation.js') }}"></script>
 		 <div class="main-window">
 
 			<svg id="plot" viewBox="-10 -10 220 120">
@@ -123,7 +123,7 @@
 </footer>
 
 
-<script src="{{ url_for('static',filename='js/lib/d3.min.css') }}"></script>
-<script src="{{ url_for('static',filename='js/dot_animation.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/lib/d3.min.css') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/dot_animation.js') }}"></script>
 </body>
 </html>
