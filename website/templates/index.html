@@ -29,59 +29,17 @@
 				<h1 id="choose-year">PLEASE CHOOSE A YEAR</h1>
 				<img src="{{ url_for('static', filename='img/timeline.png') }}" class="line">
 		<!-- 	<img src="ressources/pointer.png" alt="pointer" class="pointer">-->
-				<div class="grid-container">
-					<div class="grid-item">1965</div> 
-					<div class="grid-item">1966</div>
-					<div class="grid-item">1967</div>
-					<div class="grid-item">1968</div>
-					<div class="grid-item">1969</div>
-					<div class="grid-item">1970</div>
-					<div class="grid-item">1971</div>
-					<div class="grid-item">1972</div>
-					<div class="grid-item">1973</div>
-					<div class="grid-item">1974</div>
-					<div class="grid-item">1975</div>
-					<div class="grid-item">1976</div>
-					<div class="grid-item">1977</div>
-					<div class="grid-item">1978</div>
-					<div class="grid-item">1979</div>
-					<div class="grid-item">1980</div>
-					<div class="grid-item">1981</div>
-					<div class="grid-item">1982</div>
-					<div class="grid-item">1983</div>
-					<div class="grid-item">1984</div>
-					<div class="grid-item">1985</div>
-					<div class="grid-item">1986</div>
-					<div class="grid-item">1987</div>
-					<div class="grid-item">1988</div>
-					<div class="grid-item">1989</div>
-					<div class="grid-item">1990</div>
-					<div class="grid-item">1991</div>
-					<div class="grid-item">1992</div>
-					<div class="grid-item">1993</div>
-					<div class="grid-item">1994</div>
-					<div class="grid-item">1995</div>
-					<div class="grid-item">1996</div>
-					<div class="grid-item">1997</div>
-					<div class="grid-item">1998</div>
-					<div class="grid-item">1999</div>
-					<div class="grid-item">2000</div>
-					<div class="grid-item">2001</div>
-					<div class="grid-item">2002</div>
-					<div class="grid-item">2003</div>
-					<div class="grid-item">2004</div>
-					<div class="grid-item">2005</div>
-					<div class="grid-item">2006</div>
-					<div class="grid-item">2007</div>
-					<div class="grid-item">2007</div>
-					<div class="grid-item">2008</div>
-					<div class="grid-item">2009</div>
-					<div class="grid-item">2010</div>
-					<div class="grid-item">2011</div>
-					<div class="grid-item">2012</div>
-					<div class="grid-item">2013</div>
-					<div class="grid-item">2014</div>
-					<div class="grid-item">2015</div>
+		
+				<div class="grid-container" id = "timeline-years">
+					<script>
+					var timeline = document.getElementById("timeline-years");
+					for(var i = 1965; i <= 2015; i++) {
+						var year = document.createElement("div");
+						year.setAttribute("class", "grid-item")
+						year.textContent = i
+						timeline.appendChild(year)
+					}
+					</script>
 				</div>
 			</div>
 			<img id="arrow-down" src="{{ url_for('static',filename='img/arrow_down.png') }}" class="arrow_down">
