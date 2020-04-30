@@ -161,7 +161,7 @@ Once the user choose one of the connected song, the informations about the song 
 
 ### Tools
 
-We will use several tools for the visualisation ***TODO***
+We will use several tools for the visualisation
 Past lectures :
 - Week 4 - D3
 - Week 5 - Interactions
@@ -169,6 +169,10 @@ Past lectures :
 - Week 7 - Design for data viz (already used, for designing our interface)
 - Week 9 - Text visualization : for processing our text, and may be useful if we want to display it (this may come later)
 - Week 10 - Graphs : may be useful for the links between songs and events
+
+The NLP tools we use / might use for improvements include the following algorithms : LDA, Doc2Vec, Word2Vec, Glove and BERT if time allows. We are using dedicated libraries offered in Python : Scikit-learn, Gensim, Spacy, Nltk and, if time allows transformers (https://github.com/huggingface/transformers).  
+
+In our Roadmap below, steps 5 and 6 imply some user interaction, and therefore some live computations.  We considered using tfjs (tensorflow.js), but it might not be compatible with all the end task vectorisation tools we are currently computing in Python. We therefore decided to have a server with minimal Python backend to compute vectors for text input by user, using the Flask framework, and leaving the visualization do D3.js. Using flask implied some changes in the code structure, which are currently in progress on the flask branch. This way, if we were to not use it because step 5 and 6 are not done, we can go back to a fully HTML/CSS/JS server.
 
 ### Roadmap
 1. Work on a "simple" NLP algorithm, to link songs to events
@@ -188,6 +192,7 @@ Past lectures :
 
 4. (optional - if time) Improve our NLP algorithm, to make the links between lyrics and events more coherent / accurate / meaningful.
 5. (optional - if time) Enable users to submit their own written text, and show them the link between their text and our events.
+6. (optional - if time) Develop another page, that would be more semantic / meaning oriented, rather than time. This page would enable the user to visualize semantic links such as embeddings in 2D between Lyrics and events. This way we could for example clusterize texts, and show where the text given by the user positions itself compared to the Events, Lyrics and Clusters.
 
 ## Milestone 3 (Thursday 28th May, 5pm)
 
