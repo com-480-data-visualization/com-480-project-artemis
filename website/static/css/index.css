@@ -1,11 +1,4 @@
-/*
-This CSS governs the appearance of our site.
-You can find the basic concepts of CSS here: https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/How_CSS_works
-
-This makes the border and padding be counted as part of the element's size.
-https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Box_model
-It switches from https://mdn.mozillademos.org/files/13647/box-model-standard-small.png
-to https://mdn.mozillademos.org/files/13649/box-model-alt-small.png */
+/* ------------------------ Fonts ------------------------*/
 
 @font-face {
   font-family: ubuntu-bold;
@@ -23,147 +16,329 @@ to https://mdn.mozillademos.org/files/13649/box-model-alt-small.png */
 	src: url("/static/fonts/heavitas-webfont.woff") format('woff');
 }
 
-/*
-Make the document fill the whole viewport, this overrides any weird defaults that browsers might have.
-*/
+/* ------------------------ Default ------------------------*/
+
 html, body, figure {
-	width: 100%;
+	width: 100vw;
 	padding: 0;
 	margin: 0;
 	border: 0;
 }
 
-/* Default font and size */
 body {
 	font-family: "ubuntu-light";
-	font-size: 1.1rem;
+	font-size: 1vw;
 }
 
-a {
-	font-style: italic;
-	color: white;
-}
+a:link {
+	text-decoration: none;
+	color: white
+  }
+  
+  a:visited {
+	text-decoration: none;
+	color: white
+  }
+  
+  a:hover {
+	text-decoration: underline;
+	color: white
+  }
+  
+  a:active {
+	text-decoration: underline;
+	color: white
+  }
 
-.width-limited-nav {
-	max-width: 55rem;
-  margin-left: 15%;
-}
-
-/* ------------------------ MainWindow ------------------------ */
+/* ------------------------ Main Window ------------------------ */
 
 .main-window {
-	width: 100%;
+	width: 100vw;
 	height: 100vh;
 	background-color: rgb(55, 56, 61);
 	background-image: url("/static/img/background.png");
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
-  }
-
-.timeline-container {
-	position: absolute;
-	top: 47%;
-	height: 6%;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	align-content: center;
-	justify-content: space-between;
-}
-
-.timeline-container h1 {
-	display: flex;
-	order: 1;
-	margin: 0;
-	padding: 0;
-	font-size: 1.4rem;
-	font-family: "heavitas";
-	color: #282828;
-	font-weight: 100;
-}
-
-.line {
-	display: flex;
-	width: 100%;
-	order: 2;
-}
-
-.pointer {
-	position: absolute;
-	width: 1%;
-	top:4.5%;
-	left: 49.5%;
-	z-index: 1;
-}
-
-.grid-container {
-	order: 3;
-	display: grid;
-	align-items: center;
-	align-content: center;
-	justify-content: center;
-    grid-template-columns: repeat(52, 25px);
-	grid-column-gap: 2.5px;
-  }
-
-button {
-	outline: none;
-	background-color: transparent;
-}
-
-.grid-item {
-	font-size: 0.6rem;
-	font-family: "ubuntu-bold";
-	color: #282828;
 }
 
 .arrow_down {
 	position: absolute;
-	top: 95%;
-	width: 2%;
-	left: 49%;
+	bottom: 5vh;
+	width: 2vw;
+	left: 49vw;
+	z-index: 1;
 }
 
-/* ------------------------ Upper half window ------------------------*/
+/* ------------------------ Menu ------------------------ */
 
-#upper-half-window {
+div.menu {
 	position: absolute;
-    width: 100%;
-    height: 50%;
+	display: block;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	background-color: #282828;
+	box-shadow: 0.2vw 0 2vw #282828;
 }
 
-#lower-half-window {
+img.open-menu {
 	position: absolute;
-	width: 100%;
-	height:50%;
-	top:50%
+	width: 2vw;
+	left: 2vw;
+	top: 2vw;
 }
 
-#my_rect2 {
+div.filters {
 	position: absolute;
-	width: 100%;
-	height: 50%;
-	fill: blue;
+	top: 5vw;
+	left: 2vw;
 }
 
-/* ------------------------ Footer ------------------------*/
+div.song-bloc {
+	margin-top: 4vh ;
+}
 
-.description {
+div.div-field {
+	vertical-align: middle;
+	margin-top: 2vh;
+	display: inline-block;
+	vertical-align: middle;
+	width: 20vw;
+	height: 2vh;
+}
+
+p.p-menu {
+	vertical-align: middle;
+	display: inline-block;
+	font-family: "ubuntu-light";
+	color: white;
+	font-size: 1vw;
+	padding: 0;
+	margin: 0;
+}
+
+input.input {
+	position: absolute;
+	right: 2vw;
+	height: 2vh;
+	width: 14vw;
+	border: 0;
+}
+
+h1.title-menu {
+	text-align: left;
+	color: white;
+	font-family: "heavitas";
+	font-size: 1.4vw;
+	font-weight: 100;
+}
+
+div.filter-button {
+	position: absolute;
+	display: table;
+	bottom: 5vh;
+	left: 2vw;
+	height: 4vh;
+	width: 20vw;
+	background-color: white;
+	z-index: 1000;
+}
+
+p.filter-button-text {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	font-family: "heavitas";
+	color: #282828;
+	font-size: 1.4vw;
+	font-weight: 100;
+	margin: 0;
+	padding: 0;
+}
+
+hr.hr-menu {
+	background-color: white;
+	width: 5vw;
+	height: 0.2vh;
+	border: 0;
+	margin-top: 2vh;
+}
+
+/* ------------------------ Data Container ------------------------ */
+
+.plot-events {
 	position: relative;
 	width: 100%;
+	height: 35vh;
+	top: 10vh;
+}
+.plot-songs {
+	position: relative;
+	width: 100%;
+	height: 35vh;
+	top: 20vh;
+}
+
+/* ------------------------ Timeline Container ------------------------ */
+
+div.tl-container {
+	position: absolute;
+	width: 100%;
+	height: 5vh;
+	top: 47vh;
+	bottom: 47vh;
+	vertical-align: middle;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.grid-container {
+	position: absolute;
+	top: 3.7vh;
+	width: 98vw;
+	margin-left: 1vw;
+  	margin-right: 1vw;
+	display: grid;
+	grid-template-columns: repeat(51, 1fr);
+	justify-items: center;
+	padding-top: 0;
+	padding-bottom: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+  }
+
+.grid-item {
+	font-size: 0.6vw;
+	font-family: "ubuntu-bold";
+	color: #282828;
+}
+
+h1.h1-tl {
+	position: absolute;
+	bottom: 2.5vh;
+	left: 50%;
+    transform: translate(-50%, 0);
+	font-family: "heavitas";
+	font-size: 1.4vw;
+	font-weight: 100;
+	padding-top: 0;
+	padding-bottom: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+line.timeline {
+	position: absolute;
+	top: 2.9vh;
+	bottom: 2.9vh;
+	height: 0.2vh;
+	width: 100%;
+	background: #282828;
+}
+
+/* ------------------------ Half screen window ------------------------*/
+
+div.tooltip {
+	display: block;
+	overflow: auto;
+    position: absolute;			
+    text-align: center;			
+    width: 10vw;										
+    padding: 1vw;				
+	font-family:  "ubuntu-bold";
+	text-transform: uppercase;		
+	font-size: 0.6vw;
+	color: white;
+    background: #f26627;	
+    border-radius: 1vw;			
+    pointer-events: none;			
+}
+
+div.half-window {
+	overflow: scroll;
+	position: absolute;			
+    text-align: justify;			
+	width: 100%;
+	height: 49.9vh;										
+	color: white;
+	background: #f26627;		
+}
+
+img.cross {
+	position: absolute;
+	height: 2vh;
+	left: 2vw;
+	top: 2vw;
+	z-index: 1000;
+}
+
+h1.title-box {
+	text-align: left;
+	position: relative;
+	font-family: "heavitas";
+	font-size: 1.4vw;
+	font-weight: 100;
+	margin-left: 6vw;
+	margin-right: 2vw;
+	margin-top: 2vw;
+}
+
+h2.subtitle-box {
+	text-align: left;
+	position: relative;
+	font-family: "ubuntu-light";
+	font-weight: 100;
+	font-size: 1vw;
+	text-transform: uppercase;		
+	margin-left: 6vw;
+	margin-right: 2vw;
+}
+
+hr.hr-box-event {
+	background-color: white;
+	width: 5vw;
+	height: 0.2vh;
+	border: 0;
+	margin-top: 2vh;
+	margin-bottom: 2vh;
+}
+
+hr.hr-box-song {
+	width: 5vw;
+	background-color: #282828;
+	height: 0.2vh;
+	border: 0;
+	margin-top: 2vh;
+	margin-bottom: 2vh;
+}
+
+p.p-box {
+	position: relative;
+	font-size: 1vw;
+	font-family: "ubuntu-light";
+	font-weight: 100;
+	margin-left: 6vw;
+	margin-right: 6vw;
+	margin-bottom: 2vw;
+}
+
+/* ------------------------ Description ------------------------*/
+
+div.description {
+	position: relative;
+	width: 100vw;
 	height: auto;
 	background: #f26627;
 	padding-top:5vh;
 	padding-bottom: 5vh;
 }
 
-.description h2 {
+.description h1 {
 	text-align: center;
 	color: white;
 	font-family: "heavitas";
-	font-size: 1.4rem;
+	font-size: 1.4vw;
 	font-weight: 100;
 }
 
@@ -173,40 +348,122 @@ button {
 	margin-right: 100px;
 	margin-left: 100px;
 	font-family: "ubuntu-light";
-	font-size: 1rem;
+	font-size: 1vw;
 	text-align: justify;
 	color: white;
 	margin-bottom: 5vh;
 }
 
-hr {
-	margin-top: 2%;
-	margin-bottom: 2%;
-	width: 8%;
+.description hr {
+	margin-top: 2vh;
+	margin-bottom: 2vh;
+	width: 5vw;
 	color: white;
 	background-color: white;
 	border-width: 0;
-	height: 1px;
-}
-
-/* ------------------------ Events container ------------------------*/
-
-.plot_events {
-	position: relative;
-	width: 100%;
-	height: 35vh;
-	top: 10vh;
-}
-.plot_songs {
-	position: relative;
-	width: 100%;
-	height: 35vh;
-	top: 20vh;
+	height: 0.2vh;
 }
 
 /* ------------------------ Footer ------------------------*/
 
-footer {
+div.footer {
 	position: relative;
-	padding-bottom: 5rem;
+	text-align: center;
+	padding-top:5vh;
+	padding-bottom: 5vh;
+	padding-bottom: 5vh;
+	background-image: url("/static/img/background.png");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.footer hr {
+	margin-top: 2vh;
+	margin-bottom: 2vh;
+	width: 5vw;
+	background-color: #282828;
+	border-width: 0;
+	height: 0.2vh;
+}
+
+div.team {
+	display: inline-block;
+	text-align: center;
+	margin-top: 5vh;
+}
+
+div.member {
+	display: inline-block;
+	text-align: center;
+}
+
+div.member-image {
+	position: relative;
+	text-align: center;
+	margin-left: 5vw;
+	margin-right: 5vw;
+}
+
+img.img-team {
+	position: relative;
+	width: 10vw;
+	height: 10vw;
+	border-radius: 50%;
+}
+
+img.img-bg {
+	position: absolute;
+	left: 0;
+	width: 10vw;
+	height: 10vw;
+}
+
+img.res-icon-gh {
+	position: absolute;
+	top: 50%;
+	left: 15%;
+	transform: translate(0, -50%);
+	width: 3vw;
+	height: 3vw;
+}
+
+img.res-icon-li {
+	position: absolute;
+	right: 15%;
+	top: 50%;
+	transform: translate(0, -50%);
+	width: 3vw;
+	height: 3vw;
+}
+
+.footer h1 {
+	color: #282828;
+	font-family: "heavitas";
+	font-size: 1.4vw;
+	font-weight: 100;
+}
+
+.footer h2 {
+	margin-top: 5vh;
+	text-align: center;
+	font-family: "ubuntu-bold";
+	font-size: 1vw;
+	color: #282828;
+}
+
+.footer p {
+	position: relative;
+	font-family: "ubuntu-light";
+	font-weight: 100;
+	font-size: 1vw;
+	padding-bottom: 5vh;
+}
+
+.footer .arrow_down {
+	position: absolute;
+	bottom: 5vh;
+	width: 2vw;
+	left: 49vw;
+	z-index: 1;
 }
