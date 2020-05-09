@@ -12,38 +12,56 @@ function whenDocumentLoaded(action) {
 	}
 }
 
-function make_grid_items_clickable() {
-	var clicked = false
-	d3.selectAll(".grid-item")
-		.on("mouseover", function () {
-			d3.select(this)
-				.transition().duration(DURATION)
-				.style("color", "#f26627")
-				.style("cursor", "pointer")
-		})
-		.on("mouseout", function () {
-			d3.select(this)
-				.transition().duration(DURATION)
-				.style("color", "#282828")
-		})
-		.on("click", function () {
-			d3.select(this)
-				.style("color", "#f26627")
-			if (!clicked) {
-				d3.select("#h1-tl")
-					.transition().duration(DURATION / 2)
-					.style("opacity", 0)
-					.on("end", function () {
-						d3.select("#h1-tl")
-							.html("events / songs")
-							.transition().duration(DURATION / 2)
-							.style("opacity", 1)
-						clicked = true
-					})
-			}
-			update_visible_points(d3.select(this).text())
-		})
-}
+
+/*unction zoom_on_year(elem){
+
+	xScale.domain([2010, 2012])
+	xAxis.transition().duration(3000).call(d3.axisBottom(xScale))*/
+	//var svg = d3.select(elem).selectAll("svg")
+
+	//svg.attr("transform", "translate(0," + 100 + ")")
+	/*const width = 300;
+	const height = 300;
+
+	var svg = d3.select("#zoom_svg");
+
+	svg.transition().call(d3.zoom()
+      .scaleExtent([1, 40])
+      .on("zoom", zoomed).scaleBy, 2);*/
+
+	/*svg.transition().duration(2500).call(
+		d3.zoom()
+				.scaleExtent([1, 40])
+				.on("zoom", zoomed).transform,
+      d3.zoomIdentity.translate(width / 2, height / 2).scale(40).translate(-50, -50)
+    );*/
+
+	/*const zoom = d3.zoom()
+      .scaleExtent([1, 40])
+      .on("zoom", zoomed);
+
+  const svg = d3.select('.main_window')
+								.append('svg')
+
+	const g = svg.select("g");
+
+	svg.transition().call(zoom.scaleBy, 2);
+	svg.call(zoom);
+
+	console.log(svg)
+
+	function reset() {
+    svg.transition().duration(750).call(
+      zoom.transform,
+      d3.zoomIdentity,
+      d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
+    );
+  }
+
+	function zoomed() {
+	    g.attr("transform", d3.event.transform);
+		}*/
+/*}*/
 
 function add_events_data_points(date) {
 
@@ -179,10 +197,138 @@ function make_arrows_clickable() {
 		})
 }
 
+function my_func(element){
+	console.log("clicked:", element)
+}
+
 function create_time_line_container() {
-	var tl_container = d3.select("#main").append("div")
+
+	var tl_container = d3.select(".tl-container")
+
+	tl_container.append('h1')
+		.attr("class", "h1-tl")
+		.attr("id", "h1-tl")
+		.html('choose a year')
+
+	var width = +tl_container.style('width').slice(0, -2)
+	var height = +tl_container.style('height').slice(0, -2)
+
+// create an svg container
+  var vis = d3.select(".tl-container").append("svg:svg")
+					//.attr("preserveAspectRatio", "xMidYMid meet")
+					//.attr("viewBox", "0 0 300 150")
+          .style("width", "100vw")
+
+	var mindate = new Date(1965,0,1),
+      maxdate = new Date(2015,0,31);
+
+	var xScale = d3.scaleTime().domain([mindate, maxdate]).range([0, width])//.nice();
+
+	// define the x axis
+  var xAxisGenerator = d3.axisBottom(xScale)
+								.ticks(50)
+								.tickSizeOuter(0)
+								.tickSizeInner(0);
+
+	var xAxis = vis.append("g")
+	            .attr("transform", "translate(0," + (height/2) + ")")
+							.attr("class", "grid-container")
+	            .call(xAxisGenerator);
+
+	// rend la timeline responsive
+	window.addEventListener('resize', drawChart);
+
+	// bricolage pour rendre le timeline responsive
+	function drawChart() {
+    // reset the width
+    width = +tl_container.style('width').slice(0, -2)
+
+    // set the svg dimensions
+    vis.attr("width", width);
+
+    // Set new range for xScale
+    xScale.range([0, width]);
+
+    // draw the new xAxis
+    xAxis.call(xAxisGenerator);
+
+		//xScale.domain([2010, 2012])
+		//xAxis.transition().duration(1000).call(d3.axisBottom(xScale))
+
+		//xAxis.attr("transform", d3.event.transform);
+  	//xAxis.call(xAxisGenerator.scale(d3.event.transform.rescaleX(xScale)));
+		//make_grid_items_clickable()
+	}
+
+	make_grid_items_clickable()
+
+	function make_grid_items_clickable() {
+		var clicked = false
+		d3.selectAll(".tick")
+			.on("mouseover", function () {
+				d3.select(this)
+					.transition().duration(DURATION)
+					.style("color", "#f26627")
+					.style("cursor", "pointer")
+			})
+			.on("mouseout", function () {
+				d3.select(this)
+					.transition().duration(DURATION)
+					.style("color", "#282828")
+			})
+			.on("click", function () {
+				d3.select(this)
+					.style("color", "#f26627")
+				if (!clicked) {
+					d3.select("#h1-tl")
+						.transition().duration(DURATION / 2)
+						.style("opacity", 0)
+						.on("end", function () {
+							d3.select("#h1-tl")
+								.html("events / songs")
+								.transition().duration(DURATION / 2)
+								.style("opacity", 1)
+							clicked = true
+						})
+				}
+				zoom_on_year(this);
+				update_visible_points(d3.select(this).text())
+			})
+	}
+
+	function zoom_on_year(elem){
+
+		y = d3.select(elem).text()
+
+		// Set new range for xScale
+    xScale.domain([new Date(+y-1,0,1), new Date(+y+1,0,31)])//.range([0, width]);
+
+		xAxisGenerator.scale(xScale).ticks(3).tickFormat(d3.timeFormat("%Y"))
+
+    // draw the new xAxis
+    xAxis.transition().duration(1500).call(xAxisGenerator);
+
+		//xScale.domain([2010, 2012])
+		//xAxis.transition().duration(1000).call(d3.axisBottom(xScale))
+
+		//xAxis.attr("transform", d3.event.transform);
+  	//xAxis.call(xAxisGenerator.scale(d3.event.transform.rescaleX(xScale)));
+		make_grid_items_clickable()
+	}
+
+
+	//d3.selectAll(".tick")
+		//.on("click", my_func(this))
+		//.attr("class", ".grid-item")
+
+	/*var tl_container = d3.select("#main").append("div")
 		.attr("class", "tl-container")
 		.attr("id", "tl-container")
+		//.append("svg", )
+		//.attr("viewBox", [0, 0, 100, 100])
+		//.attr("id", "zoom_svg")
+		//.append("g")
+	 	//.attr("id", "zoom_g");
 
 	tl_container.append('h1')
 		.attr("class", "h1-tl")
@@ -201,7 +347,7 @@ function create_time_line_container() {
 		grid_container.append("div")
 			.attr("class", "grid-item")
 			.html(i)
-	}
+	}*/
 }
 
 function make_team_clickable() {
@@ -387,11 +533,13 @@ function create_menu() {
 
 whenDocumentLoaded(() => {
 	// When the document is loaded, we make the year ticks clickable and we add the data points but invisible
+	console.log("document loaded")
 	create_time_line_container()
 	add_events_data_points()
 	add_songs_data_points()
-	make_grid_items_clickable()
+	//make_grid_items_clickable()
 	make_arrows_clickable()
 	make_team_clickable()
 	create_menu()
+	//add_zoom_listener()
 })

@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: ubuntu-bold;
-  
+
   src: url("/static/fonts/ubuntu-bold-webfont.woff") format('woff');
 }
 
@@ -34,17 +34,17 @@ a:link {
 	text-decoration: none;
 	color: white
   }
-  
+
   a:visited {
 	text-decoration: none;
 	color: white
   }
-  
+
   a:hover {
 	text-decoration: underline;
 	color: white
   }
-  
+
   a:active {
 	text-decoration: underline;
 	color: white
@@ -242,27 +242,27 @@ line.timeline {
 div.tooltip {
 	display: block;
 	overflow: auto;
-    position: absolute;			
-    text-align: center;			
-    width: 10vw;										
-    padding: 1vw;				
+    position: absolute;
+    text-align: center;
+    width: 10vw;
+    padding: 1vw;
 	font-family:  "ubuntu-bold";
-	text-transform: uppercase;		
+	text-transform: uppercase;
 	font-size: 0.6vw;
 	color: white;
-    background: #f26627;	
-    border-radius: 1vw;			
-    pointer-events: none;			
+    background: #f26627;
+    border-radius: 1vw;
+    pointer-events: none;
 }
 
 div.half-window {
 	overflow: scroll;
-	position: absolute;			
-    text-align: justify;			
+	position: absolute;
+    text-align: justify;
 	width: 100%;
-	height: 49.9vh;										
+	height: 49.9vh;
 	color: white;
-	background: #f26627;		
+	background: #f26627;
 }
 
 img.cross {
@@ -290,7 +290,7 @@ h2.subtitle-box {
 	font-family: "ubuntu-light";
 	font-weight: 100;
 	font-size: 1vw;
-	text-transform: uppercase;		
+	text-transform: uppercase;
 	margin-left: 6vw;
 	margin-right: 2vw;
 }
