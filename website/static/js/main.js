@@ -99,6 +99,10 @@ function add_events_data_points(date) {
 	});
 }
 
+/*function event_x_pos(d){
+	return
+}*/
+
 function add_songs_data_points(date) {
 
 	d3.csv("static/data/songs.csv").then(function (data) {
@@ -148,7 +152,8 @@ function update_visible_points(date) {
 			return d.Year == date
 		})
 		.style("visibility", "visible")
-		.transition().duration(DURATION)
+		.transition().delay(DURATION*6)
+		.duration(DURATION*3)
 		.style("opacity", 1)
 		.on("end", function (d) {
 			d3.selectAll("circle")
@@ -238,6 +243,15 @@ function create_time_line_container() {
 	// rend la timeline responsive
 	window.addEventListener('resize', drawChart);
 
+	make_grid_items_clickable()
+
+	//d3.selectAll(".ticks")
+	//.select("text")
+	//.style("font-size", "0.6vw")
+	//.style("font-family", "ubuntu-bold")
+	//.style("color", "#282828")
+
+
 	// bricolage pour rendre le timeline responsive
 	function drawChart() {
     // reset the width
@@ -259,8 +273,6 @@ function create_time_line_container() {
   	//xAxis.call(xAxisGenerator.scale(d3.event.transform.rescaleX(xScale)));
 		//make_grid_items_clickable()
 	}
-
-	make_grid_items_clickable()
 
 	function make_grid_items_clickable() {
 		var clicked = false
@@ -291,9 +303,34 @@ function create_time_line_container() {
 							clicked = true
 						})
 				}
+
+				// TODO : check if these should be there
 				zoom_on_year(this);
 				update_visible_points(d3.select(this).text())
+
+				//d3.select("#h1-tl").on("click", unzoom)
+
 			})
+
+	}
+
+	function unzoom(){
+
+		// Set new range for xScale
+    xScale.domain([mindate, maxdate])//.range([0, width]);
+
+		xAxisGenerator.scale(xScale)//.ticks(3).tickFormat(d3.timeFormat("%Y"))
+
+    // draw the new xAxis
+    xAxis.transition().duration(1500).call(xAxisGenerator);
+
+		// Attempt to change the size of the year text >> to try again
+		/*d3.select(elem).select("text")
+		.attr("transform", "translate(0," + (-height/2) + ")")
+		.transition().style("font-size", "20")*/
+
+
+		make_grid_items_clickable()
 	}
 
 	function zoom_on_year(elem){
@@ -308,12 +345,14 @@ function create_time_line_container() {
     // draw the new xAxis
     xAxis.transition().duration(1500).call(xAxisGenerator);
 
-		//xScale.domain([2010, 2012])
-		//xAxis.transition().duration(1000).call(d3.axisBottom(xScale))
+		// Attempt to change the size of the year text >> to try again
+		/*d3.select(elem).select("text")
+		.attr("transform", "translate(0," + (-height/2) + ")")
+		.transition().style("font-size", "20")*/
 
-		//xAxis.attr("transform", d3.event.transform);
-  	//xAxis.call(xAxisGenerator.scale(d3.event.transform.rescaleX(xScale)));
+
 		make_grid_items_clickable()
+
 	}
 
 

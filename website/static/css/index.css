@@ -208,10 +208,16 @@ div.tl-container {
 	margin-bottom: 0;
   }
 
-.grid-item {
+/*.grid-item {
 	font-size: 0.6vw;
 	font-family: "ubuntu-bold";
 	color: #282828;
+}*/
+
+.tick text {
+  font-size: 0.6vw;
+  font-family: "ubuntu-bold";
+  color: #282828;
 }
 
 h1.h1-tl {
