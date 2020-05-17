@@ -1,16 +1,34 @@
 /*  This script handles the animations related to the data points,
     namely the mouse over, mouse out and click event */
 
-function mouse_over_dot(selection, bubble, text, is_event) {
-
-    bubble_id = is_event ? "bubble-event" : "bubble-song"
+function mouse_over_dot(selection, bubble, text) {
 
     bubble.transition().duration(DURATION)
-        .style("opacity", .9);
+        .style("opacity", 0.9);
 
     bubble.html(text)
-        .style("left", (px_to_vw(d3.event.pageX) - 6) + "vw")
-        .style("top", (px_to_vh(d3.event.pageY) - px_to_vh(document.getElementById(bubble_id).offsetHeight) - 2) + "vh");
+        .style("left", function () {
+            var left = px_to_vw(d3.event.pageX) - 6
+            var max_x = px_to_vw(d3.select("#plot-div").node().getBoundingClientRect().width)
+            if (left < 0) {
+                return 1 + "vw"
+            }
+            if (left + 12 > max_x) {
+                return max_x - 13 + "vw"
+            }
+            else {
+                return left + "vw"
+            }
+        })
+        .style("top", function () {
+            var top = px_to_vh(d3.event.pageY) - px_to_vh(document.getElementById("bubble").offsetHeight) - 2
+            if (top < 0) {
+                return 1 + "vh"
+            }
+            else {
+                return top + "vh"
+            }
+        })
 
     d3.selectAll("circle")
         .transition().duration(DURATION)
@@ -19,7 +37,7 @@ function mouse_over_dot(selection, bubble, text, is_event) {
     selection
         .transition().duration(DURATION)
         .attr("fill", '#f26627')
-        .attr("r", 1)
+        .style("r", "0.75vh")
 }
 
 function mouse_out_dot(bubble, year, date) {
@@ -35,7 +53,7 @@ function mouse_out_dot(bubble, year, date) {
         .transition().duration(DURATION)
         .style("opacity", 1)
         .attr("fill", '#282828')
-        .attr("r", 0.5)
+        .style("r", "0.25vh")
 }
 
 function on_click_dot(window, title, subtitle, content, is_event) {
@@ -56,15 +74,11 @@ function on_click_dot(window, title, subtitle, content, is_event) {
         .attr("src", icon_path)
         .on("click", function () {
             window.transition().duration(DURATION)
-                .style("opacity", 0.0)
+                .style("opacity", 0)
                 .on("end", function () {
                     window.transition().delay(DURATION)
                         .style("visibility", "hidden")
                     window.selectAll('p')
-                        .remove()
-                    window.selectAll('h1')
-                        .remove()
-                    window.selectAll('h2')
                         .remove()
                     window.selectAll('img')
                         .remove()
@@ -75,18 +89,17 @@ function on_click_dot(window, title, subtitle, content, is_event) {
                 .style("cursor", "pointer")
         })
 
-    window.append('h1')
+    var left_div = window.append("div")
+        .attr("class", "left-div")
+    left_div.append('p')
         .attr("class", "title-box")
-        .html(title)
+        .html(title + subtitle)
 
-    window.append('h2')
-        .attr("class", "subtitle-box")
-        .html(subtitle)
-
-    window.append('p')
+    var right_div = window.append("div")
+        .attr("class", "right-div")
+    right_div.append('p')
         .attr("class", "p-box")
         .html(content)
-
     window
         .style("top", style_top)
         .style("left", style_left)

@@ -30,24 +30,44 @@ body {
 	font-size: 1vw;
 }
 
-a:link {
-	text-decoration: none;
-	color: white
-  }
-
-  a:visited {
-	text-decoration: none;
-	color: white
-  }
-
-  a:hover {
+a:link.href-wiki {
 	text-decoration: underline;
 	color: white
-  }
+}
 
-  a:active {
+a:visited.href-wiki {
+	text-decoration: none;
+	color: white
+}
+
+a:hover.href-wiki {
 	text-decoration: underline;
 	color: white
+}
+
+a:active.href-wiki {
+	text-decoration: underline;
+	color: white
+}
+
+a:link.href-youtube {
+	text-decoration: underline;
+	color: #282828
+  }
+
+a:visited.href-youtube {
+	text-decoration: none;
+	color: #282828
+  }
+
+a:hover.href-youtube {
+	text-decoration: underline;
+	color: #282828
+  }
+
+a:active.href-youtube {
+	text-decoration: underline;
+	color: #282828
   }
 
 /* ------------------------ Main Window ------------------------ */
@@ -70,6 +90,31 @@ a:link {
 	z-index: 1;
 }
 
+img.unzoom {
+	position: absolute;
+	width: 2vw;
+	right: 2vw;
+	top: 2vw;
+	z-index: 1000;
+}
+
+div.tooltip {
+	display: block;
+	overflow: auto;
+    position: absolute;
+    text-align: center;
+    width: 10vw;
+    padding: 1vw;
+	font-family:  "ubuntu-bold";
+	text-transform: uppercase;
+	font-size: 0.6vw;
+	color: white;
+    background: #f26627;
+    border-radius: 1vw;
+	pointer-events: none;
+	z-index: 1005;
+}
+
 /* ------------------------ Menu ------------------------ */
 
 div.menu {
@@ -80,6 +125,7 @@ div.menu {
 	height: 100vh;
 	background-color: #282828;
 	box-shadow: 0.2vw 0 2vw #282828;
+	z-index: 2000;
 }
 
 img.open-menu {
@@ -87,6 +133,7 @@ img.open-menu {
 	width: 2vw;
 	left: 2vw;
 	top: 2vw;
+	z-index: 1000;
 }
 
 div.filters {
@@ -167,57 +214,18 @@ hr.hr-menu {
 
 /* ------------------------ Data Container ------------------------ */
 
-.plot-events {
+.plot {
 	position: relative;
-	width: 100%;
-	height: 35vh;
-	top: 10vh;
-}
-.plot-songs {
-	position: relative;
-	width: 100%;
-	height: 35vh;
-	top: 20vh;
+	width: 100vw;
+	height: 100vh;
 }
 
 /* ------------------------ Timeline Container ------------------------ */
 
-div.tl-container {
-	position: absolute;
-	width: 100%;
-	height: 5vh;
-	top: 47vh;
-	bottom: 47vh;
-	vertical-align: middle;
-	margin-top: 0;
-	margin-bottom: 0;
-}
-
-.grid-container {
-	position: absolute;
-	top: 3.7vh;
-	width: 98vw;
-	margin-left: 1vw;
-  	margin-right: 1vw;
-	display: grid;
-	grid-template-columns: repeat(51, 1fr);
-	justify-items: center;
-	padding-top: 0;
-	padding-bottom: 0;
-	margin-top: 0;
-	margin-bottom: 0;
-  }
-
-/*.grid-item {
-	font-size: 0.6vw;
-	font-family: "ubuntu-bold";
-	color: #282828;
-}*/
-
 .tick text {
   font-size: 0.6vw;
   font-family: "ubuntu-bold";
-  color: #282828;
+  margin-top: 10vh;
 }
 
 h1.h1-tl {
@@ -234,41 +242,39 @@ h1.h1-tl {
 	margin-bottom: 0;
 }
 
-line.timeline {
-	position: absolute;
-	top: 2.9vh;
-	bottom: 2.9vh;
-	height: 0.2vh;
-	width: 100%;
-	background: #282828;
-}
-
 /* ------------------------ Half screen window ------------------------*/
 
-div.tooltip {
-	display: block;
-	overflow: auto;
-    position: absolute;
-    text-align: center;
-    width: 10vw;
-    padding: 1vw;
-	font-family:  "ubuntu-bold";
-	text-transform: uppercase;
-	font-size: 0.6vw;
-	color: white;
-    background: #f26627;
-    border-radius: 1vw;
-    pointer-events: none;
-}
-
 div.half-window {
-	overflow: scroll;
 	position: absolute;
-    text-align: justify;
 	width: 100%;
 	height: 49.9vh;
-	color: white;
 	background: #f26627;
+}
+
+div.left-div {
+	position: absolute;
+	overflow: scroll;
+	text-align: right;
+	font-size: 1.4vw;
+	width: 20vw;
+	left: 6vw;
+	top: 2vw;
+	bottom: 2vw;
+	margin: 0;
+	padding: 0;
+}
+
+div.right-div {
+	position: absolute;
+	overflow: scroll;
+	text-align: justify;
+	left: 32vw;
+	top: 2vw;
+	bottom: 2vw;
+	right: 6vw;
+	margin: 0;
+	padding: 0;
+	padding-bottom: 2vw;
 }
 
 img.cross {
@@ -277,28 +283,6 @@ img.cross {
 	left: 2vw;
 	top: 2vw;
 	z-index: 1000;
-}
-
-h1.title-box {
-	text-align: left;
-	position: relative;
-	font-family: "heavitas";
-	font-size: 1.4vw;
-	font-weight: 100;
-	margin-left: 6vw;
-	margin-right: 2vw;
-	margin-top: 2vw;
-}
-
-h2.subtitle-box {
-	text-align: left;
-	position: relative;
-	font-family: "ubuntu-light";
-	font-weight: 100;
-	font-size: 1vw;
-	text-transform: uppercase;
-	margin-left: 6vw;
-	margin-right: 2vw;
 }
 
 hr.hr-box-event {
@@ -320,13 +304,15 @@ hr.hr-box-song {
 }
 
 p.p-box {
-	position: relative;
 	font-size: 1vw;
 	font-family: "ubuntu-light";
 	font-weight: 100;
-	margin-left: 6vw;
-	margin-right: 6vw;
-	margin-bottom: 2vw;
+}
+
+p.title-box {
+	font-size: 1.4vw;
+	font-family: "heavitas";
+	font-weight: 100;
 }
 
 /* ------------------------ Description ------------------------*/
@@ -350,19 +336,19 @@ div.description {
 
 .description p {
 	column-count: 3;
-	column-gap: 4%;
-	margin-right: 100px;
-	margin-left: 100px;
+	column-gap: 4vw;
+	margin-right: 10vw;
+	margin-left: 10vw;
 	font-family: "ubuntu-light";
 	font-size: 1vw;
 	text-align: justify;
 	color: white;
 	margin-bottom: 5vh;
+	margin-top: 5vh;
 }
 
 .description hr {
-	margin-top: 2vh;
-	margin-bottom: 2vh;
+	margin-top: 5vh;
 	width: 5vw;
 	color: white;
 	background-color: white;

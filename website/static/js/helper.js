@@ -14,8 +14,10 @@ function scroll_to_element(element) {
         })(offsetTop + element.getBoundingClientRect().top));
 }
 
-function select_random(max) {
-    return Math.floor(Math.random() * Math.floor(max))
+function select_random(min, max) {
+    min = Math.ceil(min)
+    max = Math.floor(max)
+    return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 function px_to_vw(value) {
@@ -40,4 +42,15 @@ function px_to_vh(value) {
 
     var result = (100 * value) / y;
     return result;
+}
+
+function get_date(d, is_event) {
+    if (is_event) {
+        var date = new Date(d.Month + " " + d.Day + ", " + d.Year)
+    }
+    else {
+        // For songs we generate random day/month since we only have the year
+        var date = new Date(d.Year, select_random(1, 10), select_random(1, 30))
+    }
+    return date
 }

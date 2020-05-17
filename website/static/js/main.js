@@ -1,7 +1,6 @@
 /*  This script handles the functions called to construct the basis of the
 	website when the function whenDocumentLoaded is called. */
 
-
 var DURATION = 250;
 
 function whenDocumentLoaded(action) {
@@ -12,155 +11,222 @@ function whenDocumentLoaded(action) {
 	}
 }
 
+function add_data_points(date) {
 
-/*unction zoom_on_year(elem){
+	var width = d3.select("#plot-div").node().getBoundingClientRect().width
+	var height = d3.select("#plot-div").node().getBoundingClientRect().height
+	var margin_lr = 2 * width / 100
+	var margin_tb = 8 * height / 100
 
-	xScale.domain([2010, 2012])
-	xAxis.transition().duration(3000).call(d3.axisBottom(xScale))*/
-	//var svg = d3.select(elem).selectAll("svg")
+	var svg = d3.select('#plot')
+		.attr("preserveAspectRatio", "xMinYMin meet")
+		.attr("viewBox", "0 0 " + width + " " + height)
+		.attr("width", width)
+		.attr("height", height);
+	var plot_area = svg.append('g')
+	var bubble = d3.select("#main")
+		.append("div")
+		.attr("class", "tooltip")
+		.attr("id", "bubble")
+		.style("opacity", 0)
 
-	//svg.attr("transform", "translate(0," + 100 + ")")
-	/*const width = 300;
-	const height = 300;
+	// Create x-axis
+	var mindate = new Date(1965, 0, 1)
+	var maxdate = new Date(2015, 11, 31);
+	var xScale = d3.scaleTime().domain([mindate, maxdate]).range([margin_lr, width - margin_lr])
+	var xAxis = fc.axisBottom(xScale)
+		.tickArguments([52])
+		.tickCenterLabel(true)
+		.tickSizeInner(0)
+		.tickSizeOuter(0)
+	svg.append("g")
+		.attr("transform", "translate(0," + (height / 2) + ")")
+		.attr("class", "xaxis")
+		.call(xAxis)
+	make_year_clickable()
 
-	var svg = d3.select("#zoom_svg");
+	// Create unzoom button
+	d3.select("#unzoom-button")
+		.style("visibility", "hidden")
+		.style("opacity", "0")
+	d3.select("#unzoom-button")
+		.on("mouseover", function () {
+			d3.select(this)
+				.style("cursor", "pointer")
+		})
+		.on("click", function () {
+			// Close the half windows
+			d3.selectAll(".half-window")
+				.transition().duration(DURATION)
+				.style("opacity", 0)
+				.on("end", function () {
+					d3.selectAll(".half-window").style("visibility", "hidden")
+					d3.selectAll(".half-window").selectAll('p').remove()
+					d3.selectAll(".half-window").selectAll('img').remove()
+				})
+			// Close the menu
+			d3.select("#menu")
+				.transition().duration(DURATION)
+				.style("left", "-30vw")
+				.on("end", function () {
+					unzoom()
+				})
+		})
 
-	svg.transition().call(d3.zoom()
-      .scaleExtent([1, 40])
-      .on("zoom", zoomed).scaleBy, 2);*/
-
-	/*svg.transition().duration(2500).call(
-		d3.zoom()
-				.scaleExtent([1, 40])
-				.on("zoom", zoomed).transform,
-      d3.zoomIdentity.translate(width / 2, height / 2).scale(40).translate(-50, -50)
-    );*/
-
-	/*const zoom = d3.zoom()
-      .scaleExtent([1, 40])
-      .on("zoom", zoomed);
-
-  const svg = d3.select('.main_window')
-								.append('svg')
-
-	const g = svg.select("g");
-
-	svg.transition().call(zoom.scaleBy, 2);
-	svg.call(zoom);
-
-	console.log(svg)
-
-	function reset() {
-    svg.transition().duration(750).call(
-      zoom.transform,
-      d3.zoomIdentity,
-      d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
-    );
-  }
-
-	function zoomed() {
-	    g.attr("transform", d3.event.transform);
-		}*/
-/*}*/
-
-function add_events_data_points(date) {
-
+	// Create events data points on the upper part of the svg
 	d3.csv("static/data/events.csv").then(function (data) {
-
-		var svg = d3.select('#plot-events')
-		var plot_area = svg.append('g')
-
-		var bubble = d3.select("#main").append("div")
-			.attr("class", "tooltip")
-			.attr("id", "bubble-event")
-			.style("opacity", 0);
-
 		var event_window = d3.select("#main")
 			.append("div")
 			.attr("class", "half-window")
 			.attr("id", "half-window")
 			.style("opacity", 0)
-
-		plot_area.selectAll("circle")
+		plot_area.selectAll(".circle-event")
 			.data(data)
 			.enter()
 			.append("circle")
-			.attr("r", 0.5)
-			.attr("cx", d => select_random(300))
-			.attr("cy", d => select_random(60))
+			.style("r", "0.25vh")
+			.attr("class", "circle-event")
+			.attr("cx", d => xScale(get_date(d, true)))
+			.attr("cy", d => select_random(margin_tb, ((height / 2) - (margin_tb / 2))))
 			.style("visibility", "hidden")
 			.style("opacity", 0)
 			.on("mouseout", d => mouse_out_dot(bubble, d.Year, date))
-			.on("click", d => on_click_dot(event_window, d.Content, d.Day + " " + d.Month + " " + d.Year + "<hr class='hr-box-event' align='left'>", d.Summary + "<br><br>Read more on <a href=\"" + d.Wikipedia + "\">Wikipedia</a>", true))
+			.on("click", d => on_click_dot(event_window, d.Day + " " + d.Month + " " + d.Year + "<hr class='hr-box-event' align='right'>", d.Content, d.Summary + "<br><br><a href=\"" + d.Wikipedia + "\" class=\"href-wiki\"\" target=\"_blank\"\">Read more on Wikipedia</a> &#x2192;", true))
 			.on("mouseover", function (d) {
 				d3this = d3.select(this)
-				mouse_over_dot(d3this, bubble, d.Day + " " + d.Month + " " + d.Year + "<br><br>" + d.Content, true)
+				mouse_over_dot(d3this, bubble, d.Day + " " + d.Month + " " + d.Year + "<br><br>" + d.Content)
 			})
 	});
-}
 
-/*function event_x_pos(d){
-	return
-}*/
-
-function add_songs_data_points(date) {
-
+	// Create songs data points on the lower part of the svg
 	d3.csv("static/data/songs.csv").then(function (data) {
-		var svg = d3.select('#plot-songs')
-		var plot_area = svg.append('g')
-
-		var bubble = d3.select("#main").append("div")
-			.attr("class", "tooltip")
-			.attr("id", "bubble-song")
-			.style("opacity", 0);
-
 		var song_window = d3.select("#main")
 			.append("div")
 			.attr("class", "half-window")
 			.attr("id", "half-window")
 			.style("opacity", 0);
-
-		plot_area.selectAll("circle")
+		plot_area.selectAll(".circle-song")
 			.data(data)
 			.enter()
 			.append("circle")
-			.attr("r", 0.5)
-			.attr("cx", d => select_random(300))
-			.attr("cy", d => select_random(60))
+			.style("r", "0.25vh")
+			.attr("class", "circle-song")
+			.attr("cx", d => xScale(get_date(d, false)))
+			.attr("cy", d => select_random(height / 2 + margin_tb / 2, height - margin_tb))
 			.style("visibility", "hidden")
 			.style("opacity", 0)
 			.on("mouseout", d => mouse_out_dot(bubble, d.Year, date))
-			.on("click", d => on_click_dot(song_window, d.Artist + " - " + d.Song, "Year: " + d.Year + "&emsp;Rank: " + d.Rank + "&emsp;Album: " + d.Album + "&emsp;Genre: " + d.Genre + "<hr class='hr-box-song' align='left'>", d.Lyrics, false))
+			.on("click", d => on_click_dot(song_window, d.Song + " by " + d.Artist + "<hr class='hr-box-song' align='right'>", "Year: " + d.Year + "<br>Rank: " + d.Rank + "<br>Album: " + d.Album + "<br>Genre: " + d.Genre, d.Lyrics + "<br><br><a href=\"" + d.Youtube + "\" class=\"href-youtube\" target=\"_blank\"\">Watch the video on Youtube</a> &#x2192;", false))
 			.on("mouseover", function (d) {
 				d3this = d3.select(this)
 				mouse_over_dot(d3this, bubble, d.Artist + " - " + d.Song, false)
 			})
 	});
-}
 
-function update_visible_points(date) {
+	// Handle the mouseover and click event of the ticks
+	function make_year_clickable() {
+		d3.selectAll(".tick")
+			.on("mouseover", function () {
+				var current_date = +d3.select(this).text()
+				if (1967 <= current_date && current_date <= 2013) {
+					d3.select(this).select("text")
+						.transition().duration(DURATION)
+						.style("fill", "#f26627")
+						.style("cursor", "pointer")
+				}
+			})
+			.on("mouseout", function () {
+				var current_date = +d3.select(this).text()
+				if (1967 <= current_date && current_date <= 2013) {
+					d3.select(this).select("text")
+						.transition().duration(DURATION)
+						.style("fill", "#282828")
+						.style("cursor", "pointer")
+				}
+			})
+			.on("click", function () {
+				var current_date = +d3.select(this).text()
+				if (1967 <= current_date && current_date <= 2013) {
+					var min_date = new Date(current_date - 2, 0, 1)
+					var max_date = new Date(current_date + 2, 11, 31)
+					zoom_on_year(min_date, max_date)
+				}
+			})
+	}
 
-	d3.selectAll("circle")
-		.filter(function (d) {
-			return d.Year != date
-		})
-		.transition().duration(DURATION)
-		.style("opacity", 0)
+	// Handle the zoom function called on click of ticks
+	function zoom_on_year(min_date, max_date) {
+		xScale.domain([min_date, max_date])
+		xAxis = fc.axisBottom(xScale)
+			.tickArguments([5])
+			.tickCenterLabel(true)
+			.tickSizeInner(0)
+			.tickSizeOuter(0)
 
-	d3.selectAll("circle")
-		.filter(function (d) {
-			return d.Year == date
-		})
-		.style("visibility", "visible")
-		.transition().delay(DURATION*6)
-		.duration(DURATION*3)
-		.style("opacity", 1)
-		.on("end", function (d) {
-			d3.selectAll("circle")
-				.style("visibility", function (d) {
-					return d.Year == date ? "visible" : "hidden"
-				})
-		})
+		d3.select("#unzoom-button")
+			.style("visibility", "visible")
+			.transition().duration(1500)
+			.style("opacity", 1)
+
+		svg.select(".xaxis")
+			.transition().duration(1500)
+			.call(xAxis)
+			.on("end", function () {
+				make_year_clickable()
+			})
+
+		plot_area.selectAll(".circle-event")
+			.style("visibility", "visible")
+			.transition().duration(1500)
+			.attr("cx", d => xScale(get_date(d, true)))
+			.style("opacity", 1)
+		plot_area.selectAll(".circle-song")
+			.style("visibility", "visible")
+			.transition().duration(1500)
+			.attr("cx", d => xScale(get_date(d, false)))
+			.style("opacity", 1)
+	}
+
+	function unzoom() {
+		xScale.domain([mindate, maxdate])
+		xAxis = fc.axisBottom(xScale)
+			.tickArguments([51])
+			.tickCenterLabel(true)
+			.tickSizeInner(0)
+			.tickSizeOuter(0)
+
+		d3.select("#unzoom-button")
+			.transition().duration(1500)
+			.style("opacity", 0)
+			.on("end", function () {
+				d3.select(this)
+					.style("visibility", "hidden")
+			})
+
+		svg.select(".xaxis")
+			.transition().duration(1500)
+			.call(xAxis)
+			.on("end", function () {
+				make_year_clickable()
+			})
+
+		plot_area.selectAll(".circle-event")
+			.transition().duration(1500)
+			.attr("cx", d => xScale(get_date(d, true)))
+			.style("opacity", 0)
+			.on("end", function () {
+				plot_area.selectAll(".circle-event")
+					.style("visibility", "hidden")
+			})
+		plot_area.selectAll(".circle-song")
+			.transition().duration(1500)
+			.attr("cx", d => xScale(get_date(d, false)))
+			.style("opacity", 0)
+			.on("end", function () {
+				plot_area.selectAll(".circle-song")
+					.style("visibility", "hidden")
+			})
+	}
 }
 
 function make_arrows_clickable() {
@@ -171,6 +237,19 @@ function make_arrows_clickable() {
 				.style("cursor", "pointer")
 		})
 		.on("click", function () {
+			// Close the half windows
+			d3.selectAll(".half-window")
+				.transition().duration(DURATION)
+				.style("opacity", 0)
+				.on("end", function () {
+					window.transition().delay(DURATION)
+						.style("visibility", "hidden")
+					window.selectAll('p')
+						.remove()
+					window.selectAll('img')
+						.remove()
+				})
+			// Close the menu
 			d3.select("#menu")
 				.transition().duration(DURATION)
 				.style("left", "-30vw")
@@ -178,7 +257,6 @@ function make_arrows_clickable() {
 					var element = document.getElementById("description")
 					scroll_to_element(element)
 				})
-
 		})
 
 	d3.select("#arrow-down-description")
@@ -200,193 +278,6 @@ function make_arrows_clickable() {
 			var element = document.getElementById("main")
 			scroll_to_element(element)
 		})
-}
-
-function my_func(element){
-	console.log("clicked:", element)
-}
-
-function create_time_line_container() {
-
-	var tl_container = d3.select(".tl-container")
-
-	tl_container.append('h1')
-		.attr("class", "h1-tl")
-		.attr("id", "h1-tl")
-		.html('choose a year')
-
-	var width = +tl_container.style('width').slice(0, -2)
-	var height = +tl_container.style('height').slice(0, -2)
-
-// create an svg container
-  var vis = d3.select(".tl-container").append("svg:svg")
-					//.attr("preserveAspectRatio", "xMidYMid meet")
-					//.attr("viewBox", "0 0 300 150")
-          .style("width", "100vw")
-
-	var mindate = new Date(1965,0,1),
-      maxdate = new Date(2015,0,31);
-
-	var xScale = d3.scaleTime().domain([mindate, maxdate]).range([0, width])//.nice();
-
-	// define the x axis
-  var xAxisGenerator = d3.axisBottom(xScale)
-								.ticks(50)
-								.tickSizeOuter(0)
-								.tickSizeInner(0);
-
-	var xAxis = vis.append("g")
-	            .attr("transform", "translate(0," + (height/2) + ")")
-							.attr("class", "grid-container")
-	            .call(xAxisGenerator);
-
-	// rend la timeline responsive
-	window.addEventListener('resize', drawChart);
-
-	make_grid_items_clickable()
-
-	//d3.selectAll(".ticks")
-	//.select("text")
-	//.style("font-size", "0.6vw")
-	//.style("font-family", "ubuntu-bold")
-	//.style("color", "#282828")
-
-
-	// bricolage pour rendre le timeline responsive
-	function drawChart() {
-    // reset the width
-    width = +tl_container.style('width').slice(0, -2)
-
-    // set the svg dimensions
-    vis.attr("width", width);
-
-    // Set new range for xScale
-    xScale.range([0, width]);
-
-    // draw the new xAxis
-    xAxis.call(xAxisGenerator);
-
-		//xScale.domain([2010, 2012])
-		//xAxis.transition().duration(1000).call(d3.axisBottom(xScale))
-
-		//xAxis.attr("transform", d3.event.transform);
-  	//xAxis.call(xAxisGenerator.scale(d3.event.transform.rescaleX(xScale)));
-		//make_grid_items_clickable()
-	}
-
-	function make_grid_items_clickable() {
-		var clicked = false
-		d3.selectAll(".tick")
-			.on("mouseover", function () {
-				d3.select(this)
-					.transition().duration(DURATION)
-					.style("color", "#f26627")
-					.style("cursor", "pointer")
-			})
-			.on("mouseout", function () {
-				d3.select(this)
-					.transition().duration(DURATION)
-					.style("color", "#282828")
-			})
-			.on("click", function () {
-				d3.select(this)
-					.style("color", "#f26627")
-				if (!clicked) {
-					d3.select("#h1-tl")
-						.transition().duration(DURATION / 2)
-						.style("opacity", 0)
-						.on("end", function () {
-							d3.select("#h1-tl")
-								.html("events / songs")
-								.transition().duration(DURATION / 2)
-								.style("opacity", 1)
-							clicked = true
-						})
-				}
-
-				// TODO : check if these should be there
-				zoom_on_year(this);
-				update_visible_points(d3.select(this).text())
-
-				//d3.select("#h1-tl").on("click", unzoom)
-
-			})
-
-	}
-
-	function unzoom(){
-
-		// Set new range for xScale
-    xScale.domain([mindate, maxdate])//.range([0, width]);
-
-		xAxisGenerator.scale(xScale)//.ticks(3).tickFormat(d3.timeFormat("%Y"))
-
-    // draw the new xAxis
-    xAxis.transition().duration(1500).call(xAxisGenerator);
-
-		// Attempt to change the size of the year text >> to try again
-		/*d3.select(elem).select("text")
-		.attr("transform", "translate(0," + (-height/2) + ")")
-		.transition().style("font-size", "20")*/
-
-
-		make_grid_items_clickable()
-	}
-
-	function zoom_on_year(elem){
-
-		y = d3.select(elem).text()
-
-		// Set new range for xScale
-    xScale.domain([new Date(+y-1,0,1), new Date(+y+1,0,31)])//.range([0, width]);
-
-		xAxisGenerator.scale(xScale).ticks(3).tickFormat(d3.timeFormat("%Y"))
-
-    // draw the new xAxis
-    xAxis.transition().duration(1500).call(xAxisGenerator);
-
-		// Attempt to change the size of the year text >> to try again
-		/*d3.select(elem).select("text")
-		.attr("transform", "translate(0," + (-height/2) + ")")
-		.transition().style("font-size", "20")*/
-
-
-		make_grid_items_clickable()
-
-	}
-
-
-	//d3.selectAll(".tick")
-		//.on("click", my_func(this))
-		//.attr("class", ".grid-item")
-
-	/*var tl_container = d3.select("#main").append("div")
-		.attr("class", "tl-container")
-		.attr("id", "tl-container")
-		//.append("svg", )
-		//.attr("viewBox", [0, 0, 100, 100])
-		//.attr("id", "zoom_svg")
-		//.append("g")
-	 	//.attr("id", "zoom_g");
-
-	tl_container.append('h1')
-		.attr("class", "h1-tl")
-		.attr("id", "h1-tl")
-		.html('choose a year')
-
-	tl_container.append('line')
-		.attr("class", "timeline")
-		.attr("id", "timeline")
-
-	grid_container = tl_container.append('div')
-		.attr("id", "grid-container")
-		.attr("class", "grid-container")
-
-	for (var i = 1965; i <= 2015; i++) {
-		grid_container.append("div")
-			.attr("class", "grid-item")
-			.html(i)
-	}*/
 }
 
 function make_team_clickable() {
@@ -565,20 +456,24 @@ function create_menu() {
 				.style("cursor", "pointer")
 		})
 		.on("click", function () {
-			menu.transition().duration(DURATION)
-				.style("left", "0vw")
+			// Close the half windows
+			d3.selectAll(".half-window")
+				.transition().duration(DURATION)
+				.style("opacity", 0)
+				.on("end", function () {
+					d3.selectAll(".half-window").style("visibility", "hidden")
+					d3.selectAll(".half-window").selectAll('p').remove()
+					d3.selectAll(".half-window").selectAll('img').remove()
+					menu.transition().duration(DURATION)
+						.style("left", "0vw")
+				})
 		})
 }
 
 whenDocumentLoaded(() => {
 	// When the document is loaded, we make the year ticks clickable and we add the data points but invisible
-	console.log("document loaded")
-	create_time_line_container()
-	add_events_data_points()
-	add_songs_data_points()
-	//make_grid_items_clickable()
+	add_data_points()
 	make_arrows_clickable()
 	make_team_clickable()
 	create_menu()
-	//add_zoom_listener()
 })
