@@ -140,3 +140,39 @@ function hide_button(id) {
                 .style("visibility", "hidden")
         })
 }
+
+function parse_refs (refs_str) {
+	var refs = new Set();
+	refs_str.replace("{", "").replace("}", "").split(",").forEach( e => {
+	refs.add(parseInt(e, 10))
+	});
+	return refs
+}
+		
+function parse_entities (d) {
+	const entities = []
+data.Ents.replace("[", "").replace("]", "").split(",").forEach( e => {
+	var s = e;
+	while(s.charAt(0) === ' ' || s.charAt(0) === "\"" || s.charAt(0) === "\'")
+		{
+		 s = s.substr(1);
+		}
+	s = s.substring(0, s.length - 1);
+	entities.push(s)
+	});
+	return entities
+}
+
+function parse_entities_types (d) {
+	const entities_types = []
+	d.Ents_types.replace("[", "").replace("]", "").split(",").forEach( e => {
+		var s = e;
+		while(s.charAt(0) === ' ' || s.charAt(0) === "\"" || s.charAt(0) === "\'")
+			{
+			 s = s.substr(1);
+			}
+		s = s.substring(0, s.length - 1);
+		entities_types.push(s)
+	});
+	return entities_types
+}
