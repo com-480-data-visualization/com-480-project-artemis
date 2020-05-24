@@ -24,6 +24,8 @@
 
 	<div class="main-window" id="main">
 		<img id="open-menu-button" src="{{ url_for('static',filename='img/open_menu.png') }}" class="open-menu">
+		<img id="remove-filter-button" src="{{ url_for('static',filename='img/trash_orange.png') }}"
+			class="remove-filter-button">
 		<img id="unzoom-button" src="{{ url_for('static',filename='img/unzoom_orange.png') }}" class="unzoom">
 		<div class="plot" id="plot-div">
 			<svg id="plot"></svg>
@@ -36,36 +38,48 @@
 		<h1>ARTEMIS PROJECT</h1>
 		<hr>
 		</hr>
-		<p>
-			<b>Idea</b><br><br>
-			Our goal was to design and create a simple, easy-to-use and interactive vizualisation aiming to show whether
-			there exists any link between historical events and songs, through their lyrics.
-			Indeed the <i>Billboard Hot 100</i> is the music industry standard record chart in the United States for
-			songs, published weekly by Billboard magazine. Chart rankings are based on phsyical and digital
-			sales, radio play and since recently, online streaming in the United States. At the end of each year
-			<i>Billboard</i> magazine publishes the <i>Year-End Hot 100</i> singles, which basically
-			means the biggest successes of the year. The purpose of this project is thus to investiguate whether the
-			fact that a song is related to a major event could make it a great success.
-
-			<br><br><b>Datasets</b><br><br>
-			Our goal was to design and create a simple, easy-to-use and interactive vizualisation aiming to show whether
-			there exists any link between historical events and songs, through their lyrics.
-			Indeed the <i>Billboard Hot 100</i> is the music industry standard record chart in the United States for
-			songs, published weekly by Billboard magazine. Chart rankings are based on phsyical and digital
-			sales, radio play and since recently, online streaming in the United States. At the end of each year
-			<i>Billboard</i> magazine publishes the <i>Year-End Hot 100</i> singles, which basically
-			means the biggest successes of the year. The purpose of this project is thus to investiguate whether the
-			fact that a song is related to a major event could make it a great success.
-			<br><br><b>NLP</b><br><br>
-			Our goal was to design and create a simple, easy-to-use and interactive vizualisation aiming to show whether
-			there exists any link between historical events and songs, through their lyrics.
-			Indeed the <i>Billboard Hot 100</i> is the music industry standard record chart in the United States for
-			songs, published weekly by Billboard magazine. Chart rankings are based on phsyical and digital
-			sales, radio play and since recently, online streaming in the United States. At the end of each year
-			<i>Billboard</i> magazine publishes the <i>Year-End Hot 100</i> singles, which basically
-			means the biggest successes of the year. The purpose of this project is thus to investiguate whether the
-			fact that a song is related to a major event could make it a great success.
-		</p>
+		<div class="description-c1" id="description-c1">
+			<h2>Idea</h2>
+			<p>
+				Our goal was to design and create a simple, easy-to-use and interactive vizualisation aiming to show
+				whether
+				there exists any link between historical events and songs, through their lyrics.
+				Indeed the <i>Billboard Hot 100</i> is the music industry standard record chart in the United States for
+				songs, published weekly by Billboard magazine. Chart rankings are based on phsyical and digital
+				sales, radio play and since recently, online streaming in the United States. At the end of each year
+				<i>Billboard</i> magazine publishes the <i>Year-End Hot 100</i> singles, which basically
+				means the biggest successes of the year. The purpose of this project is thus to investiguate whether the
+				fact that a song is related to a major event could make it a great success.
+			</p>
+		</div>
+		<div class="description-c2" id="description-c2">
+			<h2>Datasets</h2>
+			<p>
+				Our goal was to design and create a simple, easy-to-use and interactive vizualisation aiming to show
+				whether
+				there exists any link between historical events and songs, through their lyrics.
+				Indeed the <i>Billboard Hot 100</i> is the music industry standard record chart in the United States for
+				songs, published weekly by Billboard magazine. Chart rankings are based on phsyical and digital
+				sales, radio play and since recently, online streaming in the United States. At the end of each year
+				<i>Billboard</i> magazine publishes the <i>Year-End Hot 100</i> singles, which basically
+				means the biggest successes of the year. The purpose of this project is thus to investiguate whether the
+				fact that a song is related to a major event could make it a great success.
+			</p>
+		</div>
+		<div class="description-c3" id="description-c3">
+			<h2>NLP</h2>
+			<p>
+				Our goal was to design and create a simple, easy-to-use and interactive vizualisation aiming to show
+				whether
+				there exists any link between historical events and songs, through their lyrics.
+				Indeed the <i>Billboard Hot 100</i> is the music industry standard record chart in the United States for
+				songs, published weekly by Billboard magazine. Chart rankings are based on phsyical and digital
+				sales, radio play and since recently, online streaming in the United States. At the end of each year
+				<i>Billboard</i> magazine publishes the <i>Year-End Hot 100</i> singles, which basically
+				means the biggest successes of the year. The purpose of this project is thus to investiguate whether the
+				fact that a song is related to a major event could make it a great success.
+			</p>
+		</div>
 
 		<img id="arrow-down-description" src="{{ url_for('static',filename='img/arrow_down_white.png') }}"
 			class="arrow_down">

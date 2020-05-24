@@ -2,7 +2,6 @@
 
 @font-face {
   font-family: ubuntu-bold;
-
   src: url("/static/fonts/ubuntu-bold-webfont.woff") format('woff');
 }
 
@@ -136,6 +135,14 @@ img.open-menu {
 	z-index: 1000;
 }
 
+img.remove-filter-button {
+	position: absolute;
+	width: 2vw;
+	left: 6vw;
+	top: 1.8vw;
+	z-index: 1000;
+}
+
 div.filters {
 	position: absolute;
 	top: 5vw;
@@ -184,6 +191,17 @@ h1.title-menu {
 div.filter-button {
 	position: absolute;
 	display: table;
+	bottom: 11vh;
+	left: 2vw;
+	height: 4vh;
+	width: 20vw;
+	background-color: white;
+	z-index: 1000;
+}
+
+div.remove-button {
+	position: absolute;
+	display: table;
 	bottom: 5vh;
 	left: 2vw;
 	height: 4vh;
@@ -193,6 +211,18 @@ div.filter-button {
 }
 
 p.filter-button-text {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	font-family: "heavitas";
+	color: #282828;
+	font-size: 1.4vw;
+	font-weight: 100;
+	margin: 0;
+	padding: 0;
+}
+
+p.remove-button-text {
 	display: table-cell;
 	vertical-align: middle;
 	text-align: center;
@@ -242,12 +272,22 @@ h1.h1-tl {
 	margin-bottom: 0;
 }
 
+text.title {
+	position: absolute;
+	top: 50vh;
+	left: 50vw;
+	font-family: "heavitas";
+	font-size: 1.4vw;
+	font-weight: 100;
+	fill: #282828;
+}
+
 /* ------------------------ Half screen window ------------------------*/
 
 div.half-window {
 	position: absolute;
 	width: 100%;
-	height: 49.9vh;
+	height: 50vh;
 	background: #f26627;
 }
 
@@ -320,7 +360,7 @@ p.title-box {
 div.description {
 	position: relative;
 	width: 100vw;
-	height: auto;
+	height: 60vh;
 	background: #f26627;
 	padding-top:5vh;
 	padding-bottom: 5vh;
@@ -335,16 +375,44 @@ div.description {
 }
 
 .description p {
-	column-count: 3;
-	column-gap: 4vw;
-	margin-right: 10vw;
-	margin-left: 10vw;
 	font-family: "ubuntu-light";
 	font-size: 1vw;
-	text-align: justify;
 	color: white;
 	margin-bottom: 5vh;
+	text-align: justify;
+}
+
+.description h2 {
+	font-family: "ubuntu-bold";
+	font-size: 1vw;
+	color: white;
+	margin-bottom: 1vh;
 	margin-top: 5vh;
+	text-align: center;
+}
+
+div.description-c1 {
+	position: absolute;
+	left: 10vw;
+	width: 24vw;
+	margin: 0;
+	padding: 0;
+}	
+
+div.description-c2 {
+	position: absolute;
+	left: 38vw;
+	width: 24vw;
+	margin: 0;
+	padding: 0;
+}
+
+div.description-c3 {
+	position: absolute;
+	left: 66vw;
+	width: 24vw;
+	margin: 0;
+	padding: 0;
 }
 
 .description hr {
@@ -371,8 +439,8 @@ div.footer {
 }
 
 .footer hr {
-	margin-top: 2vh;
-	margin-bottom: 2vh;
+	margin-top: 5vh;
+	margin-bottom: 5vh;
 	width: 5vw;
 	background-color: #282828;
 	border-width: 0;
@@ -382,7 +450,6 @@ div.footer {
 div.team {
 	display: inline-block;
 	text-align: center;
-	margin-top: 5vh;
 }
 
 div.member {

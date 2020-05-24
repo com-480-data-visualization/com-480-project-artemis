@@ -3,6 +3,8 @@
     and pixel to viewport height functions */
 
 function scroll_to_element(element) {
+    /*  This function handles the scrolling animation to a given div element. */
+
     var offsetTop = window.pageYOffset || document.documentElement.scrollTop
     d3.transition()
         .delay(1)
@@ -15,36 +17,45 @@ function scroll_to_element(element) {
 }
 
 function select_random(min, max) {
+    /*  This function returns a random float number between min and max. */
+
     min = Math.ceil(min)
     max = Math.floor(max)
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 function px_to_vw(value) {
+    /* This function converts a value in pixels into a value in 
+        the viewport width coordinates (vw) */
+
     var w = window,
         d = document,
         e = d.documentElement,
         g = d.getElementsByTagName('body')[0],
         x = w.innerWidth || e.clientWidth || g.clientWidth,
         y = w.innerHeight || e.clientHeight || g.clientHeight;
-
     var result = (100 * value) / x;
     return result;
 }
 
 function px_to_vh(value) {
+    /* This function converts a value in pixels into a value in 
+        the viewport height coordinates (vh) */
+
     var w = window,
         d = document,
         e = d.documentElement,
         g = d.getElementsByTagName('body')[0],
         x = w.innerWidth || e.clientWidth || g.clientWidth,
         y = w.innerHeight || e.clientHeight || g.clientHeight;
-
     var result = (100 * value) / y;
     return result;
 }
 
 function get_date(d, is_event) {
+    /*  This function returns the date of the data transformed into 
+        the right date format of javascript. */
+
     if (is_event) {
         var date = new Date(d.Month + " " + d.Day + ", " + d.Year)
     }
@@ -53,4 +64,79 @@ function get_date(d, is_event) {
         var date = new Date(d.Year, select_random(1, 10), select_random(1, 30))
     }
     return date
+}
+
+function event_fields_empty() {
+    /*  This function checks whether the input text fields associated to 
+        the event data points are all empty. */
+
+    var empty_field = (document.getElementById("year-event-field").value == "" &&
+        document.getElementById("month-field").value == "" &&
+        document.getElementById("day-field").value == "")
+    return empty_field
+}
+
+function song_fields_empty() {
+    /*  This function checks whether the input text fields associated to 
+        the song data points are all empty. */
+
+    var empty_field = (document.getElementById("song-field").value == "" &&
+        document.getElementById("artist-field").value == "" &&
+        document.getElementById("album-field").value == "" &&
+        document.getElementById("year-song-field").value == "" &&
+        document.getElementById("rank-field").value == "" &&
+        document.getElementById("genre-field").value == "" &&
+        document.getElementById("lyrics-field").value == "")
+    return empty_field
+}
+
+function title_to_subtitle() {
+    /*  This function switches the title of the plot area from
+        "SELECT A YEAR" to "EVENTS / SONGS" */
+
+    d3.selectAll("svg text.title")
+        .transition().duration(750)
+        .style("opacity", 0)
+        .on("end", function () {
+            d3.selectAll("svg text.title")
+                .html("&#8593; Events / Songs &#8595;")
+                .transition().duration(750)
+                .style("opacity", 1)
+        })
+}
+
+function subtitle_to_title() {
+    /*  This function switches the title of the plot area from
+        "EVENTS / SONGS" to "SELECT A YEAR" */
+
+    d3.selectAll("svg text.title")
+        .transition().duration(750)
+        .style("opacity", 0)
+        .on("end", function () {
+            d3.selectAll("svg text.title")
+                .html("select a year")
+                .transition().duration(750)
+                .style("opacity", 1)
+        })
+}
+
+function show_button(id) {
+    /* This function shows the button with the id "id" */
+
+    d3.select(id)
+        .style("visibility", "visible")
+        .transition().duration(1500)
+        .style("opacity", 1)
+}
+
+function hide_button(id) {
+    /* This function hides the button with the id "id" */
+
+    d3.select(id)
+        .transition().duration(1500)
+        .style("opacity", 0)
+        .on("end", function () {
+            d3.select(id)
+                .style("visibility", "hidden")
+        })
 }
