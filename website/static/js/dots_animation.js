@@ -37,23 +37,23 @@ function mouse_over_dot(selection, bubble, text, refs, is_event) {
     d3.selectAll("circle")
         .transition().duration(DURATION)
         .style("opacity", 0.25)
-	
-	hovered_color = (event_clicked || song_clicked) ? '#282828' : '#f26627'
-	// Color on hovered item
+
+    hovered_color = (event_clicked || song_clicked) ? '#282828' : '#f26627'
+    // Color on hovered item
     selection
         .transition().duration(DURATION)
         .attr("fill", hovered_color)
         .style("r", "0.75vh")
-		.style("opacity", 1)
-		
-	// Color on items that are references
-	var to_select = is_event ? ".circle-song" : ".circle-event"
-	d3.selectAll(to_select)
-		.filter(d => parse_refs(refs).has(parseInt(d[""]))) // "" is index column
+        .style("opacity", 1)
+
+    // Color on items that are references
+    var to_select = is_event ? ".circle-song-visible" : ".circle-event-visible"
+    d3.selectAll(to_select)
+        .filter(d => parse_refs(refs).has(parseInt(d[""]))) // "" is index column
         .transition().duration(DURATION)
         .attr("fill", '#f26627')
         .style("r", "0.50vh")
-		.style("opacity", 1)
+        .style("opacity", 1)
 }
 
 function mouse_out_dot(bubble) {
@@ -66,27 +66,27 @@ function mouse_out_dot(bubble) {
         .style("opacity", 0);
 
     // Reinitialize dots property
-	if (! event_clicked) {
-		d3.selectAll(".circle-song")
-			.transition().duration(DURATION)
-			.style("opacity", 1)
-			.attr("fill", '#282828')
-			.style("r", "0.25vh")
-	}
-	
-	if (! song_clicked) {
-		d3.selectAll(".circle-event")
-			.transition().duration(DURATION)
-			.style("opacity", 1)
-			.attr("fill", '#282828')
-			.style("r", "0.25vh")
-	}
-/*
-    d3.selectAll("circle")
-        .transition().duration(DURATION)
-        .style("opacity", 1)
-        .attr("fill", '#282828')
-        .style("r", "0.25vh")*/
+    if (!event_clicked) {
+        d3.selectAll(".circle-song")
+            .transition().duration(DURATION)
+            .style("opacity", 1)
+            .attr("fill", '#282828')
+            .style("r", "0.25vh")
+    }
+
+    if (!song_clicked) {
+        d3.selectAll(".circle-event")
+            .transition().duration(DURATION)
+            .style("opacity", 1)
+            .attr("fill", '#282828')
+            .style("r", "0.25vh")
+    }
+    /*
+        d3.selectAll("circle")
+            .transition().duration(DURATION)
+            .style("opacity", 1)
+            .attr("fill", '#282828')
+            .style("r", "0.25vh")*/
 }
 
 function on_click_dot(window, title, subtitle, content, refs, is_event) {
@@ -99,12 +99,12 @@ function on_click_dot(window, title, subtitle, content, refs, is_event) {
     var bg_color = is_event ? "#f26627" : "rgb(233, 233, 233)"
     var style_top = is_event ? "0px" : "50vh"
     var style_left = "0px"
-	
-	if (is_event) {
-		event_clicked = true;
-	} else {
-		song_clicked = true;
-	}
+
+    if (is_event) {
+        event_clicked = true;
+    } else {
+        song_clicked = true;
+    }
 
     // Show the half window
     window.style("visibility", "visible")
@@ -118,11 +118,11 @@ function on_click_dot(window, title, subtitle, content, refs, is_event) {
         .attr("src", icon_path)
         // Handle the click event
         .on("click", function () {
-			if (is_event) {
-				event_clicked = false;
-			} else {
-				song_clicked = false;
-			}
+            if (is_event) {
+                event_clicked = false;
+            } else {
+                song_clicked = false;
+            }
             window.transition().duration(DURATION)
                 .style("opacity", 0)
                 .on("end", function () {
@@ -139,10 +139,10 @@ function on_click_dot(window, title, subtitle, content, refs, is_event) {
             d3.select(this)
                 .style("cursor", "pointer")
         })
-	
-	// Color on items that are references
-	// TODO Finish
-	var to_select = is_event ? ".circle-song" : ".circle-event"
+
+    // Color on items that are references
+    // TODO Finish
+    var to_select = is_event ? ".circle-song" : ".circle-event"
 	/*
 	d3.selectAll(to_select)
 		.filter(d => ! parse_refs(refs).has(parseInt(d[""]))) // "" is index column
@@ -153,8 +153,8 @@ function on_click_dot(window, title, subtitle, content, refs, is_event) {
 			.filter(d => ! parse_refs(refs).has(parseInt(d[""]))) // "" is index column
 			.style("visibility", "hidden")
 		})*/
-		
-	
+
+
     // Format the space in the half window div
     var left_div = window.append("div")
         .attr("class", "left-div")
@@ -163,14 +163,14 @@ function on_click_dot(window, title, subtitle, content, refs, is_event) {
         .html(title + subtitle)
     if (is_event) {
         var right_div = window.append("div")
-        .attr("class", "right-div-event")
+            .attr("class", "right-div-event")
         right_div.append('p')
             .attr("class", "p-box-event")
             .html(content)
     }
     else {
         var right_div = window.append("div")
-        .attr("class", "right-div-song")
+            .attr("class", "right-div-song")
         right_div.append('p')
             .attr("class", "p-box-song")
             .html(content.replace("\n\n", "\n"))
@@ -209,7 +209,9 @@ function zoom_in(xScale, min_date, max_date, zoomed_in) {
         .on("end", function () {
             make_year_clickable(xScale)
         })
-    if (!filtered_data) {
+
+    // If already zoomed in we only want to change position of visible points
+    if (!zoomed_in && !filtered_data) {
         d3.select("#plot-area").selectAll(".circle-event-hidden")
             .style("visibility", "visible")
             .transition().duration(1500)
@@ -230,6 +232,7 @@ function zoom_in(xScale, min_date, max_date, zoomed_in) {
                     .attr("class", "circle-song-visible")
             })
     }
+    // If not zoomed in we show all points
     else {
         d3.select("#plot-area").selectAll(".circle-event-visible")
             .transition().duration(1500)
