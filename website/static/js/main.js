@@ -150,17 +150,15 @@ function add_data_points(date) {
 			.attr("class", "half-window")
 			.attr("id", "half-window")
 			.style("opacity", 0)
-		
-		plot_area.selectAll(".circle-event")
+		plot_area.selectAll("#circle-event")
 			.data(data)
 			.enter()
 			.append("circle")
 			.style("r", "0.25vh")
-			.attr("class", "circle-event")
+			.attr("id", "circle-event")
+			.attr("class", "circle-event-hidden")
 			.attr("cx", d => xScale(get_date(d, true)))
 			.attr("cy", d => select_random(margin_tb, ((height / 2) - (margin_tb / 2))))
-			.style("visibility", "hidden")
-			.style("opacity", 0)
 			.on("mouseout", d => mouse_out_dot(bubble))
 			.on("click", d => on_click_dot(event_window, d.Day + " " + d.Month + " " + d.Year + "<hr class='hr-box-event' align='right'>",
 				d.Content, d.Summary + "<br><br><a href=\"" + d.Wikipedia + "\" class=\"href-wiki\"\" target=\"_blank\"\">Read more on Wikipedia</a> &#x2192;",
@@ -178,16 +176,15 @@ function add_data_points(date) {
 			.attr("class", "half-window")
 			.attr("id", "half-window")
 			.style("opacity", 0);
-		plot_area.selectAll(".circle-song")
+		plot_area.selectAll("#circle-song")
 			.data(data)
 			.enter()
 			.append("circle")
 			.style("r", "0.25vh")
-			.attr("class", "circle-song")
+			.attr("id", "circle-song")
+			.attr("class", "circle-song-hidden")
 			.attr("cx", d => xScale(get_date(d, false)))
 			.attr("cy", d => select_random(height / 2 + margin_tb / 2, height - margin_tb))
-			.style("visibility", "hidden")
-			.style("opacity", 0)
 			.on("mouseout", d => mouse_out_dot(bubble))
 			.on("click", d => on_click_dot(song_window, 
 				d.Song + " by " + d.Artist + "<hr class='hr-box-song' align='right'>", "Year: " + d.Year + "<br>Rank: " + d.Rank + "<br>Album: " + d.Album + "<br>Genre: " + d.Genre, d.Lyrics + "<br><br><a href=\"" + d.Youtube + "\" class=\"href-youtube\" target=\"_blank\"\">Watch the video on Youtube</a> &#x2192;", 

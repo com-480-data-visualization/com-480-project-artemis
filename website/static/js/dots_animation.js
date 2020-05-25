@@ -161,11 +161,20 @@ function on_click_dot(window, title, subtitle, content, refs, is_event) {
     left_div.append('p')
         .attr("class", "title-box")
         .html(title + subtitle)
-    var right_div = window.append("div")
-        .attr("class", "right-div")
-    right_div.append('p')
-        .attr("class", "p-box")
-        .html(content)
+    if (is_event) {
+        var right_div = window.append("div")
+        .attr("class", "right-div-event")
+        right_div.append('p')
+            .attr("class", "p-box-event")
+            .html(content)
+    }
+    else {
+        var right_div = window.append("div")
+        .attr("class", "right-div-song")
+        right_div.append('p')
+            .attr("class", "p-box-song")
+            .html(content.replace("\n\n", "\n"))
+    }
     window
         .style("top", style_top)
         .style("left", style_left)
@@ -181,7 +190,6 @@ function zoom_in(xScale, min_date, max_date, zoomed_in) {
     if (!zoomed_in && !filtered_data) {
         title_to_subtitle()
     }
-    zoomed_in = true
 
     // Handle the x-axis
     xScale.domain([min_date, max_date])
@@ -202,25 +210,35 @@ function zoom_in(xScale, min_date, max_date, zoomed_in) {
             make_year_clickable(xScale)
         })
     if (!filtered_data) {
-        d3.select("#plot-area").selectAll(".circle-event")
+        d3.select("#plot-area").selectAll(".circle-event-hidden")
             .style("visibility", "visible")
             .transition().duration(1500)
             .attr("cx", d => xScale(get_date(d, true)))
             .style("opacity", 1)
-        d3.select("#plot-area").selectAll(".circle-song")
+            .on("end", function () {
+                d3.select("#plot-area").selectAll(".circle-event-hidden")
+                    .attr("class", "circle-event-visible")
+            })
+
+        d3.select("#plot-area").selectAll(".circle-song-hidden")
             .style("visibility", "visible")
             .transition().duration(1500)
             .attr("cx", d => xScale(get_date(d, false)))
             .style("opacity", 1)
+            .on("end", function () {
+                d3.select("#plot-area").selectAll(".circle-song-hidden")
+                    .attr("class", "circle-song-visible")
+            })
     }
     else {
-        d3.select("#plot-area").selectAll(".circle-event")
+        d3.select("#plot-area").selectAll(".circle-event-visible")
             .transition().duration(1500)
             .attr("cx", d => xScale(get_date(d, true)))
-        d3.select("#plot-area").selectAll(".circle-song")
+        d3.select("#plot-area").selectAll(".circle-song-visible")
             .transition().duration(1500)
             .attr("cx", d => xScale(get_date(d, false)))
     }
+    zoomed_in = true
 }
 
 function zoom_out(xScale) {
@@ -231,7 +249,6 @@ function zoom_out(xScale) {
     if (!filtered_data) {
         subtitle_to_title()
     }
-    zoomed_in = false
 
     // Update x-axis
     xScale.domain([mindate, maxdate])
@@ -252,31 +269,35 @@ function zoom_out(xScale) {
 
     // Update data points position
     if (!filtered_data) {
-        d3.select("#plot-area").selectAll(".circle-event")
+        d3.select("#plot-area").selectAll(".circle-event-visible")
             .transition().duration(1500)
             .attr("cx", d => xScale(get_date(d, true)))
             .style("opacity", 0)
             .on("end", function () {
-                d3.select("#plot-area").selectAll(".circle-event")
+                d3.select("#plot-area").selectAll(".circle-event-visible")
                     .style("visibility", "hidden")
+                    .attr("class", "circle-event-hidden")
+
             })
-        d3.select("#plot-area").selectAll(".circle-song")
+        d3.select("#plot-area").selectAll(".circle-song-visible")
             .transition().duration(1500)
             .attr("cx", d => xScale(get_date(d, false)))
             .style("opacity", 0)
             .on("end", function () {
-                d3.select("#plot-area").selectAll(".circle-song")
+                d3.select("#plot-area").selectAll(".circle-song-visible")
                     .style("visibility", "hidden")
+                    .attr("class", "circle-song-hidden")
             })
     }
     else {
-        d3.select("#plot-area").selectAll(".circle-event")
+        d3.select("#plot-area").selectAll(".circle-event-visible")
             .transition().duration(1500)
             .attr("cx", d => xScale(get_date(d, true)))
-        d3.select("#plot-area").selectAll(".circle-song")
+        d3.select("#plot-area").selectAll(".circle-song-visible")
             .transition().duration(1500)
             .attr("cx", d => xScale(get_date(d, false)))
     }
+    zoomed_in = false
 }
 
 function make_year_clickable(xScale) {
@@ -319,135 +340,76 @@ function make_year_clickable(xScale) {
         })
 }
 
+function get_event_query(d) {
+    query = d.Year.includes(document.getElementById("year-event-field").value) &&
+        d.Month.includes(document.getElementById("month-field").value) &&
+        d.Day.includes(document.getElementById("day-field").value)
+    return query
+}
+
+function get_song_query(d) {
+    query = d.Song.includes(document.getElementById("song-field").value) &&
+        d.Artist.includes(document.getElementById("artist-field").value) &&
+        d.Album.includes(document.getElementById("album-field").value) &&
+        d.Year.includes(document.getElementById("year-song-field").value) &&
+        d.Rank.includes(document.getElementById("rank-field").value) &&
+        d.Genre.includes(document.getElementById("genre-field").value) &&
+        d.Lyrics.includes(document.getElementById("lyrics-field").value)
+    return query
+}
+
 function update_event_points_given_query(zoomed_in) {
     /*  This function handles the filters passed by the user in the filter menu
         to the event data points */
 
     if (zoomed_in) {
-        d3.select("#plot-area").selectAll(".circle-event")
+        d3.select("#plot-area").selectAll("#circle-event")
             .transition().duration(1500)
-            .style("opacity", d => {
-                if (d.Year.includes(document.getElementById("year-event-field").value) &&
-                    d.Month.includes(document.getElementById("month-field").value) &&
-                    d.Day.includes(document.getElementById("day-field").value)) {
-                    return 1
-                }
-                else {
-                    return 0
-                }
-            })
+            .style("opacity", d => get_event_query(d) ? 1 : 0)
             .on("end", function () {
-                console.log("SALUTI")
-                d3.select("#plot-area").selectAll(".circle-event")
-                    .style("visibility", d => {
-                        console.log("coucou")
-                        if (d.Year.includes(document.getElementById("year-event-field").value) &&
-                            d.Month.includes(document.getElementById("month-field").value) &&
-                            d.Day.includes(document.getElementById("day-field").value)) {
-                            return "visible"
-                        }
-                        else {
-                            return "hidden"
-                        }
-                    })
+                d3.select("#plot-area").selectAll("#circle-event")
+                    .style("visibility", d => get_event_query(d) ? "visible" : "hidden")
+                    .attr("class", d => get_event_query(d) ? "circle-event-visible" : "circle-event-hidden")
             })
     }
     else {
-        d3.select("#plot-area").selectAll(".circle-event")
-            .style("visibility", d => {
-                if (d.Year.includes(document.getElementById("year-event-field").value) &&
-                    d.Month.includes(document.getElementById("month-field").value) &&
-                    d.Day.includes(document.getElementById("day-field").value)) {
-                    return "visible"
-                }
-                else {
-                    return "hidden"
-                }
-            })
+        d3.select("#plot-area").selectAll("#circle-event")
+            .style("visibility", d => get_event_query(d) ? "visible" : "hidden")
             .transition().duration(1500)
-            .style("opacity", d => {
-                if (d.Year.includes(document.getElementById("year-event-field").value) &&
-                    d.Month.includes(document.getElementById("month-field").value) &&
-                    d.Day.includes(document.getElementById("day-field").value)) {
-                    return 1
-                }
-                else {
-                    return 0
-                }
+            .style("opacity", d => get_event_query(d) ? 1 : 0)
+            .on("end", function () {
+                d3.select("#plot-area").selectAll("#circle-event")
+                    .attr("class", d => get_song_query(d) ? "circle-event-visible" : "circle-event-hidden")
             })
     }
 }
 
-function update_song_points_given_query(is_zoomed_in) {
+function update_song_points_given_query(zoomed_in) {
     /*  This function handles the filters passed by the user in the filter menu
         to the song data points */
-    
-    if (is_zoomed_in) {
-        d3.select("#plot-area").selectAll(".circle-song")
+
+    if (zoomed_in) {
+        d3.select("#plot-area").selectAll(".circle-song-visible")
+            .filter(d => !get_song_query(d))
             .transition().duration(1500)
-            .style("opacity", d => {
-                if (d.Song.includes(document.getElementById("song-field").value) &&
-                    d.Artist.includes(document.getElementById("artist-field").value) &&
-                    d.Album.includes(document.getElementById("album-field").value) &&
-                    d.Year.includes(document.getElementById("year-song-field").value) &&
-                    d.Rank.includes(document.getElementById("rank-field").value) &&
-                    d.Genre.includes(document.getElementById("genre-field").value) &&
-                    d.Lyrics.includes(document.getElementById("lyrics-field").value)) {
-                    return 1
-                }
-                else {
-                    return 0
-                }
-            })
+            .style("opacity", 0)
             .on("end", function () {
-                d3.select("#plot-area").selectAll(".circle-song")
-                    .style("visibility", d => {
-                        if (d.Song.includes(document.getElementById("song-field").value) &&
-                            d.Artist.includes(document.getElementById("artist-field").value) &&
-                            d.Album.includes(document.getElementById("album-field").value) &&
-                            d.Year.includes(document.getElementById("year-song-field").value) &&
-                            d.Rank.includes(document.getElementById("rank-field").value) &&
-                            d.Genre.includes(document.getElementById("genre-field").value) &&
-                            d.Lyrics.includes(document.getElementById("lyrics-field").value)) {
-                            return "visible"
-                        }
-                        else {
-                            return "hidden"
-                        }
-                    })
+                d3.select("#plot-area").selectAll(".circle-song-visible")
+                    .filter(d => !get_song_query(d))
+                    .style("visibility", "hidden")
+                    .attr("class", "circle-song-hidden")
             })
     }
     else {
-        d3.select("#plot-area").selectAll(".circle-song")
-            .style("opacity", 0)
-            .style("visibility", d => {
-                if (d.Song.includes(document.getElementById("song-field").value) &&
-                    d.Artist.includes(document.getElementById("artist-field").value) &&
-                    d.Album.includes(document.getElementById("album-field").value) &&
-                    d.Year.includes(document.getElementById("year-song-field").value) &&
-                    d.Rank.includes(document.getElementById("rank-field").value) &&
-                    d.Genre.includes(document.getElementById("genre-field").value) &&
-                    d.Lyrics.includes(document.getElementById("lyrics-field").value)) {
-                    return "visible"
-                }
-                else {
-                    return "hidden"
-                }
-            })
+        d3.select("#plot-area").selectAll(".circle-song-hidden")
+            .filter(d => get_song_query(d))
+            .style("visibility", "visible")
             .transition().duration(1500)
-            .style("opacity", d => {
-                if (d.Song.includes(document.getElementById("song-field").value) &&
-                    d.Artist.includes(document.getElementById("artist-field").value) &&
-                    d.Album.includes(document.getElementById("album-field").value) &&
-                    d.Year.includes(document.getElementById("year-song-field").value) &&
-                    d.Rank.includes(document.getElementById("rank-field").value) &&
-                    d.Genre.includes(document.getElementById("genre-field").value) &&
-                    d.Lyrics.includes(document.getElementById("lyrics-field").value)) {
-                    return 1
-                }
-                else {
-                    return 0
-                }
+            .style("opacity", 1)
+            .on("end", function () {
+                d3.select("#plot-area").selectAll(".circle-song-hidden")
+                    .filter(d => get_song_query(d))
+                    .attr("class", "circle-song-visible")
             })
     }
 }
@@ -455,41 +417,51 @@ function update_song_points_given_query(is_zoomed_in) {
 function show_all_event_data() {
     /*  This function shows all event data points */
 
-    d3.select("#plot-area").selectAll(".circle-event")
+    d3.select("#plot-area").selectAll(".circle-event-hidden")
         .style("visibility", "visible")
         .transition().duration(1500)
         .style("opacity", 1)
+        .on("end", function () {
+            d3.select("#plot-area").selectAll(".circle-event-hidden")
+                .attr("class", "circle-event-visible")
+        })
 }
 
 function show_all_song_data() {
     /*  This function shows all song data points */
 
-    d3.select("#plot-area").selectAll(".circle-song")
+    d3.select("#plot-area").selectAll(".circle-song-hidden")
         .style("visibility", "visible")
         .transition().duration(1500)
         .style("opacity", 1)
+        .on("end", function () {
+            d3.select("#plot-area").selectAll(".circle-song-hidden")
+                .attr("class", "circle-song-visible")
+        })
 }
 
 function hide_all_event_data() {
     /*  This function hide all event data points */
 
-    d3.select("#plot-area").selectAll(".circle-event")
+    d3.select("#plot-area").selectAll(".circle-event-visible")
         .transition().duration(1500)
         .style("opacity", 0)
         .on("end", function () {
-            d3.select("#plot-area").selectAll(".circle-event")
+            d3.select("#plot-area").selectAll(".circle-event-visible")
                 .style("visibility", "hidden")
+                .attr("class", "circle-event-hidden")
         })
 }
 
 function hide_all_song_data() {
     /*  This function shows all song data points */
 
-    d3.select("#plot-area").selectAll(".circle-song")
+    d3.select("#plot-area").selectAll(".circle-song-visible")
         .transition().duration(1500)
         .style("opacity", 0)
         .on("end", function () {
-            d3.select("#plot-area").selectAll(".circle-song")
+            d3.select("#plot-area").selectAll(".circle-song-visible")
                 .style("visibility", "hidden")
+                .attr("class", "circle-song-hidden")
         })
 }

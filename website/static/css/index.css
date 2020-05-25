@@ -250,6 +250,26 @@ hr.hr-menu {
 	height: 100vh;
 }
 
+circle.circle-event-hidden {
+	visibility: hidden;
+	opacity: 0;
+}
+
+circle.circle-song-hidden {
+	visibility: hidden;
+	opacity: 0;
+}
+
+circle.circle-event-visible {
+	visibility: visible;
+	opacity: 1;
+}
+
+circle.circle-song-visible {
+	visibility: visible;
+	opacity: 1;
+}
+
 /* ------------------------ Timeline Container ------------------------ */
 
 .tick text {
@@ -293,7 +313,8 @@ div.half-window {
 
 div.left-div {
 	position: absolute;
-	overflow: scroll;
+	overflow: hidden;
+
 	text-align: right;
 	font-size: 1.4vw;
 	width: 20vw;
@@ -304,13 +325,26 @@ div.left-div {
 	padding: 0;
 }
 
-div.right-div {
+div.right-div-event {
 	position: absolute;
 	overflow: scroll;
 	text-align: justify;
 	left: 32vw;
 	top: 2vw;
 	bottom: 2vw;
+	right: 6vw;
+	margin: 0;
+	padding: 0;
+	padding-bottom: 2vw;
+}
+
+div.right-div-song {
+	position: absolute;
+	overflow: scroll;
+	text-align: justify;
+	left: 32vw;
+	top: 2vw;
+	bottom: 7vw;
 	right: 6vw;
 	margin: 0;
 	padding: 0;
@@ -343,7 +377,15 @@ hr.hr-box-song {
 	margin-bottom: 2vh;
 }
 
-p.p-box {
+p.p-box-song {
+	font-size: 1vw;
+	font-family: "ubuntu-light";
+	font-weight: 100;
+	white-space: pre-wrap;
+	column-count: 3;
+}
+
+p.p-box-event {
 	font-size: 1vw;
 	font-family: "ubuntu-light";
 	font-weight: 100;
