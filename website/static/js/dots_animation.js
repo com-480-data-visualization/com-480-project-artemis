@@ -38,11 +38,10 @@ function mouse_over_dot(selection, bubble, text, refs, is_event) {
         .transition().duration(DURATION)
         .style("opacity", 0.25)
 
-    hovered_color = (event_clicked || song_clicked) ? '#282828' : '#f26627'
+    //hovered_color = (event_clicked || song_clicked) ? '#282828' : '#f26627'
     // Color on hovered item
     selection
         .transition().duration(DURATION)
-        .attr("fill", hovered_color)
         .style("r", "0.75vh")
         .style("opacity", 1)
 
@@ -56,7 +55,7 @@ function mouse_over_dot(selection, bubble, text, refs, is_event) {
         .style("opacity", 1)
 }
 
-function mouse_out_dot(bubble) {
+function mouse_out_dot(selection, bubble) {
     /*  This function handles the "mouseout" event on the dots. It hides the pop-up
         and reinitialize the color and the size of all dots */
 
@@ -64,6 +63,9 @@ function mouse_out_dot(bubble) {
     bubble.transition()
         .duration(DURATION)
         .style("opacity", 0);
+		
+	selection.transition().duration(DURATION)
+        .style("r", "0.25vh")
 
     // Reinitialize dots property
     if (!event_clicked) {
@@ -81,12 +83,13 @@ function mouse_out_dot(bubble) {
             .attr("fill", '#282828')
             .style("r", "0.25vh")
     }
-    /*
+    if (!event_clicked && ! song_clicked) {
         d3.selectAll("circle")
             .transition().duration(DURATION)
             .style("opacity", 1)
             .attr("fill", '#282828')
-            .style("r", "0.25vh")*/
+            .style("r", "0.25vh")
+	}
 }
 
 function on_click_dot(window, title, subtitle, content, refs, is_event) {
@@ -141,9 +144,8 @@ function on_click_dot(window, title, subtitle, content, refs, is_event) {
         })
 
     // Color on items that are references
-    // TODO Finish
     var to_select = is_event ? ".circle-song" : ".circle-event"
-	/*
+	
 	d3.selectAll(to_select)
 		.filter(d => ! parse_refs(refs).has(parseInt(d[""]))) // "" is index column
         .transition().duration(1500)
@@ -152,7 +154,7 @@ function on_click_dot(window, title, subtitle, content, refs, is_event) {
 			d3.selectAll(to_select)
 			.filter(d => ! parse_refs(refs).has(parseInt(d[""]))) // "" is index column
 			.style("visibility", "hidden")
-		})*/
+		})
 
 
     // Format the space in the half window div

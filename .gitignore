@@ -1,1 +1,2 @@
-"data analysis"/albert_large
+data_analysis/albert_large/*
+data_analaysis/datasets/*.pickle
