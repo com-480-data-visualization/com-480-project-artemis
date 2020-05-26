@@ -1,16 +1,18 @@
 /*  This script handles the functions called to construct the basis of the
 	website when the function "whenDocumentLoaded" is called. */
 
-var DURATION = 250;
+var DURATION_SHORT = 250;
+var DURATION_LONG = 1500;
 var zoomed_in = false;
 var menu_open = false;
 var filtered_data = false;
 var mindate = new Date(1965, 0, 1);
 var maxdate = new Date(2015, 11, 31);
-
+var xScale;
 var event_clicked = false;
 var song_clicked = false;
 var show_only_linked = true;
+var count_clicked = 0;
 
 function whenDocumentLoaded(action) {
 	/*	This function handles the event "whenDocumentLoaded" and will call
@@ -63,7 +65,7 @@ function add_data_points(date) {
 		.attr("fill", "#282828")
 
 	// Create x-axis
-	var xScale = d3.scaleTime().domain([mindate, maxdate]).range([margin_lr, width - margin_lr])
+	xScale = d3.scaleTime().domain([mindate, maxdate]).range([margin_lr, width - margin_lr])
 	var xAxis = fc.axisBottom(xScale)
 		.tickArguments([52])
 		.tickCenterLabel(true)
@@ -77,7 +79,7 @@ function add_data_points(date) {
 		.call(xAxis)
 
 	// Make year ticks clickable
-	make_year_clickable(xScale)
+	make_year_clickable()
 
 	// Create zoom-out button
 	d3.select("#unzoom-button")
@@ -92,7 +94,7 @@ function add_data_points(date) {
 		.on("click", function () {
 			// Close the half windows
 			d3.selectAll(".half-window")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 0)
 				.on("end", function () {
 					d3.selectAll(".half-window").style("visibility", "hidden")
@@ -101,10 +103,10 @@ function add_data_points(date) {
 				})
 			// Close the menu
 			d3.select("#menu")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("left", "-30vw")
 				.on("end", function () {
-					zoom_out(xScale)
+					zoom_out()
 				})
 		})
 
@@ -157,7 +159,7 @@ function add_data_points(date) {
 					d3.select(this)
 						.style("visibility", "hidden")
 				})
-			show_unlinked_data_points(xScale)
+			show_unlinked_data_points()
 		})
 
 	// Create button to remove filters
@@ -215,7 +217,7 @@ function add_data_points(date) {
 			.on("mouseout", d => mouse_out_dot(bubble))
 			.on("click", d => on_click_dot(event_window, d.Day + " " + d.Month + " " + d.Year + "<hr class='hr-box-event' align='right'>",
 				d.Content, d.Summary + "<br><br><a href=\"" + d.Wikipedia + "\" class=\"href-wiki\"\" target=\"_blank\"\">Read more on Wikipedia</a> &#x2192;",
-				d.filteredRefs, true))
+				d.filteredRefs, true, d.Year))
 			.on("mouseover", function (d) {
 				d3this = d3.select(this)
 				mouse_over_dot(d3this, bubble, d.Day + " " + d.Month + " " + d.Year + "<br><br>" + d.Content, d.filteredRefs, true)
@@ -239,9 +241,10 @@ function add_data_points(date) {
 			.attr("cx", d => xScale(get_date(d, false)))
 			.attr("cy", d => select_random(height / 2 + margin_tb / 2, height - margin_tb))
 			.on("mouseout", d => mouse_out_dot(bubble))
-			.on("click", d => on_click_dot(song_window,
-				d.Song + " by " + d.Artist + "<hr class='hr-box-song' align='right'>", "Year: " + d.Year + "<br>Rank: " + d.Rank + "<br>Album: " + d.Album + "<br>Genre: " + d.Genre, d.Lyrics + "<br><br><a href=\"" + d.Youtube + "\" class=\"href-youtube\" target=\"_blank\"\">Watch the video on Youtube</a> &#x2192;",
-				d.filteredRefs, false))
+			.on("click", d => on_click_dot(song_window, d.Song + " by " + d.Artist + "<hr class='hr-box-song' align='right'>",
+				"Year: " + d.Year + "<br>Rank: " + d.Rank + "<br>Album: " + d.Album + "<br>Genre: " + d.Genre,
+				d.Lyrics + "<br><br><a href=\"" + d.Youtube + "\" class=\"href-youtube\" target=\"_blank\"\">Watch the video on Youtube</a> &#x2192;",
+				d.filteredRefs, false, d.Year))
 			.on("mouseover", function (d) {
 				d3this = d3.select(this)
 				mouse_over_dot(d3this, bubble, d.Artist + " - " + d.Song, d.filteredRefs, false)
@@ -262,10 +265,10 @@ function make_arrows_clickable() {
 		.on("click", function () {
 			// Close the half windows
 			d3.selectAll(".half-window")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 0)
 				.on("end", function () {
-					window.transition().delay(DURATION)
+					window.transition().delay(DURATION_SHORT)
 						.style("visibility", "hidden")
 					window.selectAll('p')
 						.remove()
@@ -274,7 +277,7 @@ function make_arrows_clickable() {
 				})
 			// Close the menu
 			d3.select("#menu")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("left", "-30vw")
 				.on("end", function () {
 					var element = document.getElementById("description")
@@ -312,24 +315,24 @@ function make_team_clickable() {
 	d3.selectAll(".member-image")
 		.on("mouseover", function () {
 			d3.select(this).select('.img-team')
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 0.1)
 			d3.select(this).select('.res-icon-gh')
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 1)
 			d3.select(this).select('.res-icon-li')
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 1)
 		})
 		.on("mouseout", function () {
 			d3.select(this).select('.img-team')
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 1)
 			d3.select(this).select('.res-icon-gh')
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 0)
 			d3.select(this).select('.res-icon-li')
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 0)
 		})
 }
@@ -454,19 +457,19 @@ function create_menu() {
 		.on("mouseover", function () {
 			d3.select(this)
 				.style("cursor", "pointer")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("background-color", "#f26627")
 			d3.select("#filter-button-text")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("color", "white")
 		})
 		.on("mouseout", function () {
 			d3.select(this)
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("cursor", "pointer")
 				.style("background-color", "white")
 			d3.select("#filter-button-text")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("color", "#282828")
 		})
 		.on("click", function () {
@@ -489,7 +492,7 @@ function create_menu() {
 			}
 
 			d3.select("#menu")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("left", "-30vw")
 		})
 	// Add button text
@@ -505,19 +508,19 @@ function create_menu() {
 		.on("mouseover", function () {
 			d3.select(this)
 				.style("cursor", "pointer")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("background-color", "#f26627")
 			d3.select("#remove-button-text")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("color", "white")
 		})
 		.on("mouseout", function () {
 			d3.select(this)
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("cursor", "pointer")
 				.style("background-color", "white")
 			d3.select("#remove-button-text")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("color", "#282828")
 		})
 		.on("click", function () {
@@ -562,7 +565,7 @@ function create_menu() {
 		})
 		.on("click", function () {
 			menu_open = false;
-			menu.transition().duration(DURATION)
+			menu.transition().duration(DURATION_SHORT)
 				.style("left", "-35vw")
 		})
 
@@ -576,13 +579,13 @@ function create_menu() {
 			menu_open = true;
 			// Close the half windows
 			d3.selectAll(".half-window")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 0)
 				.on("end", function () {
 					d3.selectAll(".half-window").style("visibility", "hidden")
 					d3.selectAll(".half-window").selectAll('p').remove()
 					d3.selectAll(".half-window").selectAll('img').remove()
-					menu.transition().duration(DURATION)
+					menu.transition().duration(DURATION_SHORT)
 						.style("left", "0vw")
 				})
 		})

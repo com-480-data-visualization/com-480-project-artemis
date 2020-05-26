@@ -7,7 +7,7 @@ function mouse_over_dot(selection, bubble, text, refs, is_event) {
         with the summary. */
 
     // Create the pop-up called bubble
-    bubble.transition().duration(DURATION)
+    bubble.transition().duration(DURATION_SHORT)
         .style("opacity", 0.9);
     bubble.html(text)
         .style("left", function () {
@@ -34,15 +34,15 @@ function mouse_over_dot(selection, bubble, text, refs, is_event) {
         })
 
     // Change the opacity of all circles except the selected one
-    d3.selectAll("circle")
-        .transition().duration(DURATION)
+    d3.selectAll(".circle-event-visible,.circle-song-visible")
+        .transition().duration(DURATION_SHORT)
         .style("opacity", 0.25)
         .style("r", "0.15vh")
 
     hovered_color = (event_clicked || song_clicked) ? '#282828' : '#f26627'
     // Color on hovered item
     selection
-        .transition().duration(DURATION)
+        .transition().duration(DURATION_SHORT)
         .attr("fill", hovered_color)
         .style("r", "0.75vh")
         .style("opacity", 1)
@@ -51,7 +51,7 @@ function mouse_over_dot(selection, bubble, text, refs, is_event) {
     var to_select = is_event ? ".circle-song-visible" : ".circle-event-visible"
     d3.selectAll(to_select)
         .filter(d => parse_refs(refs).has(parseInt(d[""]))) // "" is index column
-        .transition().duration(DURATION)
+        .transition().duration(DURATION_SHORT)
         .attr("fill", '#f26627')
         .style("r", "0.75vh")
         .style("opacity", 1)
@@ -63,41 +63,89 @@ function mouse_out_dot(bubble) {
 
     // Hide the pop-up
     bubble.transition()
-        .duration(DURATION)
+        .duration(DURATION_SHORT)
         .style("opacity", 0);
 
-    d3.selectAll("circle")
-            .transition().duration(DURATION)
-            .style("opacity", 1)
-            .attr("fill", '#282828')
-            .style("r", "0.25vh")
+    d3.selectAll(".circle-event-visible,.circle-song-visible")
+        .transition().duration(DURATION_SHORT)
+        .style("opacity", 1)
+        .attr("fill", '#282828')
+        .style("r", "0.25vh")
 }
 
-function on_click_dot(window, title, subtitle, content, is_event) {
+function on_click_dot(window, title, subtitle, content, refs, is_event_clicked, current_year) {
     /*  This function handle the "click" event on the dots. It shows the upper-half window and lower-half window
         filled with all information from the song and event data. */
 
     // Create properties depending on the type of data point (event or song)
-    var icon_path = is_event ? "static/img/cross_white.png" : "static/img/cross_black.png"
-    var font_color = is_event ? "white" : "#282828"
-    var bg_color = is_event ? "#f26627" : "rgb(233, 233, 233)"
-    var style_top = is_event ? "0px" : "50vh"
+    var icon_path = is_event_clicked ? "static/img/cross_white.png" : "static/img/cross_black.png"
+    var font_color = is_event_clicked ? "white" : "#282828"
+    var bg_color = is_event_clicked ? "#f26627" : "rgb(233, 233, 233)"
+    var style_top = is_event_clicked ? "0px" : "50vh"
     var style_left = "0px"
 
-    if (is_event) {
-        var event_clicked = true;
-        var points_to_hide = ".circle-song-visible"
-    } else {
-        var song_clicked = true;
-        var points_to_hide = ".circle-event-visible"
+    count_clicked += 1
+
+    switch (is_event_clicked) {
+        case true:
+            var points_to_update = ".circle-song-visible"
+            var new_class_hidden = "circle-song-hidden-preview"
+            var new_class_visible = "circle-song-visible-preview"
+            break
+        case false:
+            var points_to_update = ".circle-event-visible"
+            var new_class_hidden = "circle-event-hidden-preview"
+            var new_class_visible = "circle-event-visible-preview"
+            break
     }
 
-    d3.select("#plot-area").selectAll(points_to_hide)
-    .filter(d => parse_refs(refs).has(parseInt(d[""])))
+    hide_button("#open-menu-button")
+    hide_button("#show-not-only-linked")
+    hide_button("#show-only-linked")
+    hide_button("#show-not-only-linked")
+    hide_button("#unzoom-button")
+    hide_button("#remove-filter-button")
+
+    d3.select("#plot-area").selectAll(points_to_update)
+        .filter(d => parse_refs(refs).has(parseInt(d[""])))
+        .transition().duration(DURATION_SHORT)
+        .attr("fill", '#f26627')
+        .style("r", "0.75vh")
+        .style("opacity", 1)
+        .on("end", function () {
+            d3.select(this)
+                .attr("class", new_class_visible)
+        })
+
+    d3.select("#plot-area").selectAll(points_to_update)
+        .filter(d => !parse_refs(refs).has(parseInt(d[""])))
+        .transition().duration(DURATION_SHORT)
+        .style("opacity", 0)
+        .on("end", function () {
+            d3.select(this)
+                .style("visibility", "hidden")
+                .attr("class", new_class_hidden)
+        })
+    xScale.domain([mindate, maxdate])
+    xAxis = fc.axisBottom(xScale)
+        .tickArguments([51])
+        .tickCenterLabel(true)
+        .tickSizeInner(0)
+        .tickSizeOuter(0)
+    d3.select("#plot").select(".xaxis")
+        .transition().delay(DURATION_SHORT).duration(DURATION_LONG)
+        .call(xAxis)
+        .on("end", function () {
+            make_year_clickable()
+        })
+    d3.select("#plot-area").selectAll("circle")
+        .transition().delay(DURATION_SHORT).duration(DURATION_LONG)
+        .attr("cx", d => xScale(get_date(d, is_event(d))))
+
 
     // Show the half window
     window.style("visibility", "visible")
-        .transition().duration(DURATION)
+        .transition().duration(DURATION_SHORT)
         .style("opacity", 1);
 
     // Add the close button
@@ -107,15 +155,79 @@ function on_click_dot(window, title, subtitle, content, is_event) {
         .attr("src", icon_path)
         // Handle the click event
         .on("click", function () {
-            if (is_event) {
-                event_clicked = false;
-            } else {
-                song_clicked = false;
+            switch (is_event_clicked) {
+                case true:
+                    var new_class = "circle-song-visible"
+                    break
+                case false:
+                    var new_class = "circle-event-visible"
+                    break
             }
-            window.transition().duration(DURATION)
+            var points_to_show = "." + new_class_hidden
+            var points_to_update = "." + new_class_visible
+
+            if (count_clicked == 1 && zoomed_in) {
+                show_button("#open-menu-button")
+                show_button("#show-not-only-linked")
+                show_button("#show-only-linked")
+                show_button("#show-not-only-linked")
+                show_button("#unzoom-button")
+                show_button("#remove-filter-button")
+
+                xScale.domain([new Date(+current_year - 2, 0, 1), new Date(+current_year + 2, 11, 31)])
+                xAxis = fc.axisBottom(xScale)
+                    .tickArguments([5])
+                    .tickCenterLabel(true)
+                    .tickSizeInner(0)
+                    .tickSizeOuter(0)
+                d3.select("#plot").select(".xaxis")
+                    .transition().duration(DURATION_LONG)
+                    .call(xAxis)
+                d3.select("#plot-area").selectAll("circle")
+                    .transition().duration(DURATION_LONG)
+                    .attr("cx", d => xScale(get_date(d, is_event(d))))
+                d3.select("#plot-area").selectAll(points_to_show)
+                    .style("visibility", "visible")
+                    .transition().delay(DURATION_LONG-DURATION_SHORT).duration(DURATION_LONG)
+                    .style("opacity", 1)
+                    .style("r", "0.25vh")
+                    .attr("class", new_class)
+                d3.select("#plot-area").selectAll(points_to_update)
+                    .transition().delay(DURATION_LONG-DURATION_SHORT).duration(DURATION_LONG)
+                    .style("opacity", 1)
+                    .attr("fill", '#282828')
+                    .style("r", "0.25vh")
+                    .attr("class", new_class)
+                    count_clicked = 0
+
+            }
+            else if (count_clicked == 2) {
+                count_clicked -= 1
+                d3.select("#plot-area").selectAll(points_to_show)
+                    .style("visibility", "visible")
+                    .transition().duration(DURATION_SHORT)
+                    .style("opacity", 1)
+                    .style("r", "0.25vh")
+                    .on("end", function () {
+                        d3.select(this)
+                            .attr("class", new_class)
+                    })
+                d3.select("#plot-area").selectAll(points_to_update)
+                    .transition().duration(DURATION_SHORT)
+                    .style("opacity", 1)
+                    .attr("fill", '#282828')
+                    .style("r", "0.25vh")
+                    .on("end", function () {
+                        d3.select(this)
+                            .attr("class", new_class)
+                    })
+            }
+
+
+            window.transition().duration(DURATION_SHORT)
                 .style("opacity", 0)
                 .on("end", function () {
-                    window.transition().delay(DURATION)
+                    window.transition().delay(DURATION_SHORT)
                         .style("visibility", "hidden")
                     window.selectAll('p')
                         .remove()
@@ -156,7 +268,7 @@ function on_click_dot(window, title, subtitle, content, is_event) {
         .style("background", bg_color)
 }
 
-function zoom_in(xScale, min_date, max_date) {
+function zoom_in(min_date, max_date) {
     /*  This function handles the "zoom-in" function of the time line. It updates the x-axis as well as
         the data points position. */
 
@@ -178,10 +290,10 @@ function zoom_in(xScale, min_date, max_date) {
 
     // Update the x-axis and the data points position
     d3.select("#plot").select(".xaxis")
-        .transition().duration(1500)
+        .transition().duration(DURATION_LONG)
         .call(xAxis)
         .on("end", function () {
-            make_year_clickable(xScale)
+            make_year_clickable()
         })
 
     // If not zoomed and not filtered (start state) we display the points and set their position
@@ -189,7 +301,7 @@ function zoom_in(xScale, min_date, max_date) {
         d3.select("#plot-area").selectAll(".circle-event-hidden, .circle-song-hidden")
             .filter(d => show_only_linked ? +d.num_refs > 0 : true)
             .style("visibility", "visible")
-            .transition().duration(1500)
+            .transition().duration(DURATION_LONG)
             .attr("cx", d => xScale(get_date(d, is_event(d))))
             .style("opacity", 1)
             .on("end", function () {
@@ -200,13 +312,13 @@ function zoom_in(xScale, min_date, max_date) {
     // Otherwise, we already have points plotted and we only want to change their position
     else {
         d3.select("#plot-area").selectAll(".circle-event-visible, .circle-song-visible")
-            .transition().duration(1500)
+            .transition().duration(DURATION_LONG)
             .attr("cx", d => xScale(get_date(d, is_event(d))))
     }
     zoomed_in = true
 }
 
-function zoom_out(xScale) {
+function zoom_out() {
     /*  This function handle the "zoom-out" function of the time-line. This function is called
         when the "zoom-out" button is clicked. */
 
@@ -223,10 +335,10 @@ function zoom_out(xScale) {
         .tickSizeInner(0)
         .tickSizeOuter(0)
     d3.select("#plot").select(".xaxis")
-        .transition().duration(1500)
+        .transition().duration(DURATION_LONG)
         .call(xAxis)
         .on("end", function () {
-            make_year_clickable(xScale)
+            make_year_clickable()
         })
 
     // Hide unzoom button
@@ -235,7 +347,7 @@ function zoom_out(xScale) {
     // Update data points position
     if (!filtered_data) {
         d3.select("#plot-area").selectAll(".circle-event-visible, .circle-song-visible")
-            .transition().duration(1500)
+            .transition().duration(DURATION_LONG)
             .attr("cx", d => xScale(get_date(d, is_event(d))))
             .style("opacity", 0)
             .on("end", function () {
@@ -246,13 +358,13 @@ function zoom_out(xScale) {
     }
     else {
         d3.select("#plot-area").selectAll(".circle-event-visible, .circle-song-visible")
-            .transition().duration(1500)
+            .transition().duration(DURATION_LONG)
             .attr("cx", d => xScale(get_date(d, is_event(d))))
     }
     zoomed_in = false
 }
 
-function make_year_clickable(xScale) {
+function make_year_clickable() {
     /*  This function makes the year ticks clickable, allowing the user
         to zoom into the time line by selecting a year tick. */
 
@@ -260,21 +372,21 @@ function make_year_clickable(xScale) {
         // Handle the mouseover event
         .on("mouseover", function () {
             d3.select(this).select("text")
-                .transition().duration(DURATION)
+                .transition().duration(DURATION_SHORT)
                 .style("fill", "#f26627")
                 .style("cursor", "pointer")
         })
         // Handle the mouseout event
         .on("mouseout", function () {
             d3.select(this).select("text")
-                .transition().duration(DURATION)
+                .transition().duration(DURATION_SHORT)
                 .style("fill", "#282828")
                 .style("cursor", "pointer")
         })
         // Handle the click event
         .on("click", function () {
             d3.select("#menu")
-                .transition().duration(DURATION)
+                .transition().duration(DURATION_SHORT)
                 .style("left", "-30vw")
             var current_date = +d3.select(this).text()
             // Handle the lower bound
@@ -287,7 +399,7 @@ function make_year_clickable(xScale) {
             }
             var min_date = new Date(current_date - 2, 0, 1)
             var max_date = new Date(current_date + 2, 11, 31)
-            zoom_in(xScale, min_date, max_date)
+            zoom_in(min_date, max_date)
             zoomed_in = true
         })
 }
@@ -328,7 +440,7 @@ function apply_filter() {
             console.log(bool_1, bool_2)
             return bool_1 && bool_2
         })
-        .transition().duration(1500)
+        .transition().duration(DURATION_LONG)
         .style("opacity", 0)
         .on("end", function () {
             d3.select(this)
@@ -342,7 +454,7 @@ function apply_filter() {
             bool_2 = show_only_linked ? parseInt(d.num_refs, 10) > 0 : true
             return bool_1 && bool_2
         })
-        .transition().duration(1500)
+        .transition().duration(DURATION_LONG)
         .style("opacity", 1)
         .on("end", function () {
             d3.select(this)
@@ -356,7 +468,7 @@ function hide_unlinked_data_points() {
     if (filtered_data) {
         d3.select("#plot-area").selectAll(".circle-event-visible, .circle-song-visible")
             .filter(d => +d.num_refs == 0)
-            .transition().duration(1500)
+            .transition().duration(DURATION_LONG)
             .style("opacity", 0)
             .on("end", function (d) {
                 d3.select(this)
@@ -368,37 +480,36 @@ function hide_unlinked_data_points() {
         console.log("coucou")
         d3.select("#plot-area").selectAll(".circle-event-visible, .circle-song-visible")
             .filter(d => +d.num_refs == 0)
-            .transition().duration(1500)
+            .transition().duration(DURATION_LONG)
             .style("opacity", 0)
-            .on("end", function(d) {
+            .on("end", function (d) {
                 d3.select(this)
-                .style("visibility", "hidden")
-                .attr("class", d => is_event(d) ? "circle-event-hidden" : "circle-song-hidden")
+                    .style("visibility", "hidden")
+                    .attr("class", d => is_event(d) ? "circle-event-hidden" : "circle-song-hidden")
             })
     }
     show_only_linked = true
 }
 
-function show_unlinked_data_points(xScale) {
+function show_unlinked_data_points() {
     // We show the visible points with no links
     if (filtered_data) {
         d3.select("#plot-area").selectAll(".circle-event-hidden, .circle-song-hidden")
             .filter(d => is_event(d) ? get_event_query(d, false) : get_song_query(d, false))
             .attr("cx", d => xScale(get_date(d, is_event(d))))
             .style("visibility", "visible")
-            .transition().duration(1500)
+            .transition().duration(DURATION_LONG)
             .style("opacity", 1)
             .on("end", function (d) {
                 d3.select(this)
-                .attr("class", is_event(d) ? "circle-event-visible" : "circle-song-visible")
+                    .attr("class", is_event(d) ? "circle-event-visible" : "circle-song-visible")
             })
     }
     else if (!filtered_data && zoomed_in) {
-        console.log("coucou")
         d3.select("#plot-area").selectAll(".circle-event-hidden, .circle-song-hidden")
             .attr("cx", d => xScale(get_date(d, is_event(d))))
             .style("visibility", "visible")
-            .transition().duration(1500)
+            .transition().duration(DURATION_LONG)
             .style("opacity", 1)
             .on("end", function (d) {
                 d3.select(this)
@@ -425,7 +536,7 @@ function show_all_data(data) {
     d3.select("#plot-area").selectAll(select_all)
         .filter(d => show_only_linked ? +d.num_refs > 0 : true)
         .style("visibility", "visible")
-        .transition().duration(1500)
+        .transition().duration(DURATION_LONG)
         .style("opacity", 1)
         .on("end", function () {
             d3.select(this)
@@ -447,7 +558,7 @@ function hide_all_data(data) {
             break
     }
     d3.select("#plot-area").selectAll(select_all)
-        .transition().duration(1500)
+        .transition().duration(DURATION_LONG)
         .style("opacity", 0)
         .on("end", function () {
             d3.select(this)
