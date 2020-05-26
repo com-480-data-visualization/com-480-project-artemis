@@ -10,6 +10,7 @@ var maxdate = new Date(2015, 11, 31);
 
 var event_clicked = false;
 var song_clicked = false;
+var show_only_linked = true;
 
 function whenDocumentLoaded(action) {
 	/*	This function handles the event "whenDocumentLoaded" and will call
@@ -107,6 +108,58 @@ function add_data_points(date) {
 				})
 		})
 
+	// Create button to only show data points with links
+	d3.select("#show-only-linked")
+		.style("opacity", 0)
+		.style("visibility", "hidden")
+		.on("mouseover", function () {
+			d3.select(this)
+				.style("cursor", "pointer")
+				.style("color", "#f26627")
+		})
+		.on("click", function () {
+			// Show the other button
+			d3.select("#show-not-only-linked")
+				.style("visibility", "visible")
+				.transition().duration(750)
+				.style("opacity", 1)
+			// Hide this button
+			d3.select(this)
+				.transition().duration(750)
+				.style("opacity", 0)
+				.on("end", function () {
+					d3.select(this)
+						.style("visibility", "hidden")
+				})
+			hide_unlinked_data_points()
+		})
+
+	// Create button to show all data points (not only linked ones)
+	d3.select("#show-not-only-linked")
+		.style("opacity", 1)
+		.style("visibility", "visible")
+		.on("mouseover", function () {
+			d3.select(this)
+				.style("cursor", "pointer")
+				.style("color", "#f26627")
+		})
+		.on("click", function () {
+			// Show the other button
+			d3.select("#show-only-linked")
+				.style("visibility", "visible")
+				.transition().duration(750)
+				.style("opacity", 1)
+			// Hide this button
+			d3.select(this)
+				.transition().duration(750)
+				.style("opacity", 0)
+				.on("end", function () {
+					d3.select(this)
+						.style("visibility", "hidden")
+				})
+			show_unlinked_data_points(xScale)
+		})
+
 	// Create button to remove filters
 	d3.select("#remove-filter-button")
 		.style("visibility", "hidden")
@@ -129,12 +182,12 @@ function add_data_points(date) {
 			document.getElementById("genre-field").value = ""
 			document.getElementById("lyrics-field").value = ""
 			if (zoomed_in) {
-				show_all_event_data()
-				show_all_song_data()
+				show_all_data("events")
+				show_all_data("songs")
 			}
 			else {
-				hide_all_event_data()
-				hide_all_song_data()
+				hide_all_data("events")
+				hide_all_data("songs")
 				if (filtered_data) {
 					subtitle_to_title()
 				}
@@ -186,8 +239,8 @@ function add_data_points(date) {
 			.attr("cx", d => xScale(get_date(d, false)))
 			.attr("cy", d => select_random(height / 2 + margin_tb / 2, height - margin_tb))
 			.on("mouseout", d => mouse_out_dot(bubble))
-			.on("click", d => on_click_dot(song_window, 
-				d.Song + " by " + d.Artist + "<hr class='hr-box-song' align='right'>", "Year: " + d.Year + "<br>Rank: " + d.Rank + "<br>Album: " + d.Album + "<br>Genre: " + d.Genre, d.Lyrics + "<br><br><a href=\"" + d.Youtube + "\" class=\"href-youtube\" target=\"_blank\"\">Watch the video on Youtube</a> &#x2192;", 
+			.on("click", d => on_click_dot(song_window,
+				d.Song + " by " + d.Artist + "<hr class='hr-box-song' align='right'>", "Year: " + d.Year + "<br>Rank: " + d.Rank + "<br>Album: " + d.Album + "<br>Genre: " + d.Genre, d.Lyrics + "<br><br><a href=\"" + d.Youtube + "\" class=\"href-youtube\" target=\"_blank\"\">Watch the video on Youtube</a> &#x2192;",
 				d.filteredRefs, false))
 			.on("mouseover", function (d) {
 				d3this = d3.select(this)
@@ -417,37 +470,24 @@ function create_menu() {
 				.style("color", "#282828")
 		})
 		.on("click", function () {
-			if (zoomed_in) {
-				if (!event_fields_empty() || !song_fields_empty()) {
-					filtered_data = true
-					if (!event_fields_empty() && song_fields_empty()) {
-						update_event_points_given_query(zoomed_in)
-						hide_all_song_data()
-					}
-					if (!song_fields_empty() && event_fields_empty()) {
-						update_song_points_given_query(zoomed_in)
-						hide_all_event_data()
-					}
-					if (!song_fields_empty() && !event_fields_empty) {
-						update_event_points_given_query(zoomed_in)
-						update_song_points_given_query(zoomed_in)
-					}
-					show_button("#remove-filter-button")
+
+			if (!event_fields_empty() || !song_fields_empty()) {
+				filtered_data = true
+				if (!event_fields_empty() && song_fields_empty()) {
+					apply_filter()
+					hide_all_data("songs")
 				}
-			}
-			else {
-				if (!event_fields_empty() || !song_fields_empty()) {
-					filtered_data = true
-					if (!event_fields_empty()) {
-						update_event_points_given_query(false)
-					}
-					if (!song_fields_empty()) {
-						update_song_points_given_query(false)
-					}
-					title_to_subtitle()
-					show_button("#remove-filter-button")
+				if (!song_fields_empty() && event_fields_empty()) {
+					apply_filter()
+					hide_all_data("events")
 				}
+				if (!song_fields_empty() && !event_fields_empty()) {
+					apply_filter()
+					apply_filter()
+				}
+				show_button("#remove-filter-button")
 			}
+
 			d3.select("#menu")
 				.transition().duration(DURATION)
 				.style("left", "-30vw")
@@ -492,12 +532,12 @@ function create_menu() {
 			document.getElementById("genre-field").value = ""
 			document.getElementById("lyrics-field").value = ""
 			if (zoomed_in) {
-				show_all_event_data()
-				show_all_song_data()
+				show_all_data("events")
+				show_all_data("songs")
 			}
 			else {
-				hide_all_event_data()
-				hide_all_song_data()
+				hide_all_data("events")
+				hide_all_data("songs")
 				if (filtered_data) {
 					subtitle_to_title()
 					filtered_data = false
@@ -551,10 +591,6 @@ function create_menu() {
 whenDocumentLoaded(() => {
 	// When the document we add the data points but invisible, we create the animations
 	// on the animated elements and we create the filter menu.
-	d3.csv("static/data/events_refs_website.csv").then(function (data) {
-		console.log(typeof data[0][""]);
-	})
-	
 	add_data_points()
 	make_arrows_clickable()
 	make_team_clickable()
