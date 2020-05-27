@@ -777,6 +777,7 @@ console.log(our_event)*/
 		subtitle_to_title()
 	}, 14000)
 
+  zoom_in_progress=false
 //TODO : make nothing clickable during demo except "skip" button
 }
 
@@ -793,9 +794,6 @@ whenDocumentLoaded(() => {
 	// When the document we add the data points but invisible, we create the animations
 	// on the animated elements and we create the filter menu.
 	initialize()
-	demo().on("end", function () {
-			zoom_in_progress=false
-		}
-	)
-	//initialize()
+	demo()
+
 })
