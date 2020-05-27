@@ -72,6 +72,7 @@ function event_fields_empty() {
 
     var empty_field = (document.getElementById("year-event-field").value == "" &&
         document.getElementById("month-field").value == "" &&
+        document.getElementById("day-field").value == "" && 
         document.getElementById("day-field").value == "")
     return empty_field
 }

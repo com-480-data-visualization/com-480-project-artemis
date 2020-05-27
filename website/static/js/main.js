@@ -241,7 +241,7 @@ function add_data_points(date) {
 			.attr("cx", d => xScale(get_date(d, false)))
 			.attr("cy", d => select_random(height / 2 + margin_tb / 2, height - margin_tb))
 			.on("mouseout", d => mouse_out_dot(bubble))
-			.on("click", d => on_click_dot(song_window, d.Song + " by " + d.Artist + "<hr class='hr-box-song' align='right'>",
+			.on("click", d => on_click_dot(song_window, d.Song + "<span style=\"font-size:14px; color:#757575; font-weight:bold;\"> by </span> " + d.Artist + "<hr class='hr-box-song' align='right'>",
 				"Year: " + d.Year + "<br>Rank: " + d.Rank + "<br>Album: " + d.Album + "<br>Genre: " + d.Genre,
 				d.Lyrics + "<br><br><a href=\"" + d.Youtube + "\" class=\"href-youtube\" target=\"_blank\"\">Watch the video on Youtube</a> &#x2192;",
 				d.filteredRefs, false, d.Year))
@@ -366,6 +366,8 @@ function create_menu() {
 		.attr("class", "div-field")
 	day_field = events_bloc.append('div')
 		.attr("class", "div-field")
+	content_field = events_bloc.append('div')
+		.attr("class", "div-field")
 	year_field.append('p')
 		.attr("class", "p-menu")
 		.html('Year')
@@ -384,6 +386,12 @@ function create_menu() {
 	day_field.append('input')
 		.attr("class", "input")
 		.attr("id", "day-field")
+	content_field.append('p')
+		.attr("class", "p-menu")
+		.html('Content')
+	content_field.append('input')
+		.attr("class", "input")
+		.attr("id", "content-field")
 
 	// Songs section
 	songs_bloc = filters.append('div')
