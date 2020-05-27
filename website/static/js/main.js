@@ -595,7 +595,7 @@ function create_menu() {
 function demo(){
 	demo_in_progress = true
 
-	let our_date = 1990
+	let our_date = 2001
 
 	// hide title and timeline at beginning
 	var xaxis = d3.select(".xaxis")
@@ -665,104 +665,34 @@ function demo(){
 	}, 2500);
 
 //TODO : select dot
+/*setTimeout(function() {
+	var event_window = d3.select("#main div.half-window")
 
-	/*var our_event = d3.selectAll(".circle-event-visible")
-	.filter(d => d.Content == "10,000 Chinese soldiers are blocked by 100,000 citizens in Tiananmen Square, Beijing, protecting students demonstrating for democracy")
+	var bubble = d3.select("#bubble")
+
+	var our_event = d3.selectAll("#circle-event")
+	.filter(d => d.num_refs>100)
 	.transition().delay(6000).duration(DURATION_SHORT)
 	.attr("fill", '#f26627')
 	.style("r", "0.75vh")
 	.style("opacity", 1)
-	.call(d => on_click_dot(event_window, d.Day + " " + d.Month + " " + d.Year + "<hr class='hr-box-event' align='right'>",
-		d.Content, d.Summary + "<br><br><a href=\"" + d.Wikipedia + "\" class=\"href-wiki\"\" target=\"_blank\"\">Read more on Wikipedia</a> &#x2192;",
-		d.filteredRefs, true, d.Year))*/
+	.call(
+		function (d) {
+			d3this = d3.select(this)
+			console.log(get_date(d, true))
+			mouse_over_dot(d3this, bubble, d.Day + " " + d.Month + " " + d.Year + "<br><br>" + d.Content, d.filteredRefs, true)
+			on_click_dot(event_window, d.Day + " " + d.Month + " " + d.Year + "<hr class='hr-box-event' align='right'>",
+			d.Content, d.Summary + "<br><br><a href=\"" + d.Wikipedia + "\" class=\"href-wiki\"\" target=\"_blank\"\">Read more on Wikipedia</a> &#x2192;",
+			d.filteredRefs, true, d.Year)
+		})
 
-/*	setTimeout(function() {
-		mouse_over_dot(d3.select(our_event), bubble, d.Day + " " + d.Month + " " + d.Year + "<br><br>" + d.Content, d.filteredRefs, true)
-	}, 6000);
-
-console.log(our_event)*/
-
-/*.on("click", d => on_click_dot(event_window, d.Day + " " + d.Month + " " + d.Year + "<hr class='hr-box-event' align='right'>",
-	d.Content, d.Summary + "<br><br><a href=\"" + d.Wikipedia + "\" class=\"href-wiki\"\" target=\"_blank\"\">Read more on Wikipedia</a> &#x2192;",
-	d.filteredRefs, true, d.Year))
-.on("mouseover", function (d) {
-	d3this = d3.select(this)
-	mouse_over_dot(d3this, bubble, d.Day + " " + d.Month + " " + d.Year + "<br><br>" + d.Content, d.filteredRefs, true)
-})*/
+}, 5000);*/
 
 	// zooming out
 	setTimeout(function() {
 		demo_in_progress = true
 		zoom_out();
 	}, 10000);
-/*
-	/*var your_turn;
-	setTimeout(function() {
-		your_turn = d3.select('#plot').append("text")
-		.attr("transform", "translate(" + (width / 2) + " ," + ((height / 2) - 5) + ")")
-		.attr("id", "your-turn-title")
-		.attr("class", "title")
-		.style("text-anchor", "middle")
-		.html("Your turn now !")
-		.attr("font-family", "heavitas")
-		.attr("font-size", "1.4vw")
-		.attr("fill", "#282828")
-		.style("opacity", 0)
-		.style("visibility", "hidden")
-	}, 11000);*/
-
-	// hide window at the end
-	/*var xaxis = d3.select(".xaxis")
-	.transition().delay(10000).duration(1500)
-	.style("opacity", 0)
-	.on("end", function () {
-			d3.select(id)
-					.style("visibility", "hidden")
-	})*/
-
-	/*var your_turn = d3.select('#plot').append("text")
-	.attr("transform", "translate(" + (width / 2) + " ," + ((height / 2) - 5) + ")")
-	.attr("id", "your-turn-title")
-	.attr("class", "title")
-	.style("text-anchor", "middle")
-	.html("Your turn now !")
-	.attr("font-family", "heavitas")
-	.attr("font-size", "1.4vw")
-	.attr("fill", "#282828")
-	.style("opacity", 0)
-	.style("visibility", "hidden")
-
-	your_turn
-	.style("visibility", "visible")
-	.transition()
-	.delay(14000)
-	.duration(1500)
-	.style("opacity", 1)*/
-	/*d3.select("#title")
-	.transition().delay(13000).duration(1500)
-	.style("opacity", 0)
-	.on("end", function () {
-		your_turn
-		.style("visibility", "visible")
-		.transition()
-		.delay(14000)
-		.duration(1500)
-		.style("opacity", 1)
-	})*/
-	/*d3.select("#title")
-	.transition().delay(20000).duration(1500)
-	.style("opacity", 0)
-	.on("end", function () {
-		console.log("DONE")
-			d3.select(this)
-					.style("visibility", "hidden")
-				}
-			)*/
-
-	// show your-turn
-
-
-
 
 	setTimeout(function() {
 		show_button("#open-menu-button")
@@ -793,6 +723,12 @@ whenDocumentLoaded(() => {
 	// When the document we add the data points but invisible, we create the animations
 	// on the animated elements and we create the filter menu.
 	initialize()
-	demo()
+	//demo()
+	d3.select('#plot_area').selectAll("#circle-event").filter(
+		function(d){
+
+
+			d.num_refs>100
+		}).call(d => console.log(d.num_refs))
 
 })

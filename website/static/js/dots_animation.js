@@ -327,7 +327,6 @@ function zoom_out() {
 
     // Change the title
     if (demo_in_progress){
-      console.log(demo_in_progress + "HEY")
       d3.select("#title")
     			.transition().duration(750)
     			.style("opacity", 0)
