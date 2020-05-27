@@ -362,6 +362,20 @@ div.right-div-song {
 	padding-bottom: 2vw;
 }
 
+img.cross-1 {
+	position: absolute;
+	height: 2vh;
+	left: 2vw;
+	top: 2vw;
+	z-index: 1000;
+}
+img.cross-2 {
+	position: absolute;
+	height: 2vh;
+	left: 2vw;
+	top: 2vw;
+	z-index: 1000;
+}
 img.cross {
 	position: absolute;
 	height: 2vh;

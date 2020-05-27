@@ -599,3 +599,11 @@ whenDocumentLoaded(() => {
 	make_team_clickable()
 	create_menu()
 })
+
+
+/*whenDocumentLoaded(() => {
+	// When the document we add the data points but invisible, we create the animations
+	// on the animated elements and we create the filter menu.
+	initialize()
+	//demo()
+	//initialize()
