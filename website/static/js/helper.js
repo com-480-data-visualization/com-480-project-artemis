@@ -177,5 +177,5 @@ function parse_entities_types(d) {
 }
 
 function is_event(d) {
-    return (typeof d.Lyrics === 'undefined') 
+    return (typeof d.Lyrics_print_embedded === 'undefined') 
 }
