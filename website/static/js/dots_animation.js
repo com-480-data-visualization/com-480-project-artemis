@@ -286,14 +286,19 @@ function zoom_in(min_date, max_date) {
         .tickSizeOuter(0)
 
     // Show zoom-out button
-    show_button("#unzoom-button")
+    if(!demo_in_progress){
+      show_button("#unzoom-button")
+
+    }
 
     // Update the x-axis and the data points position
     d3.select("#plot").select(".xaxis")
         .transition().duration(DURATION_LONG)
         .call(xAxis)
         .on("end", function () {
+          if(!demo_in_progress){
             make_year_clickable()
+          }
         })
 
     // If not zoomed and not filtered (start state) we display the points and set their position
@@ -323,7 +328,18 @@ function zoom_out() {
         when the "zoom-out" button is clicked. */
 
     // Change the title
-    if (!filtered_data) {
+    if (demo_in_progress){
+      d3.select("#title")
+    			.transition().duration(750)
+    			.style("opacity", 0)
+    			.on("end", function () {
+    					d3.select("#title")
+    							.html("Your turn now !")
+    							.transition().duration(750)
+    							.style("opacity", 1)
+    			})
+    }
+    else if (!filtered_data) {
         subtitle_to_title()
     }
 
@@ -338,7 +354,9 @@ function zoom_out() {
         .transition().duration(DURATION_LONG)
         .call(xAxis)
         .on("end", function () {
+          if(!demo_in_progress){
             make_year_clickable()
+          }
         })
 
     // Hide unzoom button

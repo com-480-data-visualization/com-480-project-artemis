@@ -25,7 +25,7 @@ function select_random(min, max) {
 }
 
 function px_to_vw(value) {
-    /* This function converts a value in pixels into a value in 
+    /* This function converts a value in pixels into a value in
         the viewport width coordinates (vw) */
 
     var w = window,
@@ -39,7 +39,7 @@ function px_to_vw(value) {
 }
 
 function px_to_vh(value) {
-    /* This function converts a value in pixels into a value in 
+    /* This function converts a value in pixels into a value in
         the viewport height coordinates (vh) */
 
     var w = window,
@@ -53,7 +53,7 @@ function px_to_vh(value) {
 }
 
 function get_date(d, is_event) {
-    /*  This function returns the date of the data transformed into 
+    /*  This function returns the date of the data transformed into
         the right date format of javascript. */
 
     if (is_event) {
@@ -67,7 +67,7 @@ function get_date(d, is_event) {
 }
 
 function event_fields_empty() {
-    /*  This function checks whether the input text fields associated to 
+    /*  This function checks whether the input text fields associated to
         the event data points are all empty. */
 
     var empty_field = (document.getElementById("year-event-field").value == "" &&
@@ -77,7 +77,7 @@ function event_fields_empty() {
 }
 
 function song_fields_empty() {
-    /*  This function checks whether the input text fields associated to 
+    /*  This function checks whether the input text fields associated to
         the song data points are all empty. */
 
     var empty_field = (document.getElementById("song-field").value == "" &&
@@ -94,11 +94,11 @@ function title_to_subtitle() {
     /*  This function switches the title of the plot area from
         "SELECT A YEAR" to "EVENTS / SONGS" */
 
-    d3.selectAll("svg text.title")
+    d3.select("#title")
         .transition().duration(750)
         .style("opacity", 0)
         .on("end", function () {
-            d3.selectAll("svg text.title")
+            d3.select("#title")
                 .html("&#8593; Events / Songs &#8595;")
                 .transition().duration(750)
                 .style("opacity", 1)
@@ -109,11 +109,11 @@ function subtitle_to_title() {
     /*  This function switches the title of the plot area from
         "EVENTS / SONGS" to "SELECT A YEAR" */
 
-    d3.selectAll("svg text.title")
+    d3.select("#title")
         .transition().duration(750)
         .style("opacity", 0)
         .on("end", function () {
-            d3.selectAll("svg text.title")
+            d3.select("#title")
                 .html("select a year")
                 .transition().duration(750)
                 .style("opacity", 1)
@@ -176,5 +176,5 @@ function parse_entities_types(d) {
 }
 
 function is_event(d) {
-    return (typeof d.Lyrics === 'undefined') 
+    return (typeof d.Lyrics === 'undefined')
 }
