@@ -607,3 +607,4 @@ whenDocumentLoaded(() => {
 	initialize()
 	//demo()
 	//initialize()
+})*/
