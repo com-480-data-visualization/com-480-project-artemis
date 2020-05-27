@@ -91,11 +91,37 @@ a:active.href-youtube {
 
 img.unzoom {
 	position: absolute;
-	width: 2vw;
+	height: 3.5vh;
 	right: 2vw;
 	top: 2vw;
 	z-index: 1000;
 }
+
+img.open-menu {
+	position: absolute;
+	height: 3.5vh;
+	left: 2vw;
+	top: 2vw;
+	z-index: 100;
+}
+
+img.show-linked {
+	position: absolute;
+	height: 3.5vh;
+	left: 6vw;
+	top: 2vw;
+	z-index: 100;
+}
+
+img.remove-filter-button {
+	position: absolute;
+	height: 3.5vh;
+	left: 10vw;
+	top: 2vw;
+	z-index: 1000;
+}
+
+
 
 div.tooltip {
 	display: block;
@@ -125,22 +151,6 @@ div.menu {
 	background-color: #282828;
 	box-shadow: 0.2vw 0 2vw #282828;
 	z-index: 2000;
-}
-
-img.open-menu {
-	position: absolute;
-	width: 2vw;
-	left: 2vw;
-	top: 2vw;
-	z-index: 1000;
-}
-
-img.remove-filter-button {
-	position: absolute;
-	width: 2vw;
-	left: 6vw;
-	top: 1.8vw;
-	z-index: 1000;
 }
 
 div.filters {
@@ -309,6 +319,7 @@ div.half-window {
 	width: 100%;
 	height: 50vh;
 	background: #f26627;
+	z-index: 1500;
 }
 
 div.left-div {

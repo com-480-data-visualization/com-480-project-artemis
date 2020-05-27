@@ -1,15 +1,18 @@
 /*  This script handles the functions called to construct the basis of the
 	website when the function "whenDocumentLoaded" is called. */
 
-var DURATION = 250;
+var DURATION_SHORT = 250;
+var DURATION_LONG = 1500;
 var zoomed_in = false;
 var menu_open = false;
 var filtered_data = false;
 var mindate = new Date(1965, 0, 1);
 var maxdate = new Date(2015, 11, 31);
-
+var xScale;
 var event_clicked = false;
 var song_clicked = false;
+var show_only_linked = true;
+var count_clicked = 0;
 
 function whenDocumentLoaded(action) {
 	/*	This function handles the event "whenDocumentLoaded" and will call
@@ -62,7 +65,7 @@ function add_data_points(date) {
 		.attr("fill", "#282828")
 
 	// Create x-axis
-	var xScale = d3.scaleTime().domain([mindate, maxdate]).range([margin_lr, width - margin_lr])
+	xScale = d3.scaleTime().domain([mindate, maxdate]).range([margin_lr, width - margin_lr])
 	var xAxis = fc.axisBottom(xScale)
 		.tickArguments([52])
 		.tickCenterLabel(true)
@@ -76,7 +79,7 @@ function add_data_points(date) {
 		.call(xAxis)
 
 	// Make year ticks clickable
-	make_year_clickable(xScale)
+	make_year_clickable()
 
 	// Create zoom-out button
 	d3.select("#unzoom-button")
@@ -91,7 +94,7 @@ function add_data_points(date) {
 		.on("click", function () {
 			// Close the half windows
 			d3.selectAll(".half-window")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 0)
 				.on("end", function () {
 					d3.selectAll(".half-window").style("visibility", "hidden")
@@ -100,11 +103,63 @@ function add_data_points(date) {
 				})
 			// Close the menu
 			d3.select("#menu")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("left", "-30vw")
 				.on("end", function () {
-					zoom_out(xScale)
+					zoom_out()
 				})
+		})
+
+	// Create button to only show data points with links
+	d3.select("#show-only-linked")
+		.style("opacity", 0)
+		.style("visibility", "hidden")
+		.on("mouseover", function () {
+			d3.select(this)
+				.style("cursor", "pointer")
+				.style("color", "#f26627")
+		})
+		.on("click", function () {
+			// Show the other button
+			d3.select("#show-not-only-linked")
+				.style("visibility", "visible")
+				.transition().duration(750)
+				.style("opacity", 1)
+			// Hide this button
+			d3.select(this)
+				.transition().duration(750)
+				.style("opacity", 0)
+				.on("end", function () {
+					d3.select(this)
+						.style("visibility", "hidden")
+				})
+			hide_unlinked_data_points()
+		})
+
+	// Create button to show all data points (not only linked ones)
+	d3.select("#show-not-only-linked")
+		.style("opacity", 1)
+		.style("visibility", "visible")
+		.on("mouseover", function () {
+			d3.select(this)
+				.style("cursor", "pointer")
+				.style("color", "#f26627")
+		})
+		.on("click", function () {
+			// Show the other button
+			d3.select("#show-only-linked")
+				.style("visibility", "visible")
+				.transition().duration(750)
+				.style("opacity", 1)
+			// Hide this button
+			d3.select(this)
+				.transition().duration(750)
+				.style("opacity", 0)
+				.on("end", function () {
+					d3.select(this)
+						.style("visibility", "hidden")
+				})
+			show_unlinked_data_points()
 		})
 
 	// Create button to remove filters
@@ -129,12 +184,12 @@ function add_data_points(date) {
 			document.getElementById("genre-field").value = ""
 			document.getElementById("lyrics-field").value = ""
 			if (zoomed_in) {
-				show_all_event_data()
-				show_all_song_data()
+				show_all_data("events")
+				show_all_data("songs")
 			}
 			else {
-				hide_all_event_data()
-				hide_all_song_data()
+				hide_all_data("events")
+				hide_all_data("songs")
 				if (filtered_data) {
 					subtitle_to_title()
 				}
@@ -190,10 +245,10 @@ function add_data_points(date) {
 			.on("mouseout", function(d) {
 				d3this = d3.select(this)
 				mouse_out_dot(d3this, bubble)})
-			.on("click", d => on_click_dot(song_window, 
-				d.Song + " by " + d.Artist + "<hr class='hr-box-song' align='right'>", "Year: " + d.Year + "<br>Rank: " + d.Rank + "<br>Album: " + d.Album + "<br>Genre: " + d.Genre,
-				d.Lyrics_print_embedded + "<br><br><a href=\"" + d.Youtube + "\" class=\"href-youtube\" target=\"_blank\"\">Watch the video on Youtube</a> &#x2192;", 
-				d.filteredRefs, false))
+			.on("click", d => on_click_dot(song_window, d.Song + " by " + d.Artist + "<hr class='hr-box-song' align='right'>",
+				"Year: " + d.Year + "<br>Rank: " + d.Rank + "<br>Album: " + d.Album + "<br>Genre: " + d.Genre,
+				d.Lyrics_print_embedded + "<br><br><a href=\"" + d.Youtube + "\" class=\"href-youtube\" target=\"_blank\"\">Watch the video on Youtube</a> &#x2192;",
+				d.filteredRefs, false, d.Year))
 			.on("mouseover", function (d) {
 				d3this = d3.select(this)
 				mouse_over_dot(d3this, bubble, d.Artist + " - " + d.Song, d.filteredRefs, false)
@@ -214,10 +269,10 @@ function make_arrows_clickable() {
 		.on("click", function () {
 			// Close the half windows
 			d3.selectAll(".half-window")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 0)
 				.on("end", function () {
-					window.transition().delay(DURATION)
+					window.transition().delay(DURATION_SHORT)
 						.style("visibility", "hidden")
 					window.selectAll('p')
 						.remove()
@@ -226,7 +281,7 @@ function make_arrows_clickable() {
 				})
 			// Close the menu
 			d3.select("#menu")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("left", "-30vw")
 				.on("end", function () {
 					var element = document.getElementById("description")
@@ -264,24 +319,24 @@ function make_team_clickable() {
 	d3.selectAll(".member-image")
 		.on("mouseover", function () {
 			d3.select(this).select('.img-team')
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 0.1)
 			d3.select(this).select('.res-icon-gh')
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 1)
 			d3.select(this).select('.res-icon-li')
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 1)
 		})
 		.on("mouseout", function () {
 			d3.select(this).select('.img-team')
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 1)
 			d3.select(this).select('.res-icon-gh')
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 0)
 			d3.select(this).select('.res-icon-li')
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 0)
 		})
 }
@@ -406,55 +461,42 @@ function create_menu() {
 		.on("mouseover", function () {
 			d3.select(this)
 				.style("cursor", "pointer")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("background-color", "#f26627")
 			d3.select("#filter-button-text")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("color", "white")
 		})
 		.on("mouseout", function () {
 			d3.select(this)
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("cursor", "pointer")
 				.style("background-color", "white")
 			d3.select("#filter-button-text")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("color", "#282828")
 		})
 		.on("click", function () {
-			if (zoomed_in) {
-				if (!event_fields_empty() || !song_fields_empty()) {
-					filtered_data = true
-					if (!event_fields_empty() && song_fields_empty()) {
-						update_event_points_given_query(zoomed_in)
-						hide_all_song_data()
-					}
-					if (!song_fields_empty() && event_fields_empty()) {
-						update_song_points_given_query(zoomed_in)
-						hide_all_event_data()
-					}
-					if (!song_fields_empty() && !event_fields_empty) {
-						update_event_points_given_query(zoomed_in)
-						update_song_points_given_query(zoomed_in)
-					}
-					show_button("#remove-filter-button")
+
+			if (!event_fields_empty() || !song_fields_empty()) {
+				filtered_data = true
+				if (!event_fields_empty() && song_fields_empty()) {
+					apply_filter()
+					hide_all_data("songs")
 				}
-			}
-			else {
-				if (!event_fields_empty() || !song_fields_empty()) {
-					filtered_data = true
-					if (!event_fields_empty()) {
-						update_event_points_given_query(false)
-					}
-					if (!song_fields_empty()) {
-						update_song_points_given_query(false)
-					}
-					title_to_subtitle()
-					show_button("#remove-filter-button")
+				if (!song_fields_empty() && event_fields_empty()) {
+					apply_filter()
+					hide_all_data("events")
 				}
+				if (!song_fields_empty() && !event_fields_empty()) {
+					apply_filter()
+					apply_filter()
+				}
+				show_button("#remove-filter-button")
 			}
+
 			d3.select("#menu")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("left", "-30vw")
 		})
 	// Add button text
@@ -470,19 +512,19 @@ function create_menu() {
 		.on("mouseover", function () {
 			d3.select(this)
 				.style("cursor", "pointer")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("background-color", "#f26627")
 			d3.select("#remove-button-text")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("color", "white")
 		})
 		.on("mouseout", function () {
 			d3.select(this)
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("cursor", "pointer")
 				.style("background-color", "white")
 			d3.select("#remove-button-text")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("color", "#282828")
 		})
 		.on("click", function () {
@@ -497,12 +539,12 @@ function create_menu() {
 			document.getElementById("genre-field").value = ""
 			document.getElementById("lyrics-field").value = ""
 			if (zoomed_in) {
-				show_all_event_data()
-				show_all_song_data()
+				show_all_data("events")
+				show_all_data("songs")
 			}
 			else {
-				hide_all_event_data()
-				hide_all_song_data()
+				hide_all_data("events")
+				hide_all_data("songs")
 				if (filtered_data) {
 					subtitle_to_title()
 					filtered_data = false
@@ -527,7 +569,7 @@ function create_menu() {
 		})
 		.on("click", function () {
 			menu_open = false;
-			menu.transition().duration(DURATION)
+			menu.transition().duration(DURATION_SHORT)
 				.style("left", "-35vw")
 		})
 
@@ -541,24 +583,201 @@ function create_menu() {
 			menu_open = true;
 			// Close the half windows
 			d3.selectAll(".half-window")
-				.transition().duration(DURATION)
+				.transition().duration(DURATION_SHORT)
 				.style("opacity", 0)
 				.on("end", function () {
 					d3.selectAll(".half-window").style("visibility", "hidden")
 					d3.selectAll(".half-window").selectAll('p').remove()
 					d3.selectAll(".half-window").selectAll('img').remove()
-					menu.transition().duration(DURATION)
+					menu.transition().duration(DURATION_SHORT)
 						.style("left", "0vw")
 				})
 		})
 }
 
-whenDocumentLoaded(() => {
-	// When the document we add the data points but invisible, we create the animations
-	// on the animated elements and we create the filter menu.
+function demo(){
+	let our_date = 1990
 
+
+	/*setTimeout(function() {
+		zoom_in(xScale, new Date(our_date - 2, 0, 1),
+		new Date(our_date + 2, 11, 31));
+	}, 10000);*/
+
+	// hide window at beginning
+	var xaxis = d3.select(".xaxis")
+	//.transition().delay(1000).duration(1500)
+	.style("opacity", 0)
+	.on("end", function () {
+			d3.select(id)
+					.style("visibility", "hidden")
+	})
+
+	var select_title = d3.select("svg text.title")
+	//.transition().delay(1000).duration(1500)
+	.style("opacity", 0)
+	.on("end", function () {
+			d3.select(id)
+					.style("visibility", "hidden")
+	})
+
+	hide_button("#open-menu-button")
+	hide_button("#show-not-only-linked")
+	hide_button("#show-only-linked")
+	hide_button("#show-not-only-linked")
+	hide_button("#unzoom-button")
+	hide_button("#remove-filter-button")
+
+
+	// welcoming message
+	var width = d3.select("#plot-div").node().getBoundingClientRect().width
+	var height = d3.select("#plot-div").node().getBoundingClientRect().height
+
+	var welcome = d3.select('#plot').append("text")
+		.attr("transform", "translate(" + (width / 2) + " ," + ((height / 2) - 5) + ")")
+		.attr("id", "welcome-title")
+		.attr("class", "title")
+		.style("text-anchor", "middle")
+		.html("Welcome !")
+		.attr("font-family", "heavitas")
+		.attr("font-size", "1.4vw")
+		.attr("fill", "#282828")
+		.style("opacity", 0)
+
+	// show welcome
+	welcome
+	.transition()
+	.duration(1500)
+	.style("opacity", 1)
+	.on("end", function () {
+			d3.select(this)
+					.style("visibility", "visible")
+	})
+
+	// hide welcome
+	welcome
+	.transition()
+	.delay(2000)
+	.duration(1000)
+	.style("opacity", 0)
+	.on("end", function () {
+			d3.select(this)
+					.style("visibility", "hidden")
+	})
+
+	// show time axis
+	xaxis.transition().delay(2800).duration(1500)
+	.style("opacity", 1)
+	.on("end", function () {
+			d3.select(this)
+					.style("visibility", "visible")
+	})
+
+	// show select a year title
+	select_title.transition().delay(3500).duration(1500)
+	.style("opacity", 1)
+	.on("end", function () {
+			d3.select(this)
+					.style("visibility", "visible")
+	})
+
+	// zoom on year
+	setTimeout(function() {
+		zoom_in(new Date(our_date - 2, 0, 1),
+		new Date(our_date + 2, 11, 31));
+	}, 5000);
+
+//TODO : select dot
+
+/*	var our_event = d3.selectAll(".circle-event-visible")
+	.filter(d => d.Content == "10,000 Chinese soldiers are blocked by 100,000 citizens in Tiananmen Square, Beijing, protecting students demonstrating for democracy")
+	/*.transition().delay(6000).duration(DURATION_SHORT)
+	.attr("fill", '#f26627')
+	.style("r", "0.75vh")
+	.style("opacity", 1)*/
+
+/*	setTimeout(function() {
+		mouse_over_dot(d3.select(our_event), bubble, d.Day + " " + d.Month + " " + d.Year + "<br><br>" + d.Content, d.filteredRefs, true)
+	}, 6000);
+
+console.log(our_event)*/
+
+/*.on("click", d => on_click_dot(event_window, d.Day + " " + d.Month + " " + d.Year + "<hr class='hr-box-event' align='right'>",
+	d.Content, d.Summary + "<br><br><a href=\"" + d.Wikipedia + "\" class=\"href-wiki\"\" target=\"_blank\"\">Read more on Wikipedia</a> &#x2192;",
+	d.filteredRefs, true, d.Year))
+.on("mouseover", function (d) {
+	d3this = d3.select(this)
+	mouse_over_dot(d3this, bubble, d.Day + " " + d.Month + " " + d.Year + "<br><br>" + d.Content, d.filteredRefs, true)
+})*/
+
+	// zooming out
+	setTimeout(function() {zoom_out();}, 10000);
+
+
+	// hide window at the end
+	var xaxis = d3.select(".xaxis")
+	.transition().delay(10000).duration(1500)
+	.style("opacity", 0)
+	.on("end", function () {
+			d3.select(id)
+					.style("visibility", "hidden")
+	})
+
+	var select_title = d3.select("svg text.title")
+	.transition().delay(10000).duration(1500)
+	.style("opacity", 0)
+	.on("end", function () {
+			d3.select(id)
+					.style("visibility", "hidden")
+	})
+
+	var your_turn = d3.select('#plot').append("text")
+		.attr("transform", "translate(" + (width / 2) + " ," + ((height / 2) - 5) + ")")
+		.attr("id", "your-turn-title")
+		.attr("class", "title")
+		.style("text-anchor", "middle")
+		.html("Your turn now !")
+		.attr("font-family", "heavitas")
+		.attr("font-size", "1.4vw")
+		.attr("fill", "#282828")
+		.style("opacity", 0)
+		.style("visibility", "hidden")
+
+	// show welcome
+	your_turn
+	.transition()
+	.delay(11000)
+	.duration(1500)
+	.style("opacity", 1)
+	.on("end", function () {
+			d3.select(this)
+					.style("visibility", "visible")
+	})
+
+	setTimeout(function() {
+		show_button("#open-menu-button")
+		show_button("#show-not-only-linked")
+		show_button("#show-only-linked")
+		show_button("#show-not-only-linked")
+		show_button("#unzoom-button")
+		show_button("#remove-filter-button")
+	}, 10000);
+
+//TODO : make nothing clickable during demo except "skip" button
+}
+
+function initialize(){
 	add_data_points()
 	make_arrows_clickable()
 	make_team_clickable()
 	create_menu()
+
+}
+
+whenDocumentLoaded(() => {
+	// When the document we add the data points but invisible, we create the animations
+	// on the animated elements and we create the filter menu.
+	initialize()
+	demo()
+	//initialize()
 })
