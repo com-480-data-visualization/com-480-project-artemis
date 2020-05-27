@@ -591,11 +591,189 @@ function create_menu() {
 		})
 }
 
-whenDocumentLoaded(() => {
-	// When the document we add the data points but invisible, we create the animations
-	// on the animated elements and we create the filter menu.
+function demo(){
+	let our_date = 1990
+
+
+	/*setTimeout(function() {
+		zoom_in(xScale, new Date(our_date - 2, 0, 1),
+		new Date(our_date + 2, 11, 31));
+	}, 10000);*/
+
+	// hide window at beginning
+	var xaxis = d3.select(".xaxis")
+	//.transition().delay(1000).duration(1500)
+	.style("opacity", 0)
+	.on("end", function () {
+			d3.select(id)
+					.style("visibility", "hidden")
+	})
+
+	var select_title = d3.select("svg text.title")
+	//.transition().delay(1000).duration(1500)
+	.style("opacity", 0)
+	.on("end", function () {
+			d3.select(id)
+					.style("visibility", "hidden")
+	})
+
+	hide_button("#open-menu-button")
+	hide_button("#show-not-only-linked")
+	hide_button("#show-only-linked")
+	hide_button("#show-not-only-linked")
+	hide_button("#unzoom-button")
+	hide_button("#remove-filter-button")
+
+
+	// welcoming message
+	var width = d3.select("#plot-div").node().getBoundingClientRect().width
+	var height = d3.select("#plot-div").node().getBoundingClientRect().height
+
+	var welcome = d3.select('#plot').append("text")
+		.attr("transform", "translate(" + (width / 2) + " ," + ((height / 2) - 5) + ")")
+		.attr("id", "welcome-title")
+		.attr("class", "title")
+		.style("text-anchor", "middle")
+		.html("Welcome !")
+		.attr("font-family", "heavitas")
+		.attr("font-size", "1.4vw")
+		.attr("fill", "#282828")
+		.style("opacity", 0)
+
+	// show welcome
+	welcome
+	.transition()
+	.duration(1500)
+	.style("opacity", 1)
+	.on("end", function () {
+			d3.select(this)
+					.style("visibility", "visible")
+	})
+
+	// hide welcome
+	welcome
+	.transition()
+	.delay(2000)
+	.duration(1000)
+	.style("opacity", 0)
+	.on("end", function () {
+			d3.select(this)
+					.style("visibility", "hidden")
+	})
+
+	// show time axis
+	xaxis.transition().delay(2800).duration(1500)
+	.style("opacity", 1)
+	.on("end", function () {
+			d3.select(this)
+					.style("visibility", "visible")
+	})
+
+	// show select a year title
+	select_title.transition().delay(3500).duration(1500)
+	.style("opacity", 1)
+	.on("end", function () {
+			d3.select(this)
+					.style("visibility", "visible")
+	})
+
+	// zoom on year
+	setTimeout(function() {
+		zoom_in(new Date(our_date - 2, 0, 1),
+		new Date(our_date + 2, 11, 31));
+	}, 5000);
+
+//TODO : select dot
+
+/*	var our_event = d3.selectAll(".circle-event-visible")
+	.filter(d => d.Content == "10,000 Chinese soldiers are blocked by 100,000 citizens in Tiananmen Square, Beijing, protecting students demonstrating for democracy")
+	/*.transition().delay(6000).duration(DURATION_SHORT)
+	.attr("fill", '#f26627')
+	.style("r", "0.75vh")
+	.style("opacity", 1)*/
+
+/*	setTimeout(function() {
+		mouse_over_dot(d3.select(our_event), bubble, d.Day + " " + d.Month + " " + d.Year + "<br><br>" + d.Content, d.filteredRefs, true)
+	}, 6000);
+
+console.log(our_event)*/
+
+/*.on("click", d => on_click_dot(event_window, d.Day + " " + d.Month + " " + d.Year + "<hr class='hr-box-event' align='right'>",
+	d.Content, d.Summary + "<br><br><a href=\"" + d.Wikipedia + "\" class=\"href-wiki\"\" target=\"_blank\"\">Read more on Wikipedia</a> &#x2192;",
+	d.filteredRefs, true, d.Year))
+.on("mouseover", function (d) {
+	d3this = d3.select(this)
+	mouse_over_dot(d3this, bubble, d.Day + " " + d.Month + " " + d.Year + "<br><br>" + d.Content, d.filteredRefs, true)
+})*/
+
+	// zooming out
+	setTimeout(function() {zoom_out();}, 10000);
+
+
+	// hide window at the end
+	var xaxis = d3.select(".xaxis")
+	.transition().delay(10000).duration(1500)
+	.style("opacity", 0)
+	.on("end", function () {
+			d3.select(id)
+					.style("visibility", "hidden")
+	})
+
+	var select_title = d3.select("svg text.title")
+	.transition().delay(10000).duration(1500)
+	.style("opacity", 0)
+	.on("end", function () {
+			d3.select(id)
+					.style("visibility", "hidden")
+	})
+
+	var your_turn = d3.select('#plot').append("text")
+		.attr("transform", "translate(" + (width / 2) + " ," + ((height / 2) - 5) + ")")
+		.attr("id", "your-turn-title")
+		.attr("class", "title")
+		.style("text-anchor", "middle")
+		.html("Your turn now !")
+		.attr("font-family", "heavitas")
+		.attr("font-size", "1.4vw")
+		.attr("fill", "#282828")
+		.style("opacity", 0)
+		.style("visibility", "hidden")
+
+	// show welcome
+	your_turn
+	.transition()
+	.delay(11000)
+	.duration(1500)
+	.style("opacity", 1)
+	.on("end", function () {
+			d3.select(this)
+					.style("visibility", "visible")
+	})
+
+	setTimeout(function() {
+		show_button("#open-menu-button")
+		show_button("#show-not-only-linked")
+		show_button("#show-only-linked")
+		show_button("#show-not-only-linked")
+		show_button("#unzoom-button")
+		show_button("#remove-filter-button")
+	}, 10000);
+
+//TODO : make nothing clickable during demo except "skip" button
+}
+
+function initialize(){
 	add_data_points()
 	make_arrows_clickable()
 	make_team_clickable()
 	create_menu()
+
+}
+
+whenDocumentLoaded(() => {
+	// When the document we add the data points but invisible, we create the animations
+	// on the animated elements and we create the filter menu.
+	initialize()
+	demo()
+	//initialize()
 })
