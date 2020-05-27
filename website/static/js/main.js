@@ -662,7 +662,7 @@ function demo(){
 	setTimeout(function() {
 		zoom_in(new Date(our_date - 2, 0, 1),
 		new Date(our_date + 2, 11, 31));
-	}, 5000);
+	}, 2500);
 
 //TODO : select dot
 
@@ -692,7 +692,7 @@ console.log(our_event)*/
 
 	// zooming out
 	setTimeout(function() {
-		zoom_in_progress = true
+		demo_in_progress = true
 		zoom_out();
 	}, 10000);
 /*
@@ -771,14 +771,13 @@ console.log(our_event)*/
 		show_button("#show-not-only-linked")
 		show_button("#unzoom-button")
 		show_button("#remove-filter-button")
-	}, 10000);
+	}, 14000);
 
 	setTimeout(function() {
 		subtitle_to_title()
 	}, 14000)
 
-  zoom_in_progress=false
-//TODO : make nothing clickable during demo except "skip" button
+  demo_in_progress=false
 }
 
 

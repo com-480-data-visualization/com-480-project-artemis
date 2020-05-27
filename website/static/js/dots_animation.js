@@ -296,9 +296,7 @@ function zoom_in(min_date, max_date) {
         .transition().duration(DURATION_LONG)
         .call(xAxis)
         .on("end", function () {
-          if(!demo_in_progress){
             make_year_clickable()
-          }
         })
 
     // If not zoomed and not filtered (start state) we display the points and set their position
@@ -329,6 +327,7 @@ function zoom_out() {
 
     // Change the title
     if (demo_in_progress){
+      console.log(demo_in_progress + "HEY")
       d3.select("#title")
     			.transition().duration(750)
     			.style("opacity", 0)
@@ -354,9 +353,7 @@ function zoom_out() {
         .transition().duration(DURATION_LONG)
         .call(xAxis)
         .on("end", function () {
-          if(!demo_in_progress){
             make_year_clickable()
-          }
         })
 
     // Hide unzoom button
