@@ -805,29 +805,31 @@ function simple_intro(){
 	// welcoming message
 	display_intro_title("Welcome !", 1500)
 	setTimeout(function () {
-		display_intro_title("This website allows you to explore the influence of historical events on pop culture.", 4000)
+		display_intro_title("This website allows you to explore the influence of historical events on pop culture.", 5000)
 	}, 2000)
 
 	setTimeout(function () {
 		display_intro_title("Have fun and get lost in time !", 3500)
-	}, 7000)
+	}, 8000)
 
 	// show time axis
 	setTimeout(function () {
 		show(".xaxis")
-	}, 10000)
+	}, 11000)
 
 	// show all
 	setTimeout(function () {
 		show_button("#open-menu-button")
 		show_button("#show-not-only-linked")
 		show_button("#show-only-linked")
-		show_button("#show-not-only-linked")
-		show_button("#unzoom-button")
-		show_button("#remove-filter-button")
+		//show_button("#show-not-only-linked")
+		//show_button("#unzoom-button")
+		//show_button("#remove-filter-button")
 		show_button("#arrow-down-main")
+
+
 		subtitle_to_title()
-	}, 11000)
+	}, 12000)
 
 	demo_in_progress = false
 }
@@ -842,12 +844,3 @@ whenDocumentLoaded(() => {
 	simple_intro()
 
 })
-
-
-/*whenDocumentLoaded(() => {
-	// When the document we add the data points but invisible, we create the animations
-	// on the animated elements and we create the filter menu.
-	initialize()
-	//demo()
-	//initialize()
-})*/
