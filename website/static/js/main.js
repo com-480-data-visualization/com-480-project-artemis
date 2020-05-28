@@ -201,7 +201,7 @@ function add_data_points(date) {
 		})
 
 	// Create events data points on the upper part of the svg
-	d3.csv("../data/events_refs_website.csv").then(function (data) {
+	d3.csv("https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/website/static/data/events_refs_website.csv").then(function (data) {
 		var event_window = d3.select("#main")
 			.append("div")
 			.attr("class", "half-window")
@@ -227,7 +227,7 @@ function add_data_points(date) {
 	})
 
 	// Create songs data points on the lower part of the svg
-	d3.csv("../data/songs_refs_website.csv").then(function (data) {
+	d3.csv("https://github.com/com-480-data-visualization/com-480-project-artemis/blob/master/website/static/data/songs_refs_website.csv").then(function (data) {
 		var song_window = d3.select("#main")
 			.append("div")
 			.attr("class", "half-window")
@@ -568,7 +568,7 @@ function create_menu() {
 	close_button = menu.append('img')
 		.attr("id", "close-menu-button")
 		.attr("class", "cross")
-		.attr("src", "../img/cross_white.png")
+		.attr("src", "../static/img/cross_white.png")
 		.on("mouseover", function () {
 			d3.select(this)
 				.style("cursor", "pointer")
