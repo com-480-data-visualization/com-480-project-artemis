@@ -207,6 +207,7 @@ function add_data_points(date) {
 			.attr("class", "half-window")
 			.attr("id", "half-window-event")
 			.style("opacity", 0)
+			.style("visibility", "hidden")
 		plot_area.selectAll("#circle-event")
 			.data(data)
 			.enter()
@@ -232,7 +233,8 @@ function add_data_points(date) {
 			.append("div")
 			.attr("class", "half-window")
 			.attr("id", "half-window-song")
-			.style("opacity", 0);
+			.style("opacity", 0)
+			.style("visibility", "hidden")
 		plot_area.selectAll("#circle-song")
 			.data(data)
 			.enter()
