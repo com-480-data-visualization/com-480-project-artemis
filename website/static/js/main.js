@@ -289,11 +289,11 @@ function make_arrows_clickable() {
 				.transition().duration(DURATION_SHORT)
 				.style("opacity", 0)
 				.on("end", function () {
-					window.transition().delay(DURATION_SHORT)
+					d3.select(this).transition().delay(DURATION_SHORT)
 						.style("visibility", "hidden")
-					window.selectAll('p')
+					d3.select(this).selectAll('p')
 						.remove()
-					window.selectAll('img')
+					d3.select(this).selectAll('img')
 						.remove()
 				})
 			// Close the menu
@@ -582,7 +582,7 @@ function create_filter_menu() {
 		.attr("id", "remove-button-text")
 		.attr("class", "remove-button-text")
 		.html("remove")
-		
+
 	// Add button to close the menu
 	close_button = menu.append('img')
 		.attr("id", "close-menu-button")
@@ -634,7 +634,7 @@ function display_intro_title(text, stay_time) {
 
 function launch_intro() {
 	/* 	This function launches the demo. */
-	
+
 	// Demo is in progress
 	demo_in_progress = true
 
