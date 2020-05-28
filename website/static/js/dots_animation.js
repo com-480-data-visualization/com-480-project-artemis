@@ -363,25 +363,6 @@ function zoom_out() {
     zoomed_in = false
 }
 
-function make_year_non_clickable() {
-    /*  This function makes the year ticks clickable, allowing the user
-        to zoom into the time line by selecting a year tick. */
-
-    d3.selectAll(".tick")
-        // Handle the mouseover event
-        .on("mouseover", function () {
-            
-        })
-        // Handle the mouseout event
-        .on("mouseout", function () {
-            
-        })
-        // Handle the click event
-        .on("click", function () {
-            
-        })
-}
-
 function make_year_clickable() {
     /*  This function makes the year ticks clickable, allowing the user
         to zoom into the time line by selecting a year tick. */
@@ -419,6 +400,25 @@ function make_year_clickable() {
             var max_date = new Date(current_date + 2, 11, 31)
             zoom_in(min_date, max_date)
             zoomed_in = true
+        })
+}
+
+function make_year_non_clickable() {
+    /*  This function makes the year ticks non-clickable, preventing the user
+        to zoom into the time line by selecting a year tick. */
+
+    d3.selectAll(".tick")
+        // Handle the mouseover event
+        .on("mouseover", function () {
+            
+        })
+        // Handle the mouseout event
+        .on("mouseout", function () {
+            
+        })
+        // Handle the click event
+        .on("click", function () {
+            
         })
 }
 
