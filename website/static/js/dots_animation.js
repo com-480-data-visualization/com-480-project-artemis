@@ -294,9 +294,6 @@ function zoom_in(min_date, max_date) {
                 d3.select(this)
                     .attr("class", d => is_event(d) ? "circle-event-visible" : "circle-song-visible")
             })
-        d3.select("#plot-area").selectAll("circle")
-            .transition().duration(DURATION_LONG)
-            .attr("cx", d => xScale(get_date(d, is_event(d))))
     }
     // Otherwise, we already have points plotted and we only want to change their position
     else {
