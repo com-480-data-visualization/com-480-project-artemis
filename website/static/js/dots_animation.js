@@ -652,9 +652,14 @@ function on_click_close_half_window(is_event_clicked, current_year, new_class_hi
             d3.select("#title")
                 .transition().duration(DURATION_LONG)
                 .style("opacity", 1)
+            count = 0
             d3.selectAll("circle")
                 .transition().duration(DURATION_LONG)
-                .attr("cx", d => xScale(get_date(d, is_event(d))))
+                .attr("cx", function(d) {
+                    count =+ 1
+                    console.log(count)
+                    return xScale(get_date(d, is_event(d)))
+                })
             // Points to hide
             d3.selectAll(".circle-event-visible-preview-filtered,.circle-song-visible-preview-filtered")
                 .transition().duration(DURATION_SHORT)
