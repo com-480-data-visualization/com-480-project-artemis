@@ -104,6 +104,7 @@ function remove_filters() {
     document.getElementById("rank-field").value = ""
     document.getElementById("genre-field").value = ""
     document.getElementById("lyrics-field").value = ""
+    document.getElementById("content-field").value = ""
 }
 
 function title_to_subtitle() {
