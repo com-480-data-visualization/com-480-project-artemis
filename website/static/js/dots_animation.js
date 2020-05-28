@@ -294,22 +294,16 @@ function zoom_in(min_date, max_date) {
                 d3.select(this)
                     .attr("class", d => is_event(d) ? "circle-event-visible" : "circle-song-visible")
             })
-    }
-    // Otherwise, we already have points plotted and we only want to change their position
-    else {
-        d3.selectAll(".circle-event-visible, .circle-song-visible")
+        d3.select("#plot-area").selectAll("circle")
             .transition().duration(DURATION_LONG)
             .attr("cx", d => xScale(get_date(d, is_event(d))))
     }
-    console.log("coucou")
-    var count = 0
-    d3.selectAll("circle")
-    .transition().duration(DURATION_LONG)
-    .attr("cx", function(d) {
-        count += 1
-        console.log(count)
-        return xScale(get_date(d, is_event(d)))
-    })
+    // Otherwise, we already have points plotted and we only want to change their position
+    else {
+        d3.select("#plot-area").selectAll("circle")
+            .transition().duration(DURATION_LONG)
+            .attr("cx", d => xScale(get_date(d, is_event(d))))
+    }
     zoomed_in = true
 }
 
@@ -428,8 +422,8 @@ function get_song_query(d, neg) {
 }
 
 function get_event_query(d, neg) {
-     /*  This function checks whether the attributes of a given event data points d match 
-        the query of the input fields. */
+    /*  This function checks whether the attributes of a given event data points d match 
+       the query of the input fields. */
 
     var query = d.Year.toLowerCase().includes(document.getElementById("year-event-field").value.toLowerCase()) &&
         d.Month.toLowerCase().includes(document.getElementById("month-field").value.toLowerCase()) &&
@@ -493,12 +487,11 @@ function hide_unlinked_data_points() {
             })
     }
     else {
-        console.log("coucou")
         d3.selectAll(".circle-event-visible, .circle-song-visible")
             .filter(d => +d.num_refs == 0)
             .transition().duration(DURATION_LONG)
             .style("opacity", 0)
-            .on("end", function (d) {
+            .on("end", function () {
                 d3.select(this)
                     .style("visibility", "hidden")
                     .attr("class", d => is_event(d) ? "circle-event-hidden" : "circle-song-hidden")
@@ -660,14 +653,9 @@ function on_click_close_half_window(is_event_clicked, current_year, new_class_hi
             d3.select("#title")
                 .transition().duration(DURATION_LONG)
                 .style("opacity", 1)
-            count = 0
             d3.selectAll("circle")
                 .transition().duration(DURATION_LONG)
-                .attr("cx", function(d) {
-                    count =+ 1
-                    console.log(count)
-                    return xScale(get_date(d, is_event(d)))
-                })
+                .attr("cx", d => xScale(get_date(d, is_event(d))))
             // Points to hide
             d3.selectAll(".circle-event-visible-preview-filtered,.circle-song-visible-preview-filtered")
                 .transition().duration(DURATION_SHORT)
