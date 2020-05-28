@@ -301,6 +301,7 @@ function zoom_in(min_date, max_date) {
             .transition().duration(DURATION_LONG)
             .attr("cx", d => xScale(get_date(d, is_event(d))))
     }
+    console.log("coucou")
     var count = 0
     d3.selectAll("circle")
     .transition().duration(DURATION_LONG)
