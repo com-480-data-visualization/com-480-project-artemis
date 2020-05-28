@@ -207,7 +207,7 @@ function on_click_dot(window, title, subtitle, content, refs, is_event_clicked, 
         .attr("src", icon_path)
         // Handle the click event
         .on("click", function () {
-            on_click_close_half_window(is_event_clicked, current_year)
+            on_click_close_half_window(is_event_clicked, current_year, new_class_hidden)
             window.transition().duration(DURATION_LONG)
                 .style("opacity", 0)
                 .on("end", function () {
@@ -578,7 +578,7 @@ function hide_all_data(data) {
         })
 }
 
-function on_click_close_half_window(is_event_clicked, current_year) {
+function on_click_close_half_window(is_event_clicked, current_year, new_class_hidden) {
     /*  This function handles the event when the half-window is closed properly
         by checking all the different situation. */
 
