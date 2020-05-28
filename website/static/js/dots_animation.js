@@ -100,7 +100,7 @@ function on_click_dot(window, title, subtitle, content, refs, is_event_clicked, 
         filled with all information from the song and event data. */
 
     // Create properties depending on the type of data point (event or song)
-    var icon_path = is_event_clicked ? "static/img/cross_white.png" : "static/img/cross_black.png"
+    var icon_path = is_event_clicked ? "../static/img/cross_white.png" : "../static/img/cross_black.png"
     var font_color = is_event_clicked ? "white" : "#282828"
     var bg_color = is_event_clicked ? "#f26627" : "rgb(233, 233, 233)"
     var style_top = is_event_clicked ? "0px" : "50vh"
