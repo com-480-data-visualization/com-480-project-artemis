@@ -1,19 +1,24 @@
 /*  This script handles the functions called to construct the basis of the
 	website when the function "whenDocumentLoaded" is called. */
 
+// Define global variable amoug all the scripts
 var DURATION_SHORT = 250;
 var DURATION_LONG = 1500;
-var zoomed_in = false;
-var menu_open = false;
-var filtered_data = false;
+
 var mindate = new Date(1965, 0, 1);
 var maxdate = new Date(2015, 11, 31);
-var xScale;
+
+var zoomed_in = false;
 var event_clicked = false;
 var song_clicked = false;
 var show_only_linked = true;
-var count_clicked = 0;
+var menu_open = false;
+var filtered_data = false;
 var demo_in_progress = false;
+
+var xScale;
+
+var count_clicked = 0;
 
 
 function whenDocumentLoaded(action) {
@@ -27,7 +32,7 @@ function whenDocumentLoaded(action) {
 	}
 }
 
-function add_data_points(date) {
+function construct_main_svg() {
 	/*	This function creates the SVG in which the points will be displayed
 		  together with the time line. */
 
@@ -83,7 +88,7 @@ function add_data_points(date) {
 	// Make year ticks clickable
 	make_year_clickable()
 
-	// Create zoom-out button
+	// Add button to zoom out the time-line
 	d3.select("#unzoom-button")
 		.style("visibility", "hidden")
 		.style("opacity", "0")
@@ -112,7 +117,7 @@ function add_data_points(date) {
 				})
 		})
 
-	// Create button to only show data points with links
+	// Add icon button to only show data points with links
 	d3.select("#show-only-linked")
 		.style("opacity", 0)
 		.style("visibility", "hidden")
@@ -138,7 +143,7 @@ function add_data_points(date) {
 			hide_unlinked_data_points()
 		})
 
-	// Create button to show all data points (not only linked ones)
+	// Add icon button to show all data points (not only linked ones)
 	d3.select("#show-not-only-linked")
 		.style("opacity", 1)
 		.style("visibility", "visible")
@@ -164,7 +169,7 @@ function add_data_points(date) {
 			show_unlinked_data_points()
 		})
 
-	// Create button to remove filters
+	// Add icon button to remove filters
 	d3.select("#remove-filter-button")
 		.style("visibility", "hidden")
 		.style("opacity", "0")
@@ -175,16 +180,7 @@ function add_data_points(date) {
 				.style("color", "#f26627")
 		})
 		.on("click", function () {
-			document.getElementById("year-event-field").value = ""
-			document.getElementById("month-field").value = ""
-			document.getElementById("day-field").value = ""
-			document.getElementById("song-field").value = ""
-			document.getElementById("artist-field").value = ""
-			document.getElementById("album-field").value = ""
-			document.getElementById("year-song-field").value = ""
-			document.getElementById("rank-field").value = ""
-			document.getElementById("genre-field").value = ""
-			document.getElementById("lyrics-field").value = ""
+			remove_filters()
 			if (zoomed_in) {
 				show_all_data("events")
 				show_all_data("songs")
@@ -198,6 +194,27 @@ function add_data_points(date) {
 			}
 			filtered_data = false
 			hide_button("#remove-filter-button")
+		})
+
+	// Add icon button to open the menu
+	d3.select("#open-menu-button")
+		.on("mouseover", function () {
+			d3.select(this)
+				.style("cursor", "pointer")
+		})
+		.on("click", function () {
+			menu_open = true;
+			// Close the half windows
+			d3.selectAll(".half-window")
+				.transition().duration(DURATION_SHORT)
+				.style("opacity", 0)
+				.on("end", function () {
+					d3.selectAll(".half-window").style("visibility", "hidden")
+					d3.selectAll(".half-window").selectAll('p').remove()
+					d3.selectAll(".half-window").selectAll('img').remove()
+					menu.transition().duration(DURATION_SHORT)
+						.style("left", "0vw")
+				})
 		})
 
 	// Create events data points on the upper part of the svg
@@ -341,7 +358,7 @@ function make_team_clickable() {
 		})
 }
 
-function create_menu() {
+function create_filter_menu() {
 	/*	This function creates the filter menu and manage the animations. It also
 		performs the filter itself on song and event data points when the input
 		fields are non-empty. */
@@ -462,7 +479,7 @@ function create_menu() {
 		.attr("class", "input")
 		.attr("id", "lyrics-field")
 
-	// Filter button
+	// Add the button to apply the filters
 	filter_button = menu.append('div')
 		.attr("id", "filter-button")
 		.attr("class", "filter-button")
@@ -507,13 +524,13 @@ function create_menu() {
 				.transition().duration(DURATION_SHORT)
 				.style("left", "-30vw")
 		})
-	// Add button text
+	// Add button text "apply" to apply the filters
 	filter_button.append('p')
 		.attr("id", "filter-button-text")
 		.attr("class", "filter-button-text")
 		.html("apply")
 
-	// Remove filters button
+	// Add button to remove filters
 	remove_button = menu.append('div')
 		.attr("id", "remove-button")
 		.attr("class", "remove-button")
@@ -560,13 +577,13 @@ function create_menu() {
 			}
 			hide_button("#remove-filter-button")
 		})
-	// Add button text
+	// Add button text "remove" to remove the filters
 	remove_button.append('p')
 		.attr("id", "remove-button-text")
 		.attr("class", "remove-button-text")
 		.html("remove")
-
-	// Close menu button
+		
+	// Add button to close the menu
 	close_button = menu.append('img')
 		.attr("id", "close-menu-button")
 		.attr("class", "cross")
@@ -580,185 +597,10 @@ function create_menu() {
 			menu.transition().duration(DURATION_SHORT)
 				.style("left", "-35vw")
 		})
-
-	// Open menu button
-	d3.select("#open-menu-button")
-		.on("mouseover", function () {
-			d3.select(this)
-				.style("cursor", "pointer")
-		})
-		.on("click", function () {
-			menu_open = true;
-			// Close the half windows
-			d3.selectAll(".half-window")
-				.transition().duration(DURATION_SHORT)
-				.style("opacity", 0)
-				.on("end", function () {
-					d3.selectAll(".half-window").style("visibility", "hidden")
-					d3.selectAll(".half-window").selectAll('p').remove()
-					d3.selectAll(".half-window").selectAll('img').remove()
-					menu.transition().duration(DURATION_SHORT)
-						.style("left", "0vw")
-				})
-		})
 }
 
-/*
-function demo() {
-	demo_in_progress = true
-
-	let our_date = 2001
-
-	// hide title and timeline at beginning
-	var xaxis = d3.select(".xaxis")
-		.style("opacity", 0)
-		.on("end", function () {
-			d3.select(this)
-				.style("visibility", "hidden")
-		})
-
-	var select_title = d3.select("#title")
-		.style("opacity", 0)
-		.on("end", function () {
-			d3.select(this)
-				.style("visibility", "hidden")
-		})
-
-
-	hide_button("#open-menu-button")
-	hide_button("#show-not-only-linked")
-	hide_button("#show-only-linked")
-	hide_button("#show-not-only-linked")
-	hide_button("#unzoom-button")
-	hide_button("#remove-filter-button")
-	hide_button("#arrow-down-main")
-
-	// welcoming message
-	var width = d3.select("#plot-div").node().getBoundingClientRect().width
-	var height = d3.select("#plot-div").node().getBoundingClientRect().height
-
-	var welcome = d3.select('#plot').append("text")
-		.attr("transform", "translate(" + (width / 2) + " ," + ((height / 2) - 5) + ")")
-		.attr("id", "welcome-title")
-		.attr("class", "title")
-		.style("text-anchor", "middle")
-		.html("Welcome !")
-		.attr("font-family", "heavitas")
-		.attr("font-size", "1.4vw")
-		.attr("fill", "#282828")
-		.style("opacity", 0)
-
-	// show welcome
-	welcome
-		.style("visibility", "visible")
-		.transition()
-		.duration(1500)
-		.style("opacity", 1)
-
-	// hide welcome
-	welcome.transition().delay(1500).duration(750)
-		.style("opacity", 0)
-		.on("end", function () {
-			d3.select(this)
-				.style("visibility", "hidden")
-		}
-		)
-
-	// show time axis
-	xaxis
-		.style("visibility", "visible")
-		.transition().delay(1500).duration(1000)
-		.style("opacity", 1)
-
-	// zoom on year
-	setTimeout(function () {
-		zoom_in(new Date(our_date - 2, 0, 1),
-			new Date(our_date + 2, 11, 31));
-	}, 2500);
-
-	//TODO : select dot
-	setTimeout(function () {
-		demo_in_progress = true
-
-		var event_window = d3.select("#main").selectAll(".half-window")
-		console.log(event_window)
-		var bubble = d3.select("#bubble")
-
-		d3.select("#plot-area").selectAll(".circle-event-visible")
-			.filter(d => d.Year == "2001" && d.Month == "July" && d.Day == "9")
-			.transition().duration(DURATION_SHORT)
-			.attr("fill", '#f26627')
-			.style("r", "0.75vh")
-			.style("opacity", 1)
-			.call(function() {
-				count_clicked = 1
-				var year = ""
-					var month = ""
-					var day = ""
-					var content = ""
-					var summary = ""
-					var wikipedia = ""
-					var filteredRefs = ""
-				d3.select("#plot-area").selectAll(".circle-event-visible")
-				.filter(function(d) {
-					year = d.Year
-					month = d.Month
-					day = d.Day
-					content = d.Content
-					summary = d.Summary_embedded
-					wikipedia = d.Wikipedia
-					filteredRefs = d.filteredRefs
-					return year == "2001" && month == "July" && day == "9"
-				})
-
-				on_click_dot(event_window, day + " " + month + " " + year + "<hr class='hr-box-event' align='right'>",
-				content, summary + "<br><br><a href=\"" + wikipedia + "\" class=\"href-wiki\"\" target=\"_blank\"\">Read more on Wikipedia</a> &#x2192;",
-				filteredRefs, true, year)
-				on_click_dot()
-			})
-
-}, 5000);
-
-	// zooming out
-	setTimeout(function () {
-		demo_in_progress = true
-		zoom_out();
-	}, 10000);
-
-	setTimeout(function () {
-		show_button("#open-menu-button")
-		show_button("#show-not-only-linked")
-		show_button("#show-only-linked")
-		show_button("#show-not-only-linked")
-		show_button("#unzoom-button")
-		show_button("#remove-filter-button")
-	}, 14000);
-
-	setTimeout(function () {
-		subtitle_to_title()
-	}, 14000)
-
-	count_clicked = 0
-	demo_in_progress = false
-}*/
-
-function instant_hide(id){
-	d3.select(id)
-		.style("opacity", 0)
-		.on("end", function () {
-			d3.select(this)
-				.style("visibility", "hidden")
-		})
-}
-
-function show(id){
-	d3.select(id)
-		.style("visibility", "visible")
-		.transition().duration(1000)
-		.style("opacity", 1)
-}
-
-function display_intro_title(text, stay_time){
+function display_intro_title(text, stay_time) {
+	/* 	This function display the introduction titles. */
 
 	var width = d3.select("#plot-div").node().getBoundingClientRect().width
 	var height = d3.select("#plot-div").node().getBoundingClientRect().height
@@ -774,14 +616,14 @@ function display_intro_title(text, stay_time){
 		.attr("fill", "#282828")
 		.style("opacity", 0)
 
-	// show welcome
+	// Show welcome title
 	welcome
 		.style("visibility", "visible")
 		.transition()
 		.duration(1500)
 		.style("opacity", 1)
 
-	// hide welcome
+	// Hide welcome title
 	welcome.transition().delay(stay_time).duration(750)
 		.style("opacity", 0)
 		.on("end", function () {
@@ -790,10 +632,13 @@ function display_intro_title(text, stay_time){
 		})
 }
 
-function simple_intro(){
+function launch_intro() {
+	/* 	This function launches the demo. */
+	
+	// Demo is in progress
 	demo_in_progress = true
 
-	// hide title and timeline at beginning
+	// Hide title and timeline at beginning
 	instant_hide(".xaxis")
 	instant_hide("#title")
 	instant_hide("#open-menu-button")
@@ -804,7 +649,7 @@ function simple_intro(){
 	instant_hide("#remove-filter-button")
 	instant_hide("#arrow-down-main")
 
-	// welcoming message
+	// Welcoming message
 	display_intro_title("Welcome !", 1500)
 	setTimeout(function () {
 		display_intro_title("This website allows you to explore the influence of historical events on pop culture.", 5000)
@@ -814,12 +659,12 @@ function simple_intro(){
 		display_intro_title("Have fun and get lost in time !", 3500)
 	}, 8000)
 
-	// show time axis
+	// Show time axis
 	setTimeout(function () {
 		show(".xaxis")
 	}, 11000)
 
-	// show all
+	// Show all button visible at the beginning
 	setTimeout(function () {
 		show_button("#open-menu-button")
 		show_button("#show-not-only-linked")
@@ -828,16 +673,16 @@ function simple_intro(){
 		subtitle_to_title()
 	}, 12000)
 
+	// Demo is over
 	demo_in_progress = false
 }
 
 whenDocumentLoaded(() => {
 	// When the document we add the data points but invisible, we create the animations
 	// on the animated elements and we create the filter menu.
-	add_data_points()
+	construct_main_svg()
 	make_arrows_clickable()
 	make_team_clickable()
-	create_menu()
-	simple_intro()
-
+	create_filter_menu()
+	launch_intro()
 })

@@ -69,7 +69,7 @@ function mouse_over_dot(selection, bubble, text, refs, is_event_clicked) {
 
 function mouse_out_dot(bubble) {
     /*  This function handles the "mouseout" event on the dots. It hides the pop-up
-        and reinitialize the color and the size of all dots */
+        and reinitialize the color and the size of all dots. */
 
     // Hide the pop-up
     bubble.transition()
@@ -207,165 +207,7 @@ function on_click_dot(window, title, subtitle, content, refs, is_event_clicked, 
         .attr("src", icon_path)
         // Handle the click event
         .on("click", function () {
-
-            switch (is_event_clicked) {
-                case true:
-                    var points_to_show = "." + new_class_hidden
-                    var new_class = "circle-song-visible"
-                    break
-                case false:
-                    var points_to_show = "." + new_class_hidden
-                    var new_class = "circle-event-visible"
-                    break
-            }
-
-            var points_to_update = "." + new_class_visible
-
-            if (count_clicked == 1 && !filtered_data) {
-                show_button("#open-menu-button")
-                show_only_linked ? show_button("#show-not-only-linked") : show_button("#show-only-linked")
-                zoomed_in ? show_button("#unzoom-button") : hide_button("#unzoom-button")
-                filtered_data ? show_button("#remove-filter-button") : hide_button("#remove-filter-button")
-
-                xScale.domain([new Date(+current_year - 2, 0, 1), new Date(+current_year + 2, 11, 31)])
-                xAxis = fc.axisBottom(xScale)
-                    .tickArguments([5])
-                    .tickCenterLabel(true)
-                    .tickSizeInner(0)
-                    .tickSizeOuter(0)
-                d3.select("#plot").select(".xaxis")
-                    .transition().duration(DURATION_LONG)
-                    .call(xAxis)
-                d3.select("#title")
-                    .transition().duration(DURATION_LONG)
-                    .style("opacity", 1)
-                d3.selectAll("circle")
-                    .transition().duration(DURATION_LONG)
-                    .attr("cx", d => xScale(get_date(d, is_event(d))))
-                d3.selectAll(points_to_show)
-                    .style("visibility", "visible")
-                    .transition().delay(DURATION_LONG - DURATION_SHORT).duration(DURATION_LONG)
-                    .style("opacity", 1)
-                    .style("r", "0.25vh")
-                    .attr("class", new_class)
-                d3.selectAll(points_to_update)
-                    .transition().delay(DURATION_LONG - DURATION_SHORT).duration(DURATION_LONG)
-                    .style("opacity", 1)
-                    .attr("fill", '#282828')
-                    .style("r", "0.25vh")
-                    .attr("class", new_class)
-                count_clicked = 0
-
-            }
-            else if (count_clicked == 1 && filtered_data) {
-                show_button("#open-menu-button")
-                show_only_linked ? show_button("#show-not-only-linked") : show_button("#show-only-linked")
-                zoomed_in ? show_button("#unzoom-button") : hide_button("#unzoom-button")
-                filtered_data ? show_button("#remove-filter-button") : hide("#remove-filter-button")
-
-                if (zoomed_in) {
-                    xScale.domain([new Date(+current_year - 2, 0, 1), new Date(+current_year + 2, 11, 31)])
-                    xAxis = fc.axisBottom(xScale)
-                        .tickArguments([5])
-                        .tickCenterLabel(true)
-                        .tickSizeInner(0)
-                        .tickSizeOuter(0)
-                    d3.select("#plot").select(".xaxis")
-                        .transition().duration(DURATION_LONG)
-                        .call(xAxis)
-                    d3.select("#title")
-                        .transition().duration(DURATION_LONG)
-                        .style("opacity", 1)
-                    d3.selectAll("circle")
-                        .transition().duration(DURATION_LONG)
-                        .attr("cx", d => xScale(get_date(d, is_event(d))))
-                    // Points to hide
-                    d3.selectAll(".circle-event-visible-preview-filtered,.circle-song-visible-preview-filtered")
-                        .transition().duration(DURATION_SHORT)
-                        .attr("class", d => is_event(d) ? "circle-event-hidden" : "circle-song-hidden")
-                        .style("opacity", 0)
-                        .attr("fill", '#282828')
-                        .style("r", "0.25vh")
-                        .on("end", function (d) {
-                            d3.select(this)
-                                .style("visibility", "hidden")
-                        })
-                    count_clicked = 0
-                }
-                else {
-                    xScale.domain([mindate, maxdate])
-                    xAxis = fc.axisBottom(xScale)
-                        .tickArguments([51])
-                        .tickCenterLabel(true)
-                        .tickSizeInner(0)
-                        .tickSizeOuter(0)
-                    d3.select("#plot").select(".xaxis")
-                        .transition().duration(DURATION_LONG)
-                        .call(xAxis)
-                    d3.select("#title")
-                        .transition().duration(DURATION_LONG)
-                        .style("opacity", 1)
-                    // Points to hide
-                    d3.selectAll(".circle-event-visible-preview-filtered,.circle-song-visible-preview-filtered")
-                        .transition().duration(DURATION_SHORT)
-                        .attr("class", d => is_event(d) ? "circle-event-hidden" : "circle-song-hidden")
-                        .style("opacity", 0)
-                        .attr("fill", '#282828')
-                        .style("r", "0.25vh")
-                        .on("end", function (d) {
-                            d3.select(this)
-                                .style("visibility", "hidden")
-                        })
-                    count_clicked = 0
-                }
-            }
-            else if (count_clicked == 2) {
-                xScale.domain([mindate, maxdate])
-                if (is_event_clicked) {
-                    xAxis = fc.axisTop(xScale)
-                        .tickArguments([51])
-                        .tickCenterLabel(true)
-                        .tickSizeInner(0)
-                        .tickSizeOuter(0)
-                    d3.select("#plot").select(".xaxis")
-                        .transition().duration(DURATION_LONG)
-                        .call(xAxis)
-                }
-                else {
-                    xAxis = fc.axisBottom(xScale)
-                        .tickArguments([51])
-                        .tickCenterLabel(true)
-                        .tickSizeInner(0)
-                        .tickSizeOuter(0)
-                    d3.select("#plot").select(".xaxis")
-                        .transition().duration(DURATION_LONG)
-                        .call(xAxis)
-                }
-                d3.selectAll("#cross1")
-                    .style("visibility", "visible")
-                    .transition().duration(DURATION_SHORT)
-                    .style("opacity", 1)
-                count_clicked -= 1
-                d3.selectAll(points_to_show)
-                    .style("visibility", "visible")
-                    .transition().duration(DURATION_SHORT)
-                    .style("opacity", 1)
-                    .style("r", "0.25vh")
-                    .on("end", function () {
-                        d3.select(this)
-                            .attr("class", new_class)
-                    })
-                d3.selectAll(points_to_update)
-                    .transition().duration(DURATION_SHORT)
-                    .style("opacity", 1)
-                    .attr("fill", '#282828')
-                    .style("r", "0.25vh")
-                    .on("end", function () {
-                        d3.select(this)
-                            .attr("class", new_class)
-                    })
-            }
-
+            on_click_close_half_window()
             window.transition().duration(DURATION_LONG)
                 .style("opacity", 0)
                 .on("end", function () {
@@ -561,6 +403,9 @@ function make_year_clickable() {
 }
 
 function get_song_query(d, neg) {
+    /*  This function checks whether the attributes of a given song data points d match 
+        the query of the input fields. */
+
     var query = d.Song.toLowerCase().includes(document.getElementById("song-field").value.toLowerCase()) &&
         d.Artist.toLowerCase().includes(document.getElementById("artist-field").value.toLowerCase()) &&
         d.Album.toLowerCase().includes(document.getElementById("album-field").value.toLowerCase()) &&
@@ -575,12 +420,14 @@ function get_song_query(d, neg) {
 }
 
 function get_event_query(d, neg) {
+     /*  This function checks whether the attributes of a given event data points d match 
+        the query of the input fields. */
+
     var query = d.Year.toLowerCase().includes(document.getElementById("year-event-field").value.toLowerCase()) &&
         d.Month.toLowerCase().includes(document.getElementById("month-field").value.toLowerCase()) &&
         d.Day.toLowerCase().includes(document.getElementById("day-field").value.toLowerCase()) &&
         (d.Content.toLowerCase().includes(document.getElementById("content-field").value.toLowerCase()) ||
             d.Summary.toLowerCase().includes(document.getElementById("content-field").value.toLowerCase()))
-
     if (neg) {
         query = !query
     }
@@ -622,6 +469,9 @@ function apply_filter() {
 }
 
 function hide_unlinked_data_points() {
+    /*  This function hides the data points with no references to display
+        only those that have at least one reference. */
+
     // We hide the visible points with no links
     if (filtered_data) {
         d3.selectAll(".circle-event-visible, .circle-song-visible")
@@ -650,6 +500,9 @@ function hide_unlinked_data_points() {
 }
 
 function show_unlinked_data_points() {
+    /*  This functions displays all the points, even those with no
+        references. */
+
     // We show the visible points with no links
     if (filtered_data) {
         d3.selectAll(".circle-event-hidden, .circle-song-hidden")
@@ -679,7 +532,7 @@ function show_unlinked_data_points() {
 
 
 function show_all_data(data) {
-    /*  This function shows all song data points */
+    /*  This function shows all song data points. */
 
     switch (data) {
         case "events":
@@ -703,7 +556,7 @@ function show_all_data(data) {
 }
 
 function hide_all_data(data) {
-    /*  This function hide all event data points */
+    /*  This function hide all event data points. */
 
     switch (data) {
         case "events":
@@ -723,4 +576,171 @@ function hide_all_data(data) {
                 .style("visibility", "hidden")
                 .attr("class", new_class)
         })
+}
+
+function on_click_close_half_window() {
+    /*  This function handles the event when the half-window is closed properly
+        by checking all the different situation. */
+
+    switch (is_event_clicked) {
+        case true:
+            var points_to_show = "." + new_class_hidden
+            var new_class = "circle-song-visible"
+            break
+        case false:
+            var points_to_show = "." + new_class_hidden
+            var new_class = "circle-event-visible"
+            break
+    }
+
+    var points_to_update = "." + new_class_visible
+
+    // We are in the case where only one half-window is open and the data points are not filtered
+    if (count_clicked == 1 && !filtered_data) {
+        show_button("#open-menu-button")
+        show_only_linked ? show_button("#show-not-only-linked") : show_button("#show-only-linked")
+        zoomed_in ? show_button("#unzoom-button") : hide_button("#unzoom-button")
+        filtered_data ? show_button("#remove-filter-button") : hide_button("#remove-filter-button")
+
+        xScale.domain([new Date(+current_year - 2, 0, 1), new Date(+current_year + 2, 11, 31)])
+        xAxis = fc.axisBottom(xScale)
+            .tickArguments([5])
+            .tickCenterLabel(true)
+            .tickSizeInner(0)
+            .tickSizeOuter(0)
+        d3.select("#plot").select(".xaxis")
+            .transition().duration(DURATION_LONG)
+            .call(xAxis)
+        d3.select("#title")
+            .transition().duration(DURATION_LONG)
+            .style("opacity", 1)
+        d3.selectAll("circle")
+            .transition().duration(DURATION_LONG)
+            .attr("cx", d => xScale(get_date(d, is_event(d))))
+        d3.selectAll(points_to_show)
+            .style("visibility", "visible")
+            .transition().delay(DURATION_LONG - DURATION_SHORT).duration(DURATION_LONG)
+            .style("opacity", 1)
+            .style("r", "0.25vh")
+            .attr("class", new_class)
+        d3.selectAll(points_to_update)
+            .transition().delay(DURATION_LONG - DURATION_SHORT).duration(DURATION_LONG)
+            .style("opacity", 1)
+            .attr("fill", '#282828')
+            .style("r", "0.25vh")
+            .attr("class", new_class)
+        count_clicked = 0
+
+    }
+    // We are in the case where only one half-window is open and the data points are filtered
+    else if (count_clicked == 1 && filtered_data) {
+        show_button("#open-menu-button")
+        show_only_linked ? show_button("#show-not-only-linked") : show_button("#show-only-linked")
+        zoomed_in ? show_button("#unzoom-button") : hide_button("#unzoom-button")
+        filtered_data ? show_button("#remove-filter-button") : hide("#remove-filter-button")
+        // If we zoomed in the time-line
+        if (zoomed_in) {
+            xScale.domain([new Date(+current_year - 2, 0, 1), new Date(+current_year + 2, 11, 31)])
+            xAxis = fc.axisBottom(xScale)
+                .tickArguments([5])
+                .tickCenterLabel(true)
+                .tickSizeInner(0)
+                .tickSizeOuter(0)
+            d3.select("#plot").select(".xaxis")
+                .transition().duration(DURATION_LONG)
+                .call(xAxis)
+            d3.select("#title")
+                .transition().duration(DURATION_LONG)
+                .style("opacity", 1)
+            d3.selectAll("circle")
+                .transition().duration(DURATION_LONG)
+                .attr("cx", d => xScale(get_date(d, is_event(d))))
+            // Points to hide
+            d3.selectAll(".circle-event-visible-preview-filtered,.circle-song-visible-preview-filtered")
+                .transition().duration(DURATION_SHORT)
+                .attr("class", d => is_event(d) ? "circle-event-hidden" : "circle-song-hidden")
+                .style("opacity", 0)
+                .attr("fill", '#282828')
+                .style("r", "0.25vh")
+                .on("end", function (d) {
+                    d3.select(this)
+                        .style("visibility", "hidden")
+                })
+            count_clicked = 0
+        }
+        // If we did not zoom in the time-line
+        else {
+            xScale.domain([mindate, maxdate])
+            xAxis = fc.axisBottom(xScale)
+                .tickArguments([51])
+                .tickCenterLabel(true)
+                .tickSizeInner(0)
+                .tickSizeOuter(0)
+            d3.select("#plot").select(".xaxis")
+                .transition().duration(DURATION_LONG)
+                .call(xAxis)
+            d3.select("#title")
+                .transition().duration(DURATION_LONG)
+                .style("opacity", 1)
+            // Points to hide
+            d3.selectAll(".circle-event-visible-preview-filtered,.circle-song-visible-preview-filtered")
+                .transition().duration(DURATION_SHORT)
+                .attr("class", d => is_event(d) ? "circle-event-hidden" : "circle-song-hidden")
+                .style("opacity", 0)
+                .attr("fill", '#282828')
+                .style("r", "0.25vh")
+                .on("end", function (d) {
+                    d3.select(this)
+                        .style("visibility", "hidden")
+                })
+            count_clicked = 0
+        }
+    }
+    // We are in the case where both half-window are open
+    else if (count_clicked == 2) {
+        xScale.domain([mindate, maxdate])
+        if (is_event_clicked) {
+            xAxis = fc.axisTop(xScale)
+                .tickArguments([51])
+                .tickCenterLabel(true)
+                .tickSizeInner(0)
+                .tickSizeOuter(0)
+            d3.select("#plot").select(".xaxis")
+                .transition().duration(DURATION_LONG)
+                .call(xAxis)
+        }
+        else {
+            xAxis = fc.axisBottom(xScale)
+                .tickArguments([51])
+                .tickCenterLabel(true)
+                .tickSizeInner(0)
+                .tickSizeOuter(0)
+            d3.select("#plot").select(".xaxis")
+                .transition().duration(DURATION_LONG)
+                .call(xAxis)
+        }
+        d3.selectAll("#cross1")
+            .style("visibility", "visible")
+            .transition().duration(DURATION_SHORT)
+            .style("opacity", 1)
+        count_clicked -= 1
+        d3.selectAll(points_to_show)
+            .style("visibility", "visible")
+            .transition().duration(DURATION_SHORT)
+            .style("opacity", 1)
+            .style("r", "0.25vh")
+            .on("end", function () {
+                d3.select(this)
+                    .attr("class", new_class)
+            })
+        d3.selectAll(points_to_update)
+            .transition().duration(DURATION_SHORT)
+            .style("opacity", 1)
+            .attr("fill", '#282828')
+            .style("r", "0.25vh")
+            .on("end", function () {
+                d3.select(this)
+                    .attr("class", new_class)
+            })
+    }
 }

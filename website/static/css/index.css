@@ -427,10 +427,15 @@ p.title-box {
 div.description {
 	position: relative;
 	width: 100vw;
-	height: 60vh;
 	background: #f26627;
 	padding-top:5vh;
 	padding-bottom: 5vh;
+}
+
+div.description-content {
+	display: table;
+	width: 100vw;
+	background: #f26627;
 }
 
 .description h1 {
@@ -459,27 +464,24 @@ div.description {
 }
 
 div.description-c1 {
-	position: absolute;
-	left: 10vw;
-	width: 24vw;
-	margin: 0;
-	padding: 0;
+	display: table-cell;
+	width: 26.7vw;
+	padding-left: 5vw;
+	padding-right: 2.5vw;
 }	
 
 div.description-c2 {
-	position: absolute;
-	left: 38vw;
-	width: 24vw;
-	margin: 0;
-	padding: 0;
+	display: table-cell;
+	width: 26.7vw;
+	padding-left: 2.5vw;
+	padding-right: 2.5vw;
 }
 
 div.description-c3 {
-	position: absolute;
-	left: 66vw;
-	width: 24vw;
-	margin: 0;
-	padding: 0;
+	display: table-cell;
+	width: 26.7vw;
+	padding-left: 2.5vw;
+	padding-right: 5vw;
 }
 
 .description hr {
@@ -489,6 +491,24 @@ div.description-c3 {
 	background-color: white;
 	border-width: 0;
 	height: 0.2vh;
+}
+
+img.image-in-text-1 {
+	margin-left: 43%;
+	margin-right: 43%;
+	width: 14%;
+}
+
+img.image-in-text-2 {
+	margin-left: 36%;
+	margin-right: 36%;
+	width: 28%;
+}
+
+img.image-in-text-3 {
+	margin-left: 36%;
+	margin-right: 36%;
+	width: 28%;
 }
 
 /* ------------------------ Footer ------------------------*/
