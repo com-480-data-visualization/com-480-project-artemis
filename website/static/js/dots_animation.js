@@ -561,13 +561,13 @@ function make_year_clickable() {
 }
 
 function get_song_query(d, neg) {
-    var query = d.Song.includes(document.getElementById("song-field").value) &&
-        d.Artist.includes(document.getElementById("artist-field").value) &&
-        d.Album.includes(document.getElementById("album-field").value) &&
-        d.Year.includes(document.getElementById("year-song-field").value) &&
-        d.Rank.includes(document.getElementById("rank-field").value) &&
-        d.Genre.includes(document.getElementById("genre-field").value) &&
-        d.Lyrics_print.includes(document.getElementById("lyrics-field").value)
+    var query = d.Song.toLowerCase().includes(document.getElementById("song-field").value.toLowerCase()) &&
+        d.Artist.toLowerCase().includes(document.getElementById("artist-field").value.toLowerCase()) &&
+        d.Album.toLowerCase().includes(document.getElementById("album-field").value.toLowerCase()) &&
+        d.Year.toLowerCase().includes(document.getElementById("year-song-field").value.toLowerCase()) &&
+        d.Rank.toLowerCase().includes(document.getElementById("rank-field").value.toLowerCase()) &&
+        d.Genre.toLowerCase().includes(document.getElementById("genre-field").value.toLowerCase()) &&
+        d.Lyrics_print.toLowerCase().includes(document.getElementById("lyrics-field").value.toLowerCase())
     if (neg) {
         query = !query
     }
@@ -575,11 +575,11 @@ function get_song_query(d, neg) {
 }
 
 function get_event_query(d, neg) {
-    var query = d.Year.includes(document.getElementById("year-event-field").value) &&
-        d.Month.includes(document.getElementById("month-field").value) &&
-        d.Day.includes(document.getElementById("day-field").value) &&
-        (d.Content.includes(document.getElementById("content-field").value) ||
-            d.Summary.includes(document.getElementById("content-field").value))
+    var query = d.Year.toLowerCase().includes(document.getElementById("year-event-field").value.toLowerCase()) &&
+        d.Month.toLowerCase().includes(document.getElementById("month-field").value.toLowerCase()) &&
+        d.Day.toLowerCase().includes(document.getElementById("day-field").value.toLowerCase()) &&
+        (d.Content.toLowerCase().includes(document.getElementById("content-field").value.toLowerCase()) ||
+            d.Summary.toLowerCase().includes(document.getElementById("content-field").value.toLowerCase()))
 
     if (neg) {
         query = !query
