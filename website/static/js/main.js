@@ -825,6 +825,7 @@ function simple_intro(){
 		show_button("#show-not-only-linked")
 		show_button("#unzoom-button")
 		show_button("#remove-filter-button")
+		show_button("#arrow-down-main")
 		subtitle_to_title()
 	}, 11000)
 
