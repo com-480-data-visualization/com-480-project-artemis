@@ -568,7 +568,7 @@ function create_menu() {
 	close_button = menu.append('img')
 		.attr("id", "close-menu-button")
 		.attr("class", "cross")
-		.attr("src", "static/img/cross_white.png")
+		.attr("src", "../img/cross_white.png")
 		.on("mouseover", function () {
 			d3.select(this)
 				.style("cursor", "pointer")
