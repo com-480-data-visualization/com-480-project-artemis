@@ -11,28 +11,28 @@
 	<meta name="author" content="Franck Dessimoz">
 	<meta name="author" content="Simon Roquette">
 	<meta name="author" content="Justine Weber">
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/index.css') }}">
+	<link rel="stylesheet" type="text/css" href="../static/css/index.css">
 </head>
 
 <body>
 
-	<script type="text/javascript" src="{{ url_for('static', filename='js/lib/d3.min.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='js/dots_animation.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='js/helper.js') }}"></script>
+	<script type="text/javascript" src="../static/js/lib/d3.min.js"></script>
+	<script type="text/javascript" src="../static/js/dots_animation.js"></script>
+	<script type="text/javascript" src="../static/js/main.js"></script>
+	<script type="text/javascript" src="../static/js/helper.js"></script>
 	<script src="https://unpkg.com/d3fc"></script>
 
 	<div class="main-window" id="main">
-		<img id="open-menu-button" src="{{ url_for('static',filename='img/open_menu.png') }}" class="open-menu">
-		<img id="show-only-linked" src="{{ url_for('static',filename='img/link_orange.png') }}" class="show-linked">
-		<img id="show-not-only-linked" src="{{ url_for('static',filename='img/unlink_orange.png') }}" class="show-linked">
-		<img id="remove-filter-button" src="{{ url_for('static',filename='img/trash_orange.png') }}"
+		<img id="open-menu-button" src="../static/img/open_menu.png" class="open-menu">
+		<img id="show-only-linked" src="../static/img/link_orange.png" class="show-linked">
+		<img id="show-not-only-linked" src="../static/img/unlink_orange.png" class="show-linked">
+		<img id="remove-filter-button" src="../static/img/trash_orange.png"
 			class="remove-filter-button">
-		<img id="unzoom-button" src="{{ url_for('static',filename='img/unzoom_orange.png') }}" class="unzoom">
+		<img id="unzoom-button" src="../static/img/unzoom_orange.png" class="unzoom">
 		<div class="plot" id="plot-div">
 			<svg id="plot"></svg>
 		</div>
-		<img id="arrow-down-main" src="{{ url_for('static',filename='img/arrow_down.png') }}" class="arrow_down">
+		<img id="arrow-down-main" src="../static/img/arrow_down.png" class="arrow_down">
 	</div>
 
 	<!-- Fill in description -->
@@ -83,7 +83,7 @@
 			</p>
 		</div>
 
-		<img id="arrow-down-description" src="{{ url_for('static',filename='img/arrow_down_white.png') }}"
+		<img id="arrow-down-description" src="../static/arrow_down_white.png"
 			class="arrow_down">
 	</div>
 
@@ -106,30 +106,30 @@
 			</div>
 			<div class="member">
 				<div class="member-image">
-					<img src="static/img/bg_grey.png" class="img-bg">
-					<img src="static/img/justine.png" class="img-team">
-					<a href="https://github.com/JustineWeb" target="_blank"><img src="static/img/gh.png"
+					<img src="../static/img/bg_grey.png" class="img-bg">
+					<img src="../static/img/justine.png" class="img-team">
+					<a href="https://github.com/JustineWeb" target="_blank"><img src="../static/img/gh.png"
 							class="res-icon-gh" style="opacity: 0;"></a>
 					<a href="https://www.linkedin.com/in/justine-weber-web/" target="_blank"><img
-							src="static/img/li.png" class="res-icon-li" style="opacity: 0;"></a>
+							src="../static/img/li.png" class="res-icon-li" style="opacity: 0;"></a>
 				</div>
 				<h2> Justine Weber</h2>
 				<p>Master student in Data Science at EPFL <br> justine.weber@epfl.ch</p>
 			</div>
 			<div class="member">
 				<div class="member-image">
-					<img src="static/img/bg_grey.png" class="img-bg">
-					<img src="static/img/simon.png" class="img-team">
-					<a href="https://github.com/simonroquette" target="_blank"><img src="static/img/gh.png"
+					<img src="../static/img/bg_grey.png" class="img-bg">
+					<img src="../static/img/simon.png" class="img-team">
+					<a href="https://github.com/simonroquette" target="_blank"><img src="../static/img/gh.png"
 							class="res-icon-gh" style="opacity: 0;"></a>
 					<a href="http://www.linkedin.com/in/simon-roquette-10493015a" target="_blank"><img
-							src="static/img/li.png" class="res-icon-li" style="opacity: 0;"></a>
+							src="../static/img/li.png" class="res-icon-li" style="opacity: 0;"></a>
 				</div>
 				<h2>Simon Roquette</h2>
 				<p>Master student in Data Science at EPFL <br> simon.roquette@epfl.ch</p>
 			</div>
 		</div>
-		<img id="arrow-up-footer" src="{{ url_for('static',filename='img/arrow_up.png') }}" class="arrow_down">
+		<img id="arrow-up-footer" src="../static/img/arrow_up.png" class="arrow_down">
 	</div>
 </body>
 
