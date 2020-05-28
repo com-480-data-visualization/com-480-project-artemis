@@ -407,10 +407,10 @@ function zoom_in(min_date, max_date) {
         .tickSizeOuter(0)
 
     // Show zoom-out button
-    /*if (!demo_in_progress) {
+    if (!demo_in_progress) {
         show_button("#unzoom-button")
 
-    }*/
+    }
 
     // Update the x-axis and the data points position
     d3.select("#plot").select(".xaxis")
@@ -447,7 +447,7 @@ function zoom_out() {
         when the "zoom-out" button is clicked. */
 
     // Change the title
-    /*if (demo_in_progress) {
+    if (demo_in_progress) {
         d3.select("#title")
             .transition().duration(750)
             .style("opacity", 0)
@@ -460,8 +460,8 @@ function zoom_out() {
     }
     else if (!filtered_data) {
         subtitle_to_title()
-    }*/
-    subtitle_to_title()
+    }
+
     // Update x-axis
     xScale.domain([mindate, maxdate])
     xAxis = fc.axisBottom(xScale)
@@ -559,7 +559,7 @@ function get_event_query(d, neg) {
         d.Day.includes(document.getElementById("day-field").value) &&
         (d.Content.includes(document.getElementById("content-field").value) ||
         d.Summary.includes(document.getElementById("content-field").value))
-        
+
     if (neg) {
         query = !query
     }

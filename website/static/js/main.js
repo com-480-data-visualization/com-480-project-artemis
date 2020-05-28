@@ -13,6 +13,8 @@ var event_clicked = false;
 var song_clicked = false;
 var show_only_linked = true;
 var count_clicked = 0;
+var demo_in_progress = false;
+
 
 function whenDocumentLoaded(action) {
 	/*	This function handles the event "whenDocumentLoaded" and will call
@@ -599,6 +601,124 @@ function create_menu() {
 		})
 }
 
+function demo(){
+	demo_in_progress = true
+
+	let our_date = 2001
+
+	// hide title and timeline at beginning
+	var xaxis = d3.select(".xaxis")
+	.style("opacity", 0)
+	.on("end", function () {
+			d3.select(this)
+					.style("visibility", "hidden")
+	})
+
+	var select_title = d3.select("#title")
+	.style("opacity", 0)
+	.on("end", function () {
+			d3.select(this)
+					.style("visibility", "hidden")
+	})
+
+
+	hide_button("#open-menu-button")
+	hide_button("#show-not-only-linked")
+	hide_button("#show-only-linked")
+	hide_button("#show-not-only-linked")
+	hide_button("#unzoom-button")
+	hide_button("#remove-filter-button")
+	hide_button("#arrow-down-main")
+
+	// welcoming message
+	var width = d3.select("#plot-div").node().getBoundingClientRect().width
+	var height = d3.select("#plot-div").node().getBoundingClientRect().height
+
+	var welcome = d3.select('#plot').append("text")
+		.attr("transform", "translate(" + (width / 2) + " ," + ((height / 2) - 5) + ")")
+		.attr("id", "welcome-title")
+		.attr("class", "title")
+		.style("text-anchor", "middle")
+		.html("Welcome !")
+		.attr("font-family", "heavitas")
+		.attr("font-size", "1.4vw")
+		.attr("fill", "#282828")
+		.style("opacity", 0)
+
+	// show welcome
+	welcome
+	.style("visibility", "visible")
+	.transition()
+	.duration(1500)
+	.style("opacity", 1)
+
+	// hide welcome
+	welcome.transition().delay(1500).duration(750)
+	.style("opacity", 0)
+	.on("end", function () {
+			d3.select(this)
+					.style("visibility", "hidden")
+				}
+			)
+
+	// show time axis
+	xaxis
+	.style("visibility", "visible")
+	.transition().delay(1500).duration(1000)
+	.style("opacity", 1)
+
+	// zoom on year
+	setTimeout(function() {
+		zoom_in(new Date(our_date - 2, 0, 1),
+		new Date(our_date + 2, 11, 31));
+	}, 2500);
+
+//TODO : select dot
+/*setTimeout(function() {
+	var event_window = d3.select("#main div.half-window")
+
+	var bubble = d3.select("#bubble")
+
+	var our_event = d3.selectAll("#circle-event")
+	.filter(d => d.num_refs>100)
+	.transition().delay(6000).duration(DURATION_SHORT)
+	.attr("fill", '#f26627')
+	.style("r", "0.75vh")
+	.style("opacity", 1)
+	.call(
+		function (d) {
+			d3this = d3.select(this)
+			console.log(get_date(d, true))
+			mouse_over_dot(d3this, bubble, d.Day + " " + d.Month + " " + d.Year + "<br><br>" + d.Content, d.filteredRefs, true)
+			on_click_dot(event_window, d.Day + " " + d.Month + " " + d.Year + "<hr class='hr-box-event' align='right'>",
+			d.Content, d.Summary + "<br><br><a href=\"" + d.Wikipedia + "\" class=\"href-wiki\"\" target=\"_blank\"\">Read more on Wikipedia</a> &#x2192;",
+			d.filteredRefs, true, d.Year)
+		})
+
+}, 5000);*/
+
+	// zooming out
+	setTimeout(function() {
+		demo_in_progress = true
+		zoom_out();
+	}, 10000);
+
+	setTimeout(function() {
+		show_button("#open-menu-button")
+		show_button("#show-not-only-linked")
+		show_button("#show-only-linked")
+		show_button("#show-not-only-linked")
+		show_button("#unzoom-button")
+		show_button("#remove-filter-button")
+	}, 14000);
+
+	setTimeout(function() {
+		subtitle_to_title()
+	}, 14000)
+
+  demo_in_progress=false
+}
+
 whenDocumentLoaded(() => {
 	// When the document we add the data points but invisible, we create the animations
 	// on the animated elements and we create the filter menu.
@@ -606,6 +726,8 @@ whenDocumentLoaded(() => {
 	make_arrows_clickable()
 	make_team_clickable()
 	create_menu()
+	demo()
+
 })
 
 
