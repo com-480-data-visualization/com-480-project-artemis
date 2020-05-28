@@ -73,7 +73,8 @@ function event_fields_empty() {
     var empty_field = (document.getElementById("year-event-field").value == "" &&
         document.getElementById("month-field").value == "" &&
         document.getElementById("day-field").value == "" &&
-        document.getElementById("day-field").value == "")
+        document.getElementById("day-field").value == "" &&
+        document.getElementById("content-field").value == "")
     return empty_field
 }
 
@@ -92,6 +93,7 @@ function song_fields_empty() {
 }
 
 function remove_filters() {
+    /*  This function removes the filters. */
     document.getElementById("year-event-field").value = ""
     document.getElementById("month-field").value = ""
     document.getElementById("day-field").value = ""

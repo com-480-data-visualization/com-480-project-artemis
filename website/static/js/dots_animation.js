@@ -444,10 +444,10 @@ function get_event_query(d, neg) {
        the query of the input fields. */
 
     var query = d.Year.toLowerCase().includes(document.getElementById("year-event-field").value.toLowerCase()) &&
-        d.Month.toLowerCase().includes(document.getElementById("month-field").value.toLowerCase()) &&
-        d.Day.toLowerCase().includes(document.getElementById("day-field").value.toLowerCase()) &&
-        (d.Content.toLowerCase().includes(document.getElementById("content-field").value.toLowerCase()) ||
-            d.Summary.toLowerCase().includes(document.getElementById("content-field").value.toLowerCase()))
+                d.Month.toLowerCase().includes(document.getElementById("month-field").value.toLowerCase()) &&
+                d.Day.toLowerCase().includes(document.getElementById("day-field").value.toLowerCase()) &&
+               (d.Content.toLowerCase().includes(document.getElementById("content-field").value.toLowerCase()) ||
+                d.Summary.toLowerCase().includes(document.getElementById("content-field").value.toLowerCase()))
     if (neg) {
         query = !query
     }
