@@ -720,7 +720,7 @@ function demo() {
 			on_click_dot(event_window, d.Day + " " + d.Month + " " + d.Year + "<hr class='hr-box-event' align='right'>",
 			d.Content, d.Summary + "<br><br><a href=\"" + d.Wikipedia + "\" class=\"href-wiki\"\" target=\"_blank\"\">Read more on Wikipedia</a> &#x2192;",
 			d.filteredRefs, true, d.Year)*/
-		
+
 
 }, 5000);
 
@@ -747,6 +747,97 @@ function demo() {
 	demo_in_progress = false
 }
 
+function instant_hide(id){
+	d3.select(id)
+		.style("opacity", 0)
+		.on("end", function () {
+			d3.select(this)
+				.style("visibility", "hidden")
+		})
+}
+
+function show(id){
+	d3.select(id)
+		.style("visibility", "visible")
+		.transition().duration(1000)
+		.style("opacity", 1)
+}
+
+function display_intro_title(text, stay_time){
+
+	var width = d3.select("#plot-div").node().getBoundingClientRect().width
+	var height = d3.select("#plot-div").node().getBoundingClientRect().height
+
+	var welcome = d3.select('#plot').append("text")
+		.attr("transform", "translate(" + (width / 2) + " ," + ((height / 2) - 5) + ")")
+		.attr("id", "welcome-title")
+		.attr("class", "title")
+		.style("text-anchor", "middle")
+		.html(text)
+		.attr("font-family", "heavitas")
+		.attr("font-size", "1.4vw")
+		.attr("fill", "#282828")
+		.style("opacity", 0)
+
+	// show welcome
+	welcome
+		.style("visibility", "visible")
+		.transition()
+		.duration(1500)
+		.style("opacity", 1)
+
+	// hide welcome
+	welcome.transition().delay(stay_time).duration(750)
+		.style("opacity", 0)
+		.on("end", function () {
+			d3.select(this)
+				.style("visibility", "hidden")
+		})
+}
+
+function demo2(){
+	demo_in_progress = true
+
+	// hide title and timeline at beginning
+	instant_hide(".xaxis")
+	instant_hide("#title")
+	instant_hide("#open-menu-button")
+	instant_hide("#show-not-only-linked")
+	instant_hide("#show-only-linked")
+	instant_hide("#show-not-only-linked")
+	instant_hide("#unzoom-button")
+	instant_hide("#remove-filter-button")
+	instant_hide("#arrow-down-main")
+
+	// welcoming message
+	display_intro_title("Welcome !", 1500)
+	setTimeout(function () {
+		display_intro_title("This website allows you to explore the influence of historical events on pop culture.", 4000)
+	}, 2000)
+
+	setTimeout(function () {
+		display_intro_title("Have fun and get lost in time !", 4000)
+	}, 7000)
+
+	// show time axis
+	setTimeout(function () {
+		show(".xaxis")
+	}, 10000)
+
+	// show all
+	setTimeout(function () {
+		show_button("#open-menu-button")
+		show_button("#show-not-only-linked")
+		show_button("#show-only-linked")
+		show_button("#show-not-only-linked")
+		show_button("#unzoom-button")
+		show_button("#remove-filter-button")
+		subtitle_to_title()
+	}, 11000)
+
+	demo_in_progress = false
+}
+
 whenDocumentLoaded(() => {
 	// When the document we add the data points but invisible, we create the animations
 	// on the animated elements and we create the filter menu.
@@ -754,7 +845,7 @@ whenDocumentLoaded(() => {
 	make_arrows_clickable()
 	make_team_clickable()
 	create_menu()
-	//demo()
+	demo2()
 
 })
 
