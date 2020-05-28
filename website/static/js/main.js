@@ -201,7 +201,7 @@ function add_data_points(date) {
 		})
 
 	// Create events data points on the upper part of the svg
-	d3.csv("static/data/events_refs_website.csv").then(function (data) {
+	d3.csv("../data/events_refs_website.csv").then(function (data) {
 		var event_window = d3.select("#main")
 			.append("div")
 			.attr("class", "half-window")
@@ -227,7 +227,7 @@ function add_data_points(date) {
 	})
 
 	// Create songs data points on the lower part of the svg
-	d3.csv("static/data/songs_refs_website.csv").then(function (data) {
+	d3.csv("../data/songs_refs_website.csv").then(function (data) {
 		var song_window = d3.select("#main")
 			.append("div")
 			.attr("class", "half-window")
