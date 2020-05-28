@@ -674,28 +674,29 @@ function demo(){
 	}, 2500);
 
 //TODO : select dot
-/*setTimeout(function() {
+setTimeout(function() {
 	var event_window = d3.select("#main div.half-window")
 
 	var bubble = d3.select("#bubble")
 
-	var our_event = d3.selectAll("#circle-event")
-	.filter(d => d.num_refs>100)
-	.transition().delay(6000).duration(DURATION_SHORT)
+  d3.select("#plot-area").selectAll(".circle-event-visible")
+	.filter(d => +d.num_refs>100 && +d.Year==2001)
+	.transition().duration(DURATION_SHORT)
 	.attr("fill", '#f26627')
 	.style("r", "0.75vh")
 	.style("opacity", 1)
 	.call(
 		function (d) {
-			d3this = d3.select(this)
+			console.log(+d.num_refs)
+			/*d3this = d3.select(this)
 			console.log(get_date(d, true))
 			mouse_over_dot(d3this, bubble, d.Day + " " + d.Month + " " + d.Year + "<br><br>" + d.Content, d.filteredRefs, true)
 			on_click_dot(event_window, d.Day + " " + d.Month + " " + d.Year + "<hr class='hr-box-event' align='right'>",
 			d.Content, d.Summary + "<br><br><a href=\"" + d.Wikipedia + "\" class=\"href-wiki\"\" target=\"_blank\"\">Read more on Wikipedia</a> &#x2192;",
-			d.filteredRefs, true, d.Year)
+			d.filteredRefs, true, d.Year)*/
 		})
 
-}, 5000);*/
+}, 5000);
 
 	// zooming out
 	setTimeout(function() {
