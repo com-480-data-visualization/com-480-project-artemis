@@ -601,6 +601,7 @@ function create_menu() {
 		})
 }
 
+/*
 function demo() {
 	demo_in_progress = true
 
@@ -714,14 +715,6 @@ function demo() {
 				on_click_dot()
 			})
 
-			/*d3this = d3.select(this)
-			console.log(get_date(d, true))
-			mouse_over_dot(d3this, bubble, d.Day + " " + d.Month + " " + d.Year + "<br><br>" + d.Content, d.filteredRefs, true)
-			on_click_dot(event_window, d.Day + " " + d.Month + " " + d.Year + "<hr class='hr-box-event' align='right'>",
-			d.Content, d.Summary + "<br><br><a href=\"" + d.Wikipedia + "\" class=\"href-wiki\"\" target=\"_blank\"\">Read more on Wikipedia</a> &#x2192;",
-			d.filteredRefs, true, d.Year)*/
-
-
 }, 5000);
 
 	// zooming out
@@ -745,7 +738,7 @@ function demo() {
 
 	count_clicked = 0
 	demo_in_progress = false
-}
+}*/
 
 function instant_hide(id){
 	d3.select(id)
@@ -795,7 +788,7 @@ function display_intro_title(text, stay_time){
 		})
 }
 
-function demo2(){
+function simple_intro(){
 	demo_in_progress = true
 
 	// hide title and timeline at beginning
@@ -816,7 +809,7 @@ function demo2(){
 	}, 2000)
 
 	setTimeout(function () {
-		display_intro_title("Have fun and get lost in time !", 4000)
+		display_intro_title("Have fun and get lost in time !", 3500)
 	}, 7000)
 
 	// show time axis
@@ -845,7 +838,7 @@ whenDocumentLoaded(() => {
 	make_arrows_clickable()
 	make_team_clickable()
 	create_menu()
-	demo2()
+	simple_intro()
 
 })
 
