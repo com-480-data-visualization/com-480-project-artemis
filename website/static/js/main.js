@@ -821,12 +821,7 @@ function simple_intro(){
 	setTimeout(function () {
 		show_button("#open-menu-button")
 		show_button("#show-not-only-linked")
-		show_button("#show-only-linked")
-		//show_button("#show-not-only-linked")
-		//show_button("#unzoom-button")
-		//show_button("#remove-filter-button")
 		show_button("#arrow-down-main")
-
 
 		subtitle_to_title()
 	}, 12000)
