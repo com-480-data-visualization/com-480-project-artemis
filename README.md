@@ -6,7 +6,7 @@
 | Franck Dessimoz | 246602 |
 | Simon Roquette | 246540 |
 
-IMPORTANT NOTE : For the moment, the website only works properly on Safari, some functionnalities such as zooming out of the Timeline do not work on Google Chrome.
+IMPORTANT NOTE : For the moment, the website only works properly on Safari, some functionnalities such as zooming out of the Timeline do not work on other browsers.
 
 This project provides tools to explore correlation between song lyrics and historical events, start exploring at : https://com-480-data-visualization.github.io/com-480-project-artemis/website/templates/
 
