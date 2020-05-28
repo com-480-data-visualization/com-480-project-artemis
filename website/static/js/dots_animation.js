@@ -183,6 +183,7 @@ function on_click_dot(window, title, subtitle, content, refs, is_event_clicked, 
     d3.select("#plot").select(".xaxis")
         .transition().delay(DURATION_SHORT).duration(DURATION_LONG)
         .call(xAxis)
+        .on("end", make_year_non_clickable())
     d3.selectAll("circle")
         .transition().delay(DURATION_SHORT).duration(DURATION_LONG)
         .attr("cx", d => xScale(get_date(d, is_event(d))))
@@ -360,6 +361,25 @@ function zoom_out() {
             .attr("cx", d => xScale(get_date(d, is_event(d))))
     }
     zoomed_in = false
+}
+
+function make_year_non_clickable() {
+    /*  This function makes the year ticks clickable, allowing the user
+        to zoom into the time line by selecting a year tick. */
+
+    d3.selectAll(".tick")
+        // Handle the mouseover event
+        .on("mouseover", function () {
+            
+        })
+        // Handle the mouseout event
+        .on("mouseout", function () {
+            
+        })
+        // Handle the click event
+        .on("click", function () {
+            
+        })
 }
 
 function make_year_clickable() {
@@ -610,6 +630,7 @@ function on_click_close_half_window(is_event_clicked, current_year, new_class_hi
         d3.select("#plot").select(".xaxis")
             .transition().duration(DURATION_LONG)
             .call(xAxis)
+            .on("end", make_year_clickable)
         d3.select("#title")
             .transition().duration(DURATION_LONG)
             .style("opacity", 1)
@@ -648,6 +669,7 @@ function on_click_close_half_window(is_event_clicked, current_year, new_class_hi
             d3.select("#plot").select(".xaxis")
                 .transition().duration(DURATION_LONG)
                 .call(xAxis)
+                .on("end", make_year_clickable())
             d3.select("#title")
                 .transition().duration(DURATION_LONG)
                 .style("opacity", 1)
@@ -678,6 +700,7 @@ function on_click_close_half_window(is_event_clicked, current_year, new_class_hi
             d3.select("#plot").select(".xaxis")
                 .transition().duration(DURATION_LONG)
                 .call(xAxis)
+                .on("end", make_year_clickable())
             d3.select("#title")
                 .transition().duration(DURATION_LONG)
                 .style("opacity", 1)
