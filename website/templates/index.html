@@ -43,43 +43,34 @@
 		<div class="description-c1" id="description-c1">
 			<h2>Idea</h2>
 			<p>
-				Our goal was to design and create a simple, easy-to-use and interactive vizualisation aiming to show
-				whether
-				there exists any link between historical events and songs, through their lyrics.
+				Our goal was to design and create a tool to explore the potential correlation between Pop Culture and historical events,
+				using some of the State of the Art NLP tools available
 				Indeed the <i>Billboard Hot 100</i> is the music industry standard record chart in the United States for
 				songs, published weekly by Billboard magazine. Chart rankings are based on phsyical and digital
 				sales, radio play and since recently, online streaming in the United States. At the end of each year
 				<i>Billboard</i> magazine publishes the <i>Year-End Hot 100</i> singles, which basically
 				means the biggest successes of the year. The purpose of this project is thus to investiguate whether the
-				fact that a song is related to a major event could make it a great success.
+				fact that a song is related to a major event could help make it a great success.
 			</p>
 		</div>
 		<div class="description-c2" id="description-c2">
 			<h2>Datasets</h2>
 			<p>
-				Our goal was to design and create a simple, easy-to-use and interactive vizualisation aiming to show
-				whether
-				there exists any link between historical events and songs, through their lyrics.
-				Indeed the <i>Billboard Hot 100</i> is the music industry standard record chart in the United States for
-				songs, published weekly by Billboard magazine. Chart rankings are based on phsyical and digital
-				sales, radio play and since recently, online streaming in the United States. At the end of each year
-				<i>Billboard</i> magazine publishes the <i>Year-End Hot 100</i> singles, which basically
-				means the biggest successes of the year. The purpose of this project is thus to investiguate whether the
-				fact that a song is related to a major event could make it a great success.
+				We started from a dataset of the <a href="https://github.com/walkerkq/musiclyrics">Billboard Hot 100</a> of the songs from 1965 to
+				2015. We then scrapped from the web the rest of our data, like the events from  <a href="https://www.onthisday.com">this website</a>,
+				as long as Youtube links of videos, album/genre of the songs from Google. 
+				For this reason, some of the data might sometimes not be 100% accurate.
+				
 			</p>
 		</div>
 		<div class="description-c3" id="description-c3">
 			<h2>NLP</h2>
 			<p>
-				Our goal was to design and create a simple, easy-to-use and interactive vizualisation aiming to show
-				whether
-				there exists any link between historical events and songs, through their lyrics.
-				Indeed the <i>Billboard Hot 100</i> is the music industry standard record chart in the United States for
-				songs, published weekly by Billboard magazine. Chart rankings are based on phsyical and digital
-				sales, radio play and since recently, online streaming in the United States. At the end of each year
-				<i>Billboard</i> magazine publishes the <i>Year-End Hot 100</i> singles, which basically
-				means the biggest successes of the year. The purpose of this project is thus to investiguate whether the
-				fact that a song is related to a major event could make it a great success.
+				We use Named Entity recognition to find all the entities (Person, Group, Date, Work of Art...) in both
+				Lyrics and event Summaries. When you select click on a point they will be highlighted. They are the 
+				main tool we use to find relationships between events and song lyrics. If they have an entity in common,
+				songs and events are vectorized using ALBERT (light version of state of the art model BERT), and if their
+				cosine similarity is smaller than a certain threshold, they are considered to be a related.
 			</p>
 		</div>
 
