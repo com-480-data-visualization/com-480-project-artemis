@@ -205,7 +205,7 @@ function add_data_points(date) {
 		var event_window = d3.select("#main")
 			.append("div")
 			.attr("class", "half-window")
-			.attr("id", "half-window")
+			.attr("id", "half-window-event")
 			.style("opacity", 0)
 		plot_area.selectAll("#circle-event")
 			.data(data)
@@ -231,7 +231,7 @@ function add_data_points(date) {
 		var song_window = d3.select("#main")
 			.append("div")
 			.attr("class", "half-window")
-			.attr("id", "half-window")
+			.attr("id", "half-window-song")
 			.style("opacity", 0);
 		plot_area.selectAll("#circle-song")
 			.data(data)
@@ -601,25 +601,25 @@ function create_menu() {
 		})
 }
 
-function demo(){
+function demo() {
 	demo_in_progress = true
 
 	let our_date = 2001
 
 	// hide title and timeline at beginning
 	var xaxis = d3.select(".xaxis")
-	.style("opacity", 0)
-	.on("end", function () {
+		.style("opacity", 0)
+		.on("end", function () {
 			d3.select(this)
-					.style("visibility", "hidden")
-	})
+				.style("visibility", "hidden")
+		})
 
 	var select_title = d3.select("#title")
-	.style("opacity", 0)
-	.on("end", function () {
+		.style("opacity", 0)
+		.on("end", function () {
 			d3.select(this)
-					.style("visibility", "hidden")
-	})
+				.style("visibility", "hidden")
+		})
 
 
 	hide_button("#open-menu-button")
@@ -647,64 +647,90 @@ function demo(){
 
 	// show welcome
 	welcome
-	.style("visibility", "visible")
-	.transition()
-	.duration(1500)
-	.style("opacity", 1)
+		.style("visibility", "visible")
+		.transition()
+		.duration(1500)
+		.style("opacity", 1)
 
 	// hide welcome
 	welcome.transition().delay(1500).duration(750)
-	.style("opacity", 0)
-	.on("end", function () {
+		.style("opacity", 0)
+		.on("end", function () {
 			d3.select(this)
-					.style("visibility", "hidden")
-				}
-			)
+				.style("visibility", "hidden")
+		}
+		)
 
 	// show time axis
 	xaxis
-	.style("visibility", "visible")
-	.transition().delay(1500).duration(1000)
-	.style("opacity", 1)
+		.style("visibility", "visible")
+		.transition().delay(1500).duration(1000)
+		.style("opacity", 1)
 
 	// zoom on year
-	setTimeout(function() {
+	setTimeout(function () {
 		zoom_in(new Date(our_date - 2, 0, 1),
-		new Date(our_date + 2, 11, 31));
+			new Date(our_date + 2, 11, 31));
 	}, 2500);
 
-//TODO : select dot
-setTimeout(function() {
-	var event_window = d3.select("#main div.half-window")
+	//TODO : select dot
+	setTimeout(function () {
+		demo_in_progress = true
 
-	var bubble = d3.select("#bubble")
+		var event_window = d3.select("#main").selectAll(".half-window")
+		console.log(event_window)
+		var bubble = d3.select("#bubble")
 
-  d3.select("#plot-area").selectAll(".circle-event-visible")
-	.filter(d => +d.num_refs>100 && +d.Year==2001)
-	.transition().duration(DURATION_SHORT)
-	.attr("fill", '#f26627')
-	.style("r", "0.75vh")
-	.style("opacity", 1)
-	.call(
-		function (d) {
-			console.log(+d.num_refs)
+		d3.select("#plot-area").selectAll(".circle-event-visible")
+			.filter(d => d.Year == "2001" && d.Month == "July" && d.Day == "9")
+			.transition().duration(DURATION_SHORT)
+			.attr("fill", '#f26627')
+			.style("r", "0.75vh")
+			.style("opacity", 1)
+			.call(function() {
+				count_clicked = 1
+				var year = ""
+					var month = ""
+					var day = ""
+					var content = ""
+					var summary = ""
+					var wikipedia = ""
+					var filteredRefs = ""
+				d3.select("#plot-area").selectAll(".circle-event-visible")
+				.filter(function(d) {
+					year = d.Year
+					month = d.Month
+					day = d.Day
+					content = d.Content
+					summary = d.Summary_embedded
+					wikipedia = d.Wikipedia
+					filteredRefs = d.filteredRefs
+					return year == "2001" && month == "July" && day == "9"
+				})
+
+				on_click_dot(event_window, day + " " + month + " " + year + "<hr class='hr-box-event' align='right'>",
+				content, summary + "<br><br><a href=\"" + wikipedia + "\" class=\"href-wiki\"\" target=\"_blank\"\">Read more on Wikipedia</a> &#x2192;",
+				filteredRefs, true, year)
+				on_click_dot()
+			})
+
 			/*d3this = d3.select(this)
 			console.log(get_date(d, true))
 			mouse_over_dot(d3this, bubble, d.Day + " " + d.Month + " " + d.Year + "<br><br>" + d.Content, d.filteredRefs, true)
 			on_click_dot(event_window, d.Day + " " + d.Month + " " + d.Year + "<hr class='hr-box-event' align='right'>",
 			d.Content, d.Summary + "<br><br><a href=\"" + d.Wikipedia + "\" class=\"href-wiki\"\" target=\"_blank\"\">Read more on Wikipedia</a> &#x2192;",
 			d.filteredRefs, true, d.Year)*/
-		})
+		
 
 }, 5000);
 
 	// zooming out
-	setTimeout(function() {
+	setTimeout(function () {
 		demo_in_progress = true
 		zoom_out();
 	}, 10000);
 
-	setTimeout(function() {
+	setTimeout(function () {
 		show_button("#open-menu-button")
 		show_button("#show-not-only-linked")
 		show_button("#show-only-linked")
@@ -713,11 +739,12 @@ setTimeout(function() {
 		show_button("#remove-filter-button")
 	}, 14000);
 
-	setTimeout(function() {
+	setTimeout(function () {
 		subtitle_to_title()
 	}, 14000)
 
-  demo_in_progress=false
+	count_clicked = 0
+	demo_in_progress = false
 }
 
 whenDocumentLoaded(() => {
@@ -727,7 +754,7 @@ whenDocumentLoaded(() => {
 	make_arrows_clickable()
 	make_team_clickable()
 	create_menu()
-	demo()
+	//demo()
 
 })
 

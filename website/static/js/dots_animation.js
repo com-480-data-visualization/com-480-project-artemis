@@ -320,6 +320,27 @@ function on_click_dot(window, title, subtitle, content, refs, is_event_clicked, 
                 }
             }
             else if (count_clicked == 2) {
+                xScale.domain([mindate, maxdate])
+                if (is_event_clicked) {
+                    xAxis = fc.axisTop(xScale)
+                        .tickArguments([51])
+                        .tickCenterLabel(true)
+                        .tickSizeInner(0)
+                        .tickSizeOuter(0)
+                    d3.select("#plot").select(".xaxis")
+                        .transition().duration(DURATION_LONG)
+                        .call(xAxis)
+                }
+                else {
+                    xAxis = fc.axisBottom(xScale)
+                        .tickArguments([51])
+                        .tickCenterLabel(true)
+                        .tickSizeInner(0)
+                        .tickSizeOuter(0)
+                    d3.select("#plot").select(".xaxis")
+                        .transition().duration(DURATION_LONG)
+                        .call(xAxis)
+                }
                 d3.selectAll("#cross1")
                     .style("visibility", "visible")
                     .transition().duration(DURATION_SHORT)
@@ -558,7 +579,7 @@ function get_event_query(d, neg) {
         d.Month.includes(document.getElementById("month-field").value) &&
         d.Day.includes(document.getElementById("day-field").value) &&
         (d.Content.includes(document.getElementById("content-field").value) ||
-        d.Summary.includes(document.getElementById("content-field").value))
+            d.Summary.includes(document.getElementById("content-field").value))
 
     if (neg) {
         query = !query
