@@ -567,7 +567,7 @@ function get_song_query(d, neg) {
         d.Year.includes(document.getElementById("year-song-field").value) &&
         d.Rank.includes(document.getElementById("rank-field").value) &&
         d.Genre.includes(document.getElementById("genre-field").value) &&
-        d.Lyrics.includes(document.getElementById("lyrics-field").value)
+        d.Lyrics_print.includes(document.getElementById("lyrics-field").value)
     if (neg) {
         query = !query
     }
