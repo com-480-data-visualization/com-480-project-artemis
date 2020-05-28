@@ -289,7 +289,6 @@ function zoom_in(min_date, max_date) {
             .filter(d => show_only_linked ? +d.num_refs > 0 : true)
             .style("visibility", "visible")
             .transition().duration(DURATION_LONG)
-            .attr("cx", d => xScale(get_date(d, is_event(d))))
             .style("opacity", 1)
             .on("end", function () {
                 d3.select(this)
@@ -302,6 +301,9 @@ function zoom_in(min_date, max_date) {
             .transition().duration(DURATION_LONG)
             .attr("cx", d => xScale(get_date(d, is_event(d))))
     }
+    d3.selectAll("circle")
+    .transition().duration(DURATION_LONG)
+    .attr("cx", d => xScale(get_date(d, is_event(d))))
     zoomed_in = true
 }
 
@@ -694,7 +696,7 @@ function on_click_close_half_window(is_event_clicked, current_year, new_class_hi
                 .style("opacity", 0)
                 .attr("fill", '#282828')
                 .style("r", "0.25vh")
-                .on("end", function (d) {
+                .on("end", function () {
                     d3.select(this)
                         .style("visibility", "hidden")
                 })
