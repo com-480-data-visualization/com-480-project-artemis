@@ -289,6 +289,7 @@ function zoom_in(min_date, max_date) {
             .filter(d => show_only_linked ? +d.num_refs > 0 : true)
             .style("visibility", "visible")
             .transition().duration(DURATION_LONG)
+            .attr("cx", d => xScale(get_date(d, is_event(d))))
             .style("opacity", 1)
             .on("end", function () {
                 d3.select(this)
