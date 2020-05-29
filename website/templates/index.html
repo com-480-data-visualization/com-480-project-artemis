@@ -44,8 +44,8 @@
 				<p>
 					Our goal was to design and create a tool to explore the potential correlation between Pop Culture
 					and historical events, using some of the State of the Art NLP tools available.
-					Indeed the <i>Billboard Hot 100</i> is the music industry standard record chart in the United States
-					for songs, published weekly by <i>Billboard</i> magazine. Chart rankings are based on physical and
+					The Billboard Hot 100, which is the music industry standard record chart in the United States
+					for songs, published weekly by <i>Billboard</i> magazine, is the data we used as a measure of Pop Culture. Chart rankings are based on physical and
 					digital sales, radio play and since recently, online streaming in the United States.
 					<br><br><br>
 					<a href="https://www.billboard.com" target="_blank"><img src="../static/img/billboard.png"
@@ -57,12 +57,12 @@
 					success.
 					<br><br>
 					The idea of a visualization using a time-line as the x-axis came very naturally
-					since all the data are centered around the 1965-2015 time period. The time-line allows the user
-					to zoom in and to get a better idea of the events or songs in a tighter time range, but it also
-					allows him to get an overview on the entire time range. Indeed the time-line visualization combined
+					since all the data is centered around the 1965-2015 time period. The time-line allows you
+					to zoom in and get a better idea of the events or songs in a tighter time range, but it also
+					allows you to get an overview on the entire time range. Indeed the time-line visualization combined
 					with the filter tool offers the possibility to find the distribution of a given feature over the
 					fifthy years
-					our data cover - e.g., the distribution of a word in the lyrics since 1965.
+					our data covers - e.g., the distribution of a word in the lyrics since 1965.
 				</p>
 			</div>
 			<div class="description-c2" id="description-c2">
@@ -75,7 +75,7 @@
 					<br>
 					For the <i>Billboard Hot 100</i> songs we started with <a
 						href="https://github.com/walkerkq/musiclyrics" style="color : #ffffff">this</a> dataset. It
-					gathers the artist of each song, its name, its rank, its year and its lyrics. Note that in this
+					contains the artist of each song, its name, its rank, its year and its lyrics. Note that in this
 					dataset the lyrics are already formated in a way that was not fitting our need, so we had to get new
 					lyrics by ourselves using two Python lybraries and by web-scrapping manually the ones that could not
 					be found. We scrapped other data as the genre or album features as well as the Youtube video link,
@@ -85,9 +85,9 @@
 							src="../static/img/python-wiki.png" class="image-in-text-2"></a>
 					<br><br><br>
 					For the major events dataset, we could not find any relevant dataset online, so we had to build our
-					own. On that purpose, we scrapped data from <a href="https://www.onthisday.com"
-						style="color : #ffffff">this
-						website</a>, to first get the day, month and year of each event as well as a quick description.
+					own. On that purpose, we scrapped data from 
+					<a href="https://www.onthisday.com" style="color : #ffffff">this website</a>,
+					to first get the day, month and year of each event as well as a quick description.
 					After that, we used the <i>Wikipedia Python API</i> in order to get the Wikipedia summary for each
 					event as well as its article's url.
 					<br>
