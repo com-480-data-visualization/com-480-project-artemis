@@ -15,6 +15,9 @@ Start by clicking on a year to zoom on a specific period, then select an event o
 You can also put filters by clicking on the top left icon, and remove them by clicking on the trash can. The cliper with a bar icon filters out events/songs that have no link. It as activated by default. You can click on it to still see isolated points. When you are zoomed on a 5 year span, you can unzoom by clicking the top right icon. 
 If you are ever in a situation where you feel there is a glitch / bug, just refresh the page, we are sorry for the inconveniance !
 
+## Screen cast :
+Check out our 2min website presentation here : https://youtu.be/HscXsXHk8Zg
+
 ## Code : 
 
 The website folder contains the HTML/CSS/JavaScript files and the csv data files to run the simulation. The csv files contain all the data of the points (one for vents and one for lyrics).
